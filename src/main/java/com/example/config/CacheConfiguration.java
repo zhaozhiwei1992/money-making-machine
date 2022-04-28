@@ -81,6 +81,7 @@ public class CacheConfiguration {
             createCache(cm, com.example.domain.User.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.Authority.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            createCache(cm, com.example.domain.Menu.class.getName(), jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }

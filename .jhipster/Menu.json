@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20220428081257",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_menu",
+  "fields": [
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "path",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "component",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "iconCls",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "keepAlive",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "requireAuth",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "parentId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "enabled",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Menu",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

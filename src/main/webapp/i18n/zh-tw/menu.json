@@ -1,0 +1,32 @@
+{
+  "moneyMakingMachineApp": {
+    "menu": {
+      "home": {
+        "title": "Menus",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Menu",
+        "createOrEditLabel": "建立或編輯 Menu",
+        "notFound": "No Menus found"
+      },
+      "created": "新的 Menu 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Menu 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Menu 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Menu {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Menu"
+      },
+      "id": "ID",
+      "url": "Url",
+      "path": "Path",
+      "component": "Component",
+      "name": "Name",
+      "iconCls": "Icon Cls",
+      "keepAlive": "Keep Alive",
+      "requireAuth": "Require Auth",
+      "parentId": "Parent Id",
+      "enabled": "Enabled"
+    }
+  }
+}

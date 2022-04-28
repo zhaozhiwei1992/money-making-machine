@@ -1,0 +1,12 @@
+
+entity Menu(sys_menu) {
+  url String,
+  path String,
+  component String,
+  name String,
+  iconCls String,
+  keepAlive Integer,
+  requireAuth Integer,
+  parentId Integer,
+  enabled Integer
+}
