@@ -14,8 +14,8 @@ so, 你得会撸代码。
 
 ## 列出运行该项目必须要具备的条件以及必须要安装的软件，最好给出具体的安装步骤。
 
-1. java 1.8
-2. springboot 2.1.7.RELEASE
+1. java 11
+2. springboot 2.6.3.RELEASE
 3. mysql
 4. redis
 
@@ -24,10 +24,9 @@ so, 你得会撸代码。
 ## 一步一步地说明怎么去搭建环境，怎么让项目跑起来。首先你需要：
 
 1. git clone 当前项目到你喜欢的目录
-2. 用你喜欢的ide引入该项目,并加载好依赖
-3. 启动项目，等待即可。。
-4.  ......一直到完成。最后阐述安装完成后的情况，展示下Demo
-5. 访问http://127.0.0.1:8080 登录查看我们的成果
+2. 用你喜欢的 ide 引入该项目,并加载好依赖
+3. 启动项目(./mvnm)，等待即可。。
+4. 访问http://127.0.0.1:8080 登录查看我们的成果
 
 # 测试
 
@@ -55,15 +54,15 @@ so, 你得会撸代码。
 
 # 使用到的框架
 
-Dropwizard - Web框架 Maven - 依赖属性管理 ROME - 生成RSS源
+Dropwizard - Web 框架 Maven - 依赖属性管理 ROME - 生成 RSS 源
 
 # 贡献者
 
-请阅读CONTRIBUTING.md 查阅为该项目做出贡献的开发者。
+请阅读 CONTRIBUTING.md 查阅为该项目做出贡献的开发者。
 
 # 版本控制
 
-该项目使用SemVer进行版本管理。您可以在repository参看当前可用版本。
+该项目使用 SemVer 进行版本管理。您可以在 repository 参看当前可用版本。
 
 # 作者
 
@@ -71,9 +70,8 @@ Dropwizard - Web框架 Maven - 依赖属性管理 ROME - 生成RSS源
 
 # 版权说明
 
-该项目签署了MIT 授权许可，详情请参阅 LICENSE.md
+该项目签署了 MIT 授权许可，详情请参阅 LICENSE.md
 
 # 鸣谢
 
-该项目参考了XXX的 XXX 灵感来源于XXX 感谢女友的支持和陪伴
-
+该项目参考了 XXX 的 XXX 灵感来源于 XXX 感谢女友的支持和陪伴
