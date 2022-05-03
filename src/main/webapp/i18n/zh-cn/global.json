@@ -8,6 +8,12 @@
       "entities": {
         "main": "数据",
         "menu": "菜单",
+        "menu": "Menu",
+        "uiComponent": "Ui Component",
+        "uiToolButton": "Ui Tool Button",
+        "uiTable": "Ui Table",
+        "uiEditform": "Ui Editform",
+        "uiQueryform": "Ui Queryform",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

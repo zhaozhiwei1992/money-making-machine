@@ -1,0 +1,32 @@
+{
+  "moneyMakingMachineApp": {
+    "uiQueryform": {
+      "home": {
+        "title": "Ui Queryforms",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Ui Queryform",
+        "createOrEditLabel": "创建或编辑 Ui Queryform",
+        "notFound": "No Ui Queryforms found"
+      },
+      "created": "Ui Queryform {{ param }} 创建成功",
+      "updated": "Ui Queryform {{ param }} 更新成功",
+      "deleted": "Ui Queryform {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Ui Queryform {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Ui Queryform"
+      },
+      "id": "ID",
+      "menuid": "Menuid",
+      "code": "Code",
+      "name": "Name",
+      "ordernum": "Ordernum",
+      "issource": "Issource",
+      "requirement": "Requirement",
+      "type": "Type",
+      "placeholder": "Placeholder",
+      "config": "Config"
+    }
+  }
+}

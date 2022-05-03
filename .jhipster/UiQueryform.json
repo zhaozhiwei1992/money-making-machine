@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20220503083345",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_uiqueryform",
+  "fields": [
+    {
+      "fieldName": "menuid",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ordernum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "issource",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "requirement",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "placeholder",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "config",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UiQueryform",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

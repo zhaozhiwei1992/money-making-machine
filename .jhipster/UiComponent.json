@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220503083341",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_uicomponent",
+  "fields": [
+    {
+      "fieldName": "menuid",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "ordernum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "componentid",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "config",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UiComponent",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

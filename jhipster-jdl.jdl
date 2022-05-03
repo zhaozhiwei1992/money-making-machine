@@ -10,3 +10,62 @@ entity Menu(sys_menu) {
   parentId Integer,
   enabled Integer
 }
+entity UiComponent (sys_uicomponent) {
+       
+	menuid   Long,  
+	ordernum   Integer,
+	componentid String,
+	config     String
+}
+
+
+entity UiToolButton (sys_uitoolbutton) {
+       
+	menuid   Long,  
+	code   String, 
+	name    String,
+	ordernum Integer,
+	action  String,
+	config     String
+}
+
+entity UiTable (sys_uitable) {
+      
+	menuid   Long,  
+	code   String, 
+	name    String,
+	ordernum Integer,
+	issource   Boolean,
+	isedit     Boolean,
+	requirement Boolean,
+	type       String,
+	config     String
+}
+
+entity UiEditform (sys_uieditform) {
+      
+	menuid   Long,  
+	code   String, 
+	name    String,
+	ordernum Integer,
+	issource   Boolean,
+	isedit     Boolean,
+	requirement Boolean,
+	type       String,
+    placeholder String,
+	config     String
+}
+
+entity UiQueryform (sys_uiqueryform) {
+      
+	menuid   Long,  
+	code   String, 
+	name    String,
+	ordernum Integer,
+	issource   Boolean,
+	requirement Boolean,
+	type       String,
+    placeholder String,
+	config     String
+}
+

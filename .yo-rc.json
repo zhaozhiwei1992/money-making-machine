@@ -19,7 +19,7 @@
     "enableHibernateCache": true,
     "enableSwaggerCodegen": false,
     "enableTranslation": true,
-    "entities": ["Menu"],
+    "entities": ["Menu", "UiComponent", "UiToolButton", "UiTable", "UiEditform", "UiQueryform"],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.6.0",

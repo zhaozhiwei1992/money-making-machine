@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20220503083344",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_uieditform",
+  "fields": [
+    {
+      "fieldName": "menuid",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ordernum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "issource",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isedit",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "requirement",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "placeholder",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "config",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UiEditform",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

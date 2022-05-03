@@ -1,0 +1,29 @@
+{
+  "moneyMakingMachineApp": {
+    "uiToolButton": {
+      "home": {
+        "title": "Ui Tool Buttons",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Ui Tool Button",
+        "createOrEditLabel": "创建或编辑 Ui Tool Button",
+        "notFound": "No Ui Tool Buttons found"
+      },
+      "created": "Ui Tool Button {{ param }} 创建成功",
+      "updated": "Ui Tool Button {{ param }} 更新成功",
+      "deleted": "Ui Tool Button {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Ui Tool Button {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Ui Tool Button"
+      },
+      "id": "ID",
+      "menuid": "Menuid",
+      "code": "Code",
+      "name": "Name",
+      "ordernum": "Ordernum",
+      "action": "Action",
+      "config": "Config"
+    }
+  }
+}

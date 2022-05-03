@@ -1,0 +1,27 @@
+{
+  "moneyMakingMachineApp": {
+    "uiComponent": {
+      "home": {
+        "title": "Ui Components",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Ui Component",
+        "createOrEditLabel": "建立或編輯 Ui Component",
+        "notFound": "No Ui Components found"
+      },
+      "created": "新的 Ui Component 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Ui Component 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Ui Component 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Ui Component {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Ui Component"
+      },
+      "id": "ID",
+      "menuid": "Menuid",
+      "ordernum": "Ordernum",
+      "componentid": "Componentid",
+      "config": "Config"
+    }
+  }
+}

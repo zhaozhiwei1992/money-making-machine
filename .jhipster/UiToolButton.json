@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20220503083342",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_uitoolbutton",
+  "fields": [
+    {
+      "fieldName": "menuid",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ordernum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "action",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "config",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UiToolButton",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}
