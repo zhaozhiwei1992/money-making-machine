@@ -5,11 +5,11 @@
         <el-button
           :type="item.type"
           plain
-          v-for="(item, i) in buttonArray"
-          :key="i"
+          v-for="item in buttonArray"
+          :key="item.code"
           v-on:[eventName]="handleClick(item.click)"
           :size="item.size"
-          class="right-btn"
+          :class="item.class"
           >{{ item.name }}</el-button
         >
       </el-col>

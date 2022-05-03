@@ -4,10 +4,10 @@
     <!-- 动态加载组件 -->
     <component
       v-for="item in componentArray"
-      v-bind:is="item.componentName"
+      v-bind:is="item.componentId"
       v-bind:menuid="xx"
       v-bind:tableData="tabDatas"
-      :ref="item.componentName"
+      :ref="item.componentId"
     ></component>
   </div>
 </template>

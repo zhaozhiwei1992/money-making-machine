@@ -2,8 +2,8 @@
   <el-row>
     <el-col>
       <div style="margin-top: 20px">
-        <el-table ref="singleTable" highlight-current-row :data="tableData" class="table_bsm">
-          <el-table-column v-for="(col, index) in cols" :key="index" :prop="col.prop" :label="col.label"> </el-table-column>
+        <el-table ref="singleTable" highlight-current-row :data="tableData" class="uitable">
+          <el-table-column v-for="(col, index) in cols" :key="index" :prop="col.code" :label="col.name"> </el-table-column>
         </el-table>
       </div>
     </el-col>
@@ -27,14 +27,16 @@ export default {
     initComponent() {
       // 父页面传入菜单id, 这里根据菜单id自己去后台获取编辑区信息
       console.log('父级传入menuid为: ' + this.menuid);
-      // 这里简单测试, menuid不为空才去加载
-      axios.get('/json/uitable.json').then(data => {
-        let response = data.data.data;
-        console.log(response);
-        this.cols = response;
-      });
+      // 根据菜单id,后端获取配置信息
+      if (!!!this.menuid) {
+        axios.get('/json/uitable.json').then(data => {
+          let response = data.data.data;
+          console.log(response);
+          this.cols = response;
+        });
+      }
     },
-    // 父组件不能直接访问子组件, 迂回战术了
+    // 父组件不能直接访问子组件, 组件提供方法给外部调用, 不提供的不建议直接在基础组件中使用
     setCurrentRow(tableId, row) {
       console.log('子组件被请求了, 传入数据: ' + row);
       this.$refs.singleTable.setCurrentRow(row);
@@ -45,7 +47,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.table_bsm {
+.uitable {
   width: 98%;
   margin: auto;
 }
