@@ -188,6 +188,12 @@ public class UiEditformResource {
         return ResponseUtil.wrapOrNotFound(uiEditform);
     }
 
+    @GetMapping("/ui-editforms/menu/{menuid}")
+    public List<UiEditform> getUiEditformByMenuid(@PathVariable Long menuid) {
+        log.debug("REST request to get UiEditform by menu : {}", menuid);
+        return uiEditformRepository.findByMenuid(menuid);
+    }
+
     /**
      * {@code DELETE  /ui-editforms/:id} : delete the "id" uiEditform.
      *

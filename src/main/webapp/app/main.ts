@@ -22,6 +22,11 @@ import LoginService from './account/login.service';
 import AccountService from './account/account.service';
 import AlertService from './shared/alert/alert.service';
 
+// 加载 element 组件库
+import ElementUI from 'element-ui';
+// 加载 element 组件库的样式
+import 'element-ui/lib/theme-chalk/index.css';
+
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
 import TranslationService from '@/locale/translation.service';
@@ -36,6 +41,8 @@ config.initFortAwesome(Vue);
 bootstrapVueConfig.initBootstrapVue(Vue);
 Vue.use(Vue2Filters);
 Vue.use(ToastPlugin);
+// 全局注册 element 组件库
+Vue.use(ElementUI);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('jhi-item-count', JhiItemCountComponent);
 Vue.component('jhi-sort-indicator', JhiSortIndicatorComponent);

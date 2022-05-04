@@ -12,6 +12,9 @@
 
 <script>
 import axios from 'axios';
+
+const baseApiUrl = 'api/ui-tables';
+
 export default {
   props: ['menuid', 'tableData'],
   data() {
@@ -28,12 +31,17 @@ export default {
       // 父页面传入菜单id, 这里根据菜单id自己去后台获取编辑区信息
       console.log('父级传入menuid为: ' + this.menuid);
       // 根据菜单id,后端获取配置信息
-      if (!!!this.menuid) {
-        axios.get('/json/uitable.json').then(data => {
-          let response = data.data.data;
-          console.log(response);
-          this.cols = response;
-        });
+      if (!!this.menuid) {
+        axios
+          .get(baseApiUrl + '/menu/' + this.menuid)
+          .then(res => {
+            let response = res.data;
+            console.log(response);
+            this.cols = response;
+          })
+          .catch(err => {
+            console.log('异常信息: ' + err);
+          });
       }
     },
     // 父组件不能直接访问子组件, 组件提供方法给外部调用, 不提供的不建议直接在基础组件中使用

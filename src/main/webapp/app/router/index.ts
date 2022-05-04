@@ -13,6 +13,7 @@ import account from '@/router/account';
 import admin from '@/router/admin';
 import entities from '@/router/entities';
 import pages from '@/router/pages';
+import examples from '@/router/example';
 
 Vue.use(Router);
 
@@ -40,7 +41,8 @@ const router = new Router({
     ...account,
     ...admin,
     entities,
-    ...pages
+    ...pages,
+    ...examples,
   ]
 });
 

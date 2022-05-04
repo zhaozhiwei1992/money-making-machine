@@ -72,6 +72,9 @@
 
 <script>
 import axios from 'axios';
+
+const baseApiUrl = 'api/ui-queryforms';
+
 export default {
   props: ['menuid'],
   data() {
@@ -90,16 +93,22 @@ export default {
       // 父页面传入菜单id, 这里根据菜单id自己去后台获取编辑区信息
       console.log('父级传入menuid为: ' + this.menuid);
       // 通过菜单id获取编辑区配置信息
-      if (!!!this.menuid) {
-        axios.get('/json/uiqueryform.json').then(data => {
-          let response = data.data.data;
-          console.log(response);
-          this.fieldArray = response;
-          for (let i = 0; i < response.length; i++) {
-            let item = response[i];
-            this.$set(this.fieldObj, item.code, item.showValue);
-          }
-        });
+      if (!!this.menuid) {
+        axios
+          .get(baseApiUrl + '/menu/' + this.menuid)
+          .then(res => {
+            let response = res.data;
+            console.log(response);
+
+            this.fieldArray = response;
+            for (let i = 0; i < response.length; i++) {
+              let item = response[i];
+              this.$set(this.fieldObj, item.code, item.showValue);
+            }
+          })
+          .catch(err => {
+            console.log('异常信息: ' + err);
+          });
       }
     },
   },

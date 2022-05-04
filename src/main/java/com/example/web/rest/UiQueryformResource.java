@@ -1,5 +1,6 @@
 package com.example.web.rest;
 
+import com.example.domain.UiEditform;
 import com.example.domain.UiQueryform;
 import com.example.repository.UiQueryformRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
@@ -183,6 +184,12 @@ public class UiQueryformResource {
         log.debug("REST request to get UiQueryform : {}", id);
         Optional<UiQueryform> uiQueryform = uiQueryformRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(uiQueryform);
+    }
+
+    @GetMapping("/ui-queryforms/menu/{menuid}")
+    public List<UiQueryform> getUiQueryformsByMenuid(@PathVariable Long menuid) {
+        log.debug("REST request to get UiQueryform by menu : {}", menuid);
+        return uiQueryformRepository.findByMenuid(menuid);
     }
 
     /**

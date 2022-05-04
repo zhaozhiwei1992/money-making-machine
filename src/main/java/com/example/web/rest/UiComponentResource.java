@@ -5,6 +5,7 @@ import com.example.repository.UiComponentRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -168,6 +169,12 @@ public class UiComponentResource {
         log.debug("REST request to get UiComponent : {}", id);
         Optional<UiComponent> uiComponent = uiComponentRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(uiComponent);
+    }
+
+    @GetMapping("/ui-components/menu/{menuid}")
+    public List<UiComponent> getUiComponentByMenuId(@PathVariable Long menuid) {
+        log.debug("REST request to get UiComponent by menuid : {}", menuid);
+        return uiComponentRepository.findByMenuid(menuid);
     }
 
     /**

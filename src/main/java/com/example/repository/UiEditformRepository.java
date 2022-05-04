@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.domain.UiEditform;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface UiEditformRepository extends JpaRepository<UiEditform, Long> {}
+public interface UiEditformRepository extends JpaRepository<UiEditform, Long> {
+    List<UiEditform> findByMenuid(Long menuid);
+}

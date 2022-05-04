@@ -24,6 +24,20 @@
             <span v-text="$t('global.menu.home')">Home</span>
           </span>
         </b-nav-item>
+        <b-nav-item-dropdown right id="example-menu" v-if="authenticated" active-class="active" class="pointer" data-cy="entity">
+          <span slot="button-content" class="navbar-dropdown-menu">
+            <font-awesome-icon icon="th-list" />
+            <span class="no-bold">示例菜单</span>
+          </span>
+          <b-dropdown-item to="/example/uiexample" active-class="active">
+            <font-awesome-icon icon="users" />
+            <span>演示菜单-动态界面</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/example/helloworld" active-class="active">
+            <font-awesome-icon icon="users" />
+            <span>演示菜单-HelloWorld</span>
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
         <b-nav-item-dropdown right id="entity-menu" v-if="authenticated" active-class="active" class="pointer" data-cy="entity">
           <span slot="button-content" class="navbar-dropdown-menu">
             <font-awesome-icon icon="th-list" />

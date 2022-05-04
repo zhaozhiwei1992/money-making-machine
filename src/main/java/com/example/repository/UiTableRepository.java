@@ -1,7 +1,8 @@
 package com.example.repository;
 
 import com.example.domain.UiTable;
-import org.springframework.data.jpa.repository.*;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface UiTableRepository extends JpaRepository<UiTable, Long> {}
+public interface UiTableRepository extends JpaRepository<UiTable, Long> {
+    List<UiTable> findByMenuid(Long menuid);
+}

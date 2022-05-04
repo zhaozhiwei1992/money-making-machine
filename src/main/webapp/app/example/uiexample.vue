@@ -50,8 +50,8 @@ export default {
       this.$refs.mainRef.setTableCurrentRow('singleTable', this.tabDatas[1]);
     },
     //新增, 按钮需要组件使用者实现
-    add() {
-      alert('父页面实现新增');
+    save() {
+      alert('业务自定义实现保存方法');
     },
     //编辑
     edit() {

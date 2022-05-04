@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "Money_making_machine",
+    "title": "赚钱机器",
     "browsehappy": "您目前使用<strong>过于老旧</strong>的浏览器, 建议您<a href=\"http://browsehappy.com/?locale=en\">升级浏览器</a>让您有更佳的上网体验.",
     "menu": {
       "home": "首页",
@@ -8,12 +8,11 @@
       "entities": {
         "main": "数据",
         "menu": "菜单",
-        "menu": "Menu",
-        "uiComponent": "Ui Component",
-        "uiToolButton": "Ui Tool Button",
-        "uiTable": "Ui Table",
-        "uiEditform": "Ui Editform",
-        "uiQueryform": "Ui Queryform",
+        "uiComponent": "界面整合配置",
+        "uiToolButton": "按钮配置",
+        "uiTable": "列表配置",
+        "uiEditform": "编辑区配置",
+        "uiQueryform": "查询区配置",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
