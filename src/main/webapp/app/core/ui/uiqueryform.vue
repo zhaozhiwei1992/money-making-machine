@@ -3,21 +3,21 @@
     <el-col>
       <el-form
         :model="fieldObj"
-        ref="uiqueryform"
+        :ref="innercomponentid"
         label-width="180px"
         :label-position="labelPosition"
         :inline="true"
         class="demo-form-inline"
       >
-        <template v-for="item of fieldArray">
+        <template v-for="(item, index) of fieldArray">
           <template v-if="item.type === 'input'">
-            <el-form-item :label="item.name">
+            <el-form-item :key="index" :label="item.name">
               <el-input v-model="fieldObj[item.code]" :max="item.fieldLength" :placeholder="item.placeholder" show-word-limit></el-input>
             </el-form-item>
           </template>
           <!-- 查询区date一般为区间 -->
           <template v-if="item.type === 'daterange'">
-            <el-form-item :prop="item.code" :label="item.name">
+            <el-form-item :key="index" :prop="item.code" :label="item.name">
               <el-date-picker
                 v-model="fieldObj[item.code]"
                 :name="item.code"
@@ -35,7 +35,7 @@
             </el-form-item>
           </template>
           <template v-if="item.type === 'date'">
-            <el-form-item :prop="item.code" :label="item.name">
+            <el-form-item :key="index" :prop="item.code" :label="item.name">
               <el-date-picker
                 v-model="fieldObj[item.code]"
                 :name="item.code"
@@ -47,7 +47,7 @@
             </el-form-item>
           </template>
           <template v-if="item.type === 'select'">
-            <el-form-item :label="item.name">
+            <el-form-item :key="index" :label="item.name">
               <el-select v-model="fieldObj[item.code]" :placeholder="item.placeholderribe">
                 <el-option v-for="items in item.mapping" :key="items.name" :label="items.name" :value="items.value"> </el-option>
               </el-select>
@@ -55,7 +55,7 @@
           </template>
 
           <template v-if="item.type === 'cascader'">
-            <el-form-item :label="item.name">
+            <el-form-item :key="index" :label="item.name">
               <el-cascader
                 v-model="fieldObj[item.code]"
                 :options="item.mapping"
@@ -76,9 +76,10 @@ import axios from 'axios';
 const baseApiUrl = 'api/ui-queryforms';
 
 export default {
-  props: ['menuid'],
+  props: ['componentid', 'menuid'],
   data() {
     return {
+      innercomponentid: 'singleQueryform',
       labelPosition: 'left',
       // 表单字段集合
       fieldArray: [],
@@ -86,6 +87,9 @@ export default {
     };
   },
   mounted() {
+    // 通过this.$refs.自己定义的componentid就可以获取到el-form对象
+    this.innercomponentid = this.componentid;
+
     this.initComponent();
   },
   methods: {

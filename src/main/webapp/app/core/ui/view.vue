@@ -7,6 +7,7 @@
       :key="index"
       v-bind:is="item.componentid"
       v-bind:menuid="xx"
+      v-bind:componentid="item.componentid"
       v-bind:tableData="tabDatas"
       :ref="item.componentid"
     ></component>

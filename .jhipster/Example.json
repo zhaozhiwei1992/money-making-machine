@@ -1,30 +1,26 @@
 {
   "applications": "*",
-  "changelogDate": "20220503083341",
+  "changelogDate": "20220504123346",
   "dto": "no",
   "embedded": false,
-  "entityTableName": "sys_uicomponent",
+  "entityTableName": "t_example",
   "fields": [
     {
-      "fieldName": "menuid",
-      "fieldType": "Long"
-    },
-    {
-      "fieldName": "ordernum",
-      "fieldType": "Integer"
-    },
-    {
-      "fieldName": "componentid",
+      "fieldName": "name",
       "fieldType": "String"
     },
     {
-      "fieldName": "config",
+      "fieldName": "age",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "sex",
       "fieldType": "String"
     }
   ],
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
-  "name": "UiComponent",
+  "name": "Example",
   "pagination": "no",
   "readOnly": false,
   "relationships": [],

@@ -36,5 +36,6 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [],
-  "service": "no"
+  "service": "no",
+  "skipClient": true
 }

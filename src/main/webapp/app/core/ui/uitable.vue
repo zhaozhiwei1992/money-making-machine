@@ -2,7 +2,8 @@
   <el-row>
     <el-col>
       <div style="margin-top: 20px">
-        <el-table ref="singleTable" highlight-current-row :data="tableData" class="uitable">
+        <el-table :ref="innercomponentid" highlight-current-row :data="tableData" class="uitable">
+          <el-table-column type="selection" width="40" align="center"></el-table-column>
           <el-table-column v-for="(col, index) in cols" :key="index" :prop="col.code" :label="col.name"> </el-table-column>
         </el-table>
       </div>
@@ -16,14 +17,17 @@ import axios from 'axios';
 const baseApiUrl = 'api/ui-tables';
 
 export default {
-  props: ['menuid', 'tableData'],
+  props: ['componentid', 'menuid', 'tableData'],
   data() {
     return {
       cols: [],
+      innercomponentid: 'singleTable',
     };
   },
 
   mounted() {
+    // 组件id赋值, 可以通过ref找到自己添加的组件
+    this.innercomponentid = this.componentid;
     this.initComponent();
   },
   methods: {

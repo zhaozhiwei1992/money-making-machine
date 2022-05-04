@@ -7,6 +7,9 @@
 <script>
 import View from '@/core/ui/view.vue';
 
+import axios from 'axios';
+const baseApiUrl = 'api/examples';
+
 export default {
   data() {
     return {
@@ -25,33 +28,36 @@ export default {
     // 自定义加载数据填充列表
     initTableData() {
       // TODO 后台获取数据
-      this.tabDatas = [
-        {
-          name: '张三',
-          sex: '男',
-          age: '18',
-        },
-        {
-          name: '李四',
-          sex: '女',
-          age: '16',
-        },
-        {
-          name: '王五',
-          sex: '女',
-          age: '20',
-        },
-      ];
-
-      this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
+      axios.get(baseApiUrl).then(res => {
+        let response = res.data;
+        console.log('获取example信息, {}', response);
+        this.tabDatas = response;
+        this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
+      });
     },
     setCurrent() {
       // 操作表格选中一行
       this.$refs.mainRef.setTableCurrentRow('singleTable', this.tabDatas[1]);
     },
-    //新增, 按钮需要组件使用者实现
     save() {
-      alert('业务自定义实现保存方法');
+      console.log('业务自定义实现保存方法');
+      // 将编辑区录入数据, 写入到列表中
+      // 1. 获取编辑区数据
+      let editformObj = this.$refs.mainRef.$refs.uieditform[0].fieldObj;
+      console.log('编辑区信息 {}', editformObj);
+      // 2. 写入
+      axios
+        .post(`${baseApiUrl}`, editformObj)
+        .then(res => {
+          console.log('保存后返回 {}', res.data);
+          editformObj = null;
+          alert('保存成功, 刷新页面查看结果!');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      // 3. 查询列表
+      // this.query();
     },
     //编辑
     edit() {
@@ -59,11 +65,19 @@ export default {
     },
     //删除
     delete() {
-      alert('父页面实现删除');
+      console.log('业务实现删除');
+      // 1. 获取列表选中行
+      let selectedDatas = this.$refs.mainRef.$refs.uitable[0].$refs.uitable.selection;
+      console.log('列表选中数据, {}', selectedDatas);
+      // 2. 删除
+      axios.delete(baseApiUrl + '/' + selectedDatas[0].id).then(res => {
+        console.log('删除后返回 {}', res);
+        alert('删除成功, 请刷新页面');
+      });
     },
     query() {
-      // 查询列表数据
-      this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
+      // 刷新列表
+      // this.$refs.mainRef.$refs.uitable[0];
     },
   },
 };

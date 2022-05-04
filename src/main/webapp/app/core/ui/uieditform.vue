@@ -3,7 +3,7 @@
     <el-col>
       <el-form
         :model="fieldObj"
-        ref="uieditform"
+        :ref="innercomponentid"
         label-width="180px"
         :label-position="labelPosition"
         :inline="true"
@@ -84,16 +84,20 @@ import axios from 'axios';
 const baseApiUrl = 'api/ui-editforms';
 
 export default {
-  props: ['menuid'],
+  props: ['componentid', 'menuid'],
   data() {
     return {
       labelPosition: 'left',
       // 表单字段集合
       fieldArray: [],
       fieldObj: {},
+      // 默认单个编辑区
+      innercomponentid: 'singleEditform',
     };
   },
   mounted() {
+    // 通过this.$refs.自己定义的componentid就可以获取到el-form对象
+    this.innercomponentid = this.componentid;
     this.initComponent();
   },
   methods: {

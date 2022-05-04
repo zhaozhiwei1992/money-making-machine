@@ -1,0 +1,6 @@
+entity Example (t_example) {      
+	name   String,  
+	age   Integer,
+	sex String
+}
+
