@@ -1,6 +1,11 @@
-entity Example (t_example) {      
-	name   String,  
-	age   Integer,
-	sex String
+entity Menu(sys_menu) {
+  url String,
+  name String,
+  iconCls String,
+  ordernum Integer,
+  keepAlive Integer,
+  requireAuth Integer,
+  parentId Integer,
+  enabled Integer,
+  config String
 }
-

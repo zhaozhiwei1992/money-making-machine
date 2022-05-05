@@ -1,18 +1,19 @@
 
 entity Menu(sys_menu) {
   url String,
-  path String,
-  component String,
   name String,
   iconCls String,
+  ordernum Integer,
   keepAlive Integer,
   requireAuth Integer,
   parentId Integer,
-  enabled Integer
+  enabled Integer,
+  config String
 }
+
 entity UiComponent (sys_uicomponent) {
-       
-	menuid   Long,  
+
+	menuid   Long,
 	ordernum   Integer,
 	componentid String,
 	config     String
@@ -20,9 +21,9 @@ entity UiComponent (sys_uicomponent) {
 
 
 entity UiToolButton (sys_uitoolbutton) {
-       
-	menuid   Long,  
-	code   String, 
+
+	menuid   Long,
+	code   String,
 	name    String,
 	ordernum Integer,
 	action  String,
@@ -30,9 +31,9 @@ entity UiToolButton (sys_uitoolbutton) {
 }
 
 entity UiTable (sys_uitable) {
-      
-	menuid   Long,  
-	code   String, 
+
+	menuid   Long,
+	code   String,
 	name    String,
 	ordernum Integer,
 	issource   Boolean,
@@ -43,9 +44,9 @@ entity UiTable (sys_uitable) {
 }
 
 entity UiEditform (sys_uieditform) {
-      
-	menuid   Long,  
-	code   String, 
+
+	menuid   Long,
+	code   String,
 	name    String,
 	ordernum Integer,
 	issource   Boolean,
@@ -57,9 +58,9 @@ entity UiEditform (sys_uieditform) {
 }
 
 entity UiQueryform (sys_uiqueryform) {
-      
-	menuid   Long,  
-	code   String, 
+
+	menuid   Long,
+	code   String,
 	name    String,
 	ordernum Integer,
 	issource   Boolean,
@@ -69,3 +70,8 @@ entity UiQueryform (sys_uiqueryform) {
 	config     String
 }
 
+entity Example (t_example) {
+	name   String,
+	age   Integer,
+	sex String
+}
