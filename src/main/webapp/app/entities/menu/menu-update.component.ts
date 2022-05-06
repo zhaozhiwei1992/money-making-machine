@@ -8,14 +8,14 @@ import MenuService from './menu.service';
 const validations: any = {
   menu: {
     url: {},
-    path: {},
-    component: {},
     name: {},
     iconCls: {},
+    ordernum: {},
     keepAlive: {},
     requireAuth: {},
     parentId: {},
     enabled: {},
+    config: {},
   },
 };
 

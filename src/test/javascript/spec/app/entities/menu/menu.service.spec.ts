@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new MenuService();
-      elemDefault = new Menu(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 0, 0, 0);
+      elemDefault = new Menu(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, false, false, 0, false, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -82,14 +82,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             url: 'BBBBBB',
-            path: 'BBBBBB',
-            component: 'BBBBBB',
             name: 'BBBBBB',
             iconCls: 'BBBBBB',
-            keepAlive: 1,
-            requireAuth: 1,
+            ordernum: 1,
+            keepAlive: true,
+            requireAuth: true,
             parentId: 1,
-            enabled: 1,
+            enabled: true,
+            config: 'BBBBBB',
           },
           elemDefault
         );
@@ -116,8 +116,8 @@ describe('Service Tests', () => {
       it('should partial update a Menu', async () => {
         const patchObject = Object.assign(
           {
-            component: 'BBBBBB',
-            parentId: 1,
+            iconCls: 'BBBBBB',
+            enabled: true,
           },
           new Menu()
         );
@@ -146,14 +146,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             url: 'BBBBBB',
-            path: 'BBBBBB',
-            component: 'BBBBBB',
             name: 'BBBBBB',
             iconCls: 'BBBBBB',
-            keepAlive: 1,
-            requireAuth: 1,
+            ordernum: 1,
+            keepAlive: true,
+            requireAuth: true,
             parentId: 1,
-            enabled: 1,
+            enabled: true,
+            config: 'BBBBBB',
           },
           elemDefault
         );

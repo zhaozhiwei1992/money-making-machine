@@ -36,29 +36,29 @@ class MenuResourceIT {
     private static final String DEFAULT_URL = "AAAAAAAAAA";
     private static final String UPDATED_URL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PATH = "AAAAAAAAAA";
-    private static final String UPDATED_PATH = "BBBBBBBBBB";
-
-    private static final String DEFAULT_COMPONENT = "AAAAAAAAAA";
-    private static final String UPDATED_COMPONENT = "BBBBBBBBBB";
-
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_ICON_CLS = "AAAAAAAAAA";
     private static final String UPDATED_ICON_CLS = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_KEEP_ALIVE = 1;
-    private static final Integer UPDATED_KEEP_ALIVE = 2;
+    private static final Integer DEFAULT_ORDERNUM = 1;
+    private static final Integer UPDATED_ORDERNUM = 2;
 
-    private static final Integer DEFAULT_REQUIRE_AUTH = 1;
-    private static final Integer UPDATED_REQUIRE_AUTH = 2;
+    private static final Boolean DEFAULT_KEEP_ALIVE = false;
+    private static final Boolean UPDATED_KEEP_ALIVE = true;
 
-    private static final Integer DEFAULT_PARENT_ID = 1;
-    private static final Integer UPDATED_PARENT_ID = 2;
+    private static final Boolean DEFAULT_REQUIRE_AUTH = false;
+    private static final Boolean UPDATED_REQUIRE_AUTH = true;
 
-    private static final Integer DEFAULT_ENABLED = 1;
-    private static final Integer UPDATED_ENABLED = 2;
+    private static final Long DEFAULT_PARENT_ID = 1L;
+    private static final Long UPDATED_PARENT_ID = 2L;
+
+    private static final Boolean DEFAULT_ENABLED = false;
+    private static final Boolean UPDATED_ENABLED = true;
+
+    private static final String DEFAULT_CONFIG = "AAAAAAAAAA";
+    private static final String UPDATED_CONFIG = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/menus";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -86,14 +86,14 @@ class MenuResourceIT {
     public static Menu createEntity(EntityManager em) {
         Menu menu = new Menu()
             .url(DEFAULT_URL)
-            .path(DEFAULT_PATH)
-            .component(DEFAULT_COMPONENT)
             .name(DEFAULT_NAME)
             .iconCls(DEFAULT_ICON_CLS)
+            .ordernum(DEFAULT_ORDERNUM)
             .keepAlive(DEFAULT_KEEP_ALIVE)
             .requireAuth(DEFAULT_REQUIRE_AUTH)
             .parentId(DEFAULT_PARENT_ID)
-            .enabled(DEFAULT_ENABLED);
+            .enabled(DEFAULT_ENABLED)
+            .config(DEFAULT_CONFIG);
         return menu;
     }
 
@@ -106,14 +106,14 @@ class MenuResourceIT {
     public static Menu createUpdatedEntity(EntityManager em) {
         Menu menu = new Menu()
             .url(UPDATED_URL)
-            .path(UPDATED_PATH)
-            .component(UPDATED_COMPONENT)
             .name(UPDATED_NAME)
             .iconCls(UPDATED_ICON_CLS)
+            .ordernum(UPDATED_ORDERNUM)
             .keepAlive(UPDATED_KEEP_ALIVE)
             .requireAuth(UPDATED_REQUIRE_AUTH)
             .parentId(UPDATED_PARENT_ID)
-            .enabled(UPDATED_ENABLED);
+            .enabled(UPDATED_ENABLED)
+            .config(UPDATED_CONFIG);
         return menu;
     }
 
@@ -136,14 +136,14 @@ class MenuResourceIT {
         assertThat(menuList).hasSize(databaseSizeBeforeCreate + 1);
         Menu testMenu = menuList.get(menuList.size() - 1);
         assertThat(testMenu.getUrl()).isEqualTo(DEFAULT_URL);
-        assertThat(testMenu.getPath()).isEqualTo(DEFAULT_PATH);
-        assertThat(testMenu.getComponent()).isEqualTo(DEFAULT_COMPONENT);
         assertThat(testMenu.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testMenu.getIconCls()).isEqualTo(DEFAULT_ICON_CLS);
+        assertThat(testMenu.getOrdernum()).isEqualTo(DEFAULT_ORDERNUM);
         assertThat(testMenu.getKeepAlive()).isEqualTo(DEFAULT_KEEP_ALIVE);
         assertThat(testMenu.getRequireAuth()).isEqualTo(DEFAULT_REQUIRE_AUTH);
         assertThat(testMenu.getParentId()).isEqualTo(DEFAULT_PARENT_ID);
         assertThat(testMenu.getEnabled()).isEqualTo(DEFAULT_ENABLED);
+        assertThat(testMenu.getConfig()).isEqualTo(DEFAULT_CONFIG);
     }
 
     @Test
@@ -177,14 +177,14 @@ class MenuResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(menu.getId().intValue())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
-            .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)))
-            .andExpect(jsonPath("$.[*].component").value(hasItem(DEFAULT_COMPONENT)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].iconCls").value(hasItem(DEFAULT_ICON_CLS)))
-            .andExpect(jsonPath("$.[*].keepAlive").value(hasItem(DEFAULT_KEEP_ALIVE)))
-            .andExpect(jsonPath("$.[*].requireAuth").value(hasItem(DEFAULT_REQUIRE_AUTH)))
-            .andExpect(jsonPath("$.[*].parentId").value(hasItem(DEFAULT_PARENT_ID)))
-            .andExpect(jsonPath("$.[*].enabled").value(hasItem(DEFAULT_ENABLED)));
+            .andExpect(jsonPath("$.[*].ordernum").value(hasItem(DEFAULT_ORDERNUM)))
+            .andExpect(jsonPath("$.[*].keepAlive").value(hasItem(DEFAULT_KEEP_ALIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].requireAuth").value(hasItem(DEFAULT_REQUIRE_AUTH.booleanValue())))
+            .andExpect(jsonPath("$.[*].parentId").value(hasItem(DEFAULT_PARENT_ID.intValue())))
+            .andExpect(jsonPath("$.[*].enabled").value(hasItem(DEFAULT_ENABLED.booleanValue())))
+            .andExpect(jsonPath("$.[*].config").value(hasItem(DEFAULT_CONFIG)));
     }
 
     @Test
@@ -200,14 +200,14 @@ class MenuResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(menu.getId().intValue()))
             .andExpect(jsonPath("$.url").value(DEFAULT_URL))
-            .andExpect(jsonPath("$.path").value(DEFAULT_PATH))
-            .andExpect(jsonPath("$.component").value(DEFAULT_COMPONENT))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.iconCls").value(DEFAULT_ICON_CLS))
-            .andExpect(jsonPath("$.keepAlive").value(DEFAULT_KEEP_ALIVE))
-            .andExpect(jsonPath("$.requireAuth").value(DEFAULT_REQUIRE_AUTH))
-            .andExpect(jsonPath("$.parentId").value(DEFAULT_PARENT_ID))
-            .andExpect(jsonPath("$.enabled").value(DEFAULT_ENABLED));
+            .andExpect(jsonPath("$.ordernum").value(DEFAULT_ORDERNUM))
+            .andExpect(jsonPath("$.keepAlive").value(DEFAULT_KEEP_ALIVE.booleanValue()))
+            .andExpect(jsonPath("$.requireAuth").value(DEFAULT_REQUIRE_AUTH.booleanValue()))
+            .andExpect(jsonPath("$.parentId").value(DEFAULT_PARENT_ID.intValue()))
+            .andExpect(jsonPath("$.enabled").value(DEFAULT_ENABLED.booleanValue()))
+            .andExpect(jsonPath("$.config").value(DEFAULT_CONFIG));
     }
 
     @Test
@@ -231,14 +231,14 @@ class MenuResourceIT {
         em.detach(updatedMenu);
         updatedMenu
             .url(UPDATED_URL)
-            .path(UPDATED_PATH)
-            .component(UPDATED_COMPONENT)
             .name(UPDATED_NAME)
             .iconCls(UPDATED_ICON_CLS)
+            .ordernum(UPDATED_ORDERNUM)
             .keepAlive(UPDATED_KEEP_ALIVE)
             .requireAuth(UPDATED_REQUIRE_AUTH)
             .parentId(UPDATED_PARENT_ID)
-            .enabled(UPDATED_ENABLED);
+            .enabled(UPDATED_ENABLED)
+            .config(UPDATED_CONFIG);
 
         restMenuMockMvc
             .perform(
@@ -253,14 +253,14 @@ class MenuResourceIT {
         assertThat(menuList).hasSize(databaseSizeBeforeUpdate);
         Menu testMenu = menuList.get(menuList.size() - 1);
         assertThat(testMenu.getUrl()).isEqualTo(UPDATED_URL);
-        assertThat(testMenu.getPath()).isEqualTo(UPDATED_PATH);
-        assertThat(testMenu.getComponent()).isEqualTo(UPDATED_COMPONENT);
         assertThat(testMenu.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testMenu.getIconCls()).isEqualTo(UPDATED_ICON_CLS);
+        assertThat(testMenu.getOrdernum()).isEqualTo(UPDATED_ORDERNUM);
         assertThat(testMenu.getKeepAlive()).isEqualTo(UPDATED_KEEP_ALIVE);
         assertThat(testMenu.getRequireAuth()).isEqualTo(UPDATED_REQUIRE_AUTH);
         assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENT_ID);
         assertThat(testMenu.getEnabled()).isEqualTo(UPDATED_ENABLED);
+        assertThat(testMenu.getConfig()).isEqualTo(UPDATED_CONFIG);
     }
 
     @Test
@@ -331,7 +331,7 @@ class MenuResourceIT {
         Menu partialUpdatedMenu = new Menu();
         partialUpdatedMenu.setId(menu.getId());
 
-        partialUpdatedMenu.name(UPDATED_NAME).enabled(UPDATED_ENABLED);
+        partialUpdatedMenu.ordernum(UPDATED_ORDERNUM).config(UPDATED_CONFIG);
 
         restMenuMockMvc
             .perform(
@@ -346,14 +346,14 @@ class MenuResourceIT {
         assertThat(menuList).hasSize(databaseSizeBeforeUpdate);
         Menu testMenu = menuList.get(menuList.size() - 1);
         assertThat(testMenu.getUrl()).isEqualTo(DEFAULT_URL);
-        assertThat(testMenu.getPath()).isEqualTo(DEFAULT_PATH);
-        assertThat(testMenu.getComponent()).isEqualTo(DEFAULT_COMPONENT);
-        assertThat(testMenu.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testMenu.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testMenu.getIconCls()).isEqualTo(DEFAULT_ICON_CLS);
+        assertThat(testMenu.getOrdernum()).isEqualTo(UPDATED_ORDERNUM);
         assertThat(testMenu.getKeepAlive()).isEqualTo(DEFAULT_KEEP_ALIVE);
         assertThat(testMenu.getRequireAuth()).isEqualTo(DEFAULT_REQUIRE_AUTH);
         assertThat(testMenu.getParentId()).isEqualTo(DEFAULT_PARENT_ID);
-        assertThat(testMenu.getEnabled()).isEqualTo(UPDATED_ENABLED);
+        assertThat(testMenu.getEnabled()).isEqualTo(DEFAULT_ENABLED);
+        assertThat(testMenu.getConfig()).isEqualTo(UPDATED_CONFIG);
     }
 
     @Test
@@ -370,14 +370,14 @@ class MenuResourceIT {
 
         partialUpdatedMenu
             .url(UPDATED_URL)
-            .path(UPDATED_PATH)
-            .component(UPDATED_COMPONENT)
             .name(UPDATED_NAME)
             .iconCls(UPDATED_ICON_CLS)
+            .ordernum(UPDATED_ORDERNUM)
             .keepAlive(UPDATED_KEEP_ALIVE)
             .requireAuth(UPDATED_REQUIRE_AUTH)
             .parentId(UPDATED_PARENT_ID)
-            .enabled(UPDATED_ENABLED);
+            .enabled(UPDATED_ENABLED)
+            .config(UPDATED_CONFIG);
 
         restMenuMockMvc
             .perform(
@@ -392,14 +392,14 @@ class MenuResourceIT {
         assertThat(menuList).hasSize(databaseSizeBeforeUpdate);
         Menu testMenu = menuList.get(menuList.size() - 1);
         assertThat(testMenu.getUrl()).isEqualTo(UPDATED_URL);
-        assertThat(testMenu.getPath()).isEqualTo(UPDATED_PATH);
-        assertThat(testMenu.getComponent()).isEqualTo(UPDATED_COMPONENT);
         assertThat(testMenu.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testMenu.getIconCls()).isEqualTo(UPDATED_ICON_CLS);
+        assertThat(testMenu.getOrdernum()).isEqualTo(UPDATED_ORDERNUM);
         assertThat(testMenu.getKeepAlive()).isEqualTo(UPDATED_KEEP_ALIVE);
         assertThat(testMenu.getRequireAuth()).isEqualTo(UPDATED_REQUIRE_AUTH);
         assertThat(testMenu.getParentId()).isEqualTo(UPDATED_PARENT_ID);
         assertThat(testMenu.getEnabled()).isEqualTo(UPDATED_ENABLED);
+        assertThat(testMenu.getConfig()).isEqualTo(UPDATED_CONFIG);
     }
 
     @Test

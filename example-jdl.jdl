@@ -3,9 +3,9 @@ entity Menu(sys_menu) {
   name String,
   iconCls String,
   ordernum Integer,
-  keepAlive Integer,
-  requireAuth Integer,
-  parentId Integer,
-  enabled Integer,
+  keepAlive Boolean,
+  requireAuth Boolean,
+  parentId Long,
+  enabled Boolean,
   config String
 }

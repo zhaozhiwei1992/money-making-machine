@@ -7,6 +7,10 @@ import LoginForm from '@/account/login-form/login-form.vue';
 
 import '@/shared/config/dayjs';
 
+import axios from 'axios';
+
+const menuBaseApiUrl = 'api/menus';
+
 @Component({
   components: {
     ribbon: Ribbon,
@@ -22,17 +26,20 @@ export default class App extends Vue {
   public isCollapse = false;
 
   // 动态加载菜单
-  public homeMenu = [
-    { index: '/', title: '导航1', children: [] },
-    {
-      index: '/example/uiexample',
-      title: '导航2',
-      children: [
-        { index: '/xx', title: '导航2-1', children: [] },
-        { index: '/xx2', title: '导航2-2', children: [] },
-      ],
-    },
-  ];
+  public homeMenu = [{ index: '/', title: '导航1', children: [] }];
+
+  // 界面初始化加载数据
+  public mounted(): void {
+    this.findMenuTree();
+  }
+
+  public findMenuTree(): void {
+    axios.get(menuBaseApiUrl + '/tree').then(res => {
+      const response = res.data;
+      console.log('菜单树: {}', response);
+      this.homeMenu = response;
+    });
+  }
 
   // el-menu选中会传入链接信息 key === index
   public handleSelect(key, keyPath): void {

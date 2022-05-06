@@ -19,14 +19,14 @@
       },
       "id": "ID",
       "url": "Url",
-      "path": "Path",
-      "component": "Component",
       "name": "Name",
       "iconCls": "Icon Cls",
+      "ordernum": "Ordernum",
       "keepAlive": "Keep Alive",
       "requireAuth": "Require Auth",
       "parentId": "Parent Id",
-      "enabled": "Enabled"
+      "enabled": "Enabled",
+      "config": "Config"
     }
   }
 }

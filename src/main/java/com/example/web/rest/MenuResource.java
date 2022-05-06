@@ -1,13 +1,14 @@
 package com.example.web.rest;
 
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
 import com.example.domain.Menu;
 import com.example.repository.MenuRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,7 +43,8 @@ public class MenuResource {
      * {@code POST  /menus} : Create a new menu.
      *
      * @param menu the menu to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new menu, or with status {@code 400 (Bad Request)} if the menu has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new menu, or with
+     * status {@code 400 (Bad Request)} if the menu has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/menus")
@@ -61,7 +63,7 @@ public class MenuResource {
     /**
      * {@code PUT  /menus/:id} : Updates an existing menu.
      *
-     * @param id the id of the menu to save.
+     * @param id   the id of the menu to save.
      * @param menu the menu to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated menu,
      * or with status {@code 400 (Bad Request)} if the menu is not valid,
@@ -93,7 +95,7 @@ public class MenuResource {
     /**
      * {@code PATCH  /menus/:id} : Partial updates given fields of an existing menu, field will ignore if it is null
      *
-     * @param id the id of the menu to save.
+     * @param id   the id of the menu to save.
      * @param menu the menu to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated menu,
      * or with status {@code 400 (Bad Request)} if the menu is not valid,
@@ -122,17 +124,14 @@ public class MenuResource {
                 if (menu.getUrl() != null) {
                     existingMenu.setUrl(menu.getUrl());
                 }
-                if (menu.getPath() != null) {
-                    existingMenu.setPath(menu.getPath());
-                }
-                if (menu.getComponent() != null) {
-                    existingMenu.setComponent(menu.getComponent());
-                }
                 if (menu.getName() != null) {
                     existingMenu.setName(menu.getName());
                 }
                 if (menu.getIconCls() != null) {
                     existingMenu.setIconCls(menu.getIconCls());
+                }
+                if (menu.getOrdernum() != null) {
+                    existingMenu.setOrdernum(menu.getOrdernum());
                 }
                 if (menu.getKeepAlive() != null) {
                     existingMenu.setKeepAlive(menu.getKeepAlive());
@@ -145,6 +144,9 @@ public class MenuResource {
                 }
                 if (menu.getEnabled() != null) {
                     existingMenu.setEnabled(menu.getEnabled());
+                }
+                if (menu.getConfig() != null) {
+                    existingMenu.setConfig(menu.getConfig());
                 }
 
                 return existingMenu;
@@ -169,10 +171,74 @@ public class MenuResource {
     }
 
     /**
+     * @data: 2022/5/6-上午10:11
+     * @User: zhaozhiwei
+     * @method: getMenusTree
+     * @return: java.util.List<com.example.domain.Menu>
+     * @Description: 需返回如下结果
+     * public homeMenu = [
+     * { index: '/', title: '导航1', children: [] },
+     * {
+     * index: '/example/uiexample',
+     * title: '导航2',
+     * children: [
+     * { index: '/xx', title: '导航2-1', children: [] },
+     * { index: '/xx2', title: '导航2-2', children: [] },
+     * ],
+     * },
+     * ];
+     */
+    @GetMapping("/menus/tree")
+    public List<Tree<Long>> getMenusTree() {
+        log.debug("REST request to get Menus Tree");
+        final List<Menu> allMenusOrderByOrdernumAsc = menuRepository.findAllByOrderByOrdernumAsc();
+
+        //树形结构一些特殊配置
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        // 自定义属性名 都要默认值的
+        treeNodeConfig.setWeightKey("ordernum");
+        //        数据库设计如果和默认值一致，就不设置了
+        //        treeNodeConfig.setIdKey("id");
+        //        treeNodeConfig.setParentIdKey("parentId");
+        //        treeNodeConfig.setChildrenKey("children");
+        //        最大递归深度
+        treeNodeConfig.setDeep(3);
+
+        //转换器
+        List<Tree<Long>> treeNodes = TreeUtil.build(
+            allMenusOrderByOrdernumAsc,
+            0L,
+            treeNodeConfig,
+            (menuObj, tree) -> {
+                tree.setId(menuObj.getId());
+                tree.setParentId(menuObj.getParentId());
+                //              tree.setWeight(treeNode.getWeight());
+                tree.setName(menuObj.getName());
+                // 属性扩展, 只显示界面展示需要的属性即可
+                tree.putExtra("icons", menuObj.getIconCls());
+                tree.putExtra("url", menuObj.getUrl());
+                tree.putExtra("index", menuObj.getUrl());
+                tree.putExtra("ordernum", menuObj.getOrdernum());
+            }
+        );
+
+        //      children默认给空, 防止前端解析报错
+        for (Tree<Long> treeNode : treeNodes) {
+            if (Objects.isNull(treeNode.getChildren())) {
+                treeNode.setChildren(Collections.emptyList());
+            }
+        }
+
+        log.info("左侧树构建: {}", treeNodes);
+        return treeNodes;
+    }
+
+    /**
      * {@code GET  /menus/:id} : get the "id" menu.
      *
      * @param id the id of the menu to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the menu, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the menu, or with status {@code
+     * 404 (Not Found)}.
      */
     @GetMapping("/menus/{id}")
     public ResponseEntity<Menu> getMenu(@PathVariable Long id) {

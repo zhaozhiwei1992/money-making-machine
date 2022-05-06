@@ -25,14 +25,14 @@
           <tr>
             <th scope="row"><span v-text="$t('global.field.id')">ID</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.url')">Url</span></th>
-            <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.path')">Path</span></th>
-            <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.component')">Component</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.name')">Name</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.iconCls')">Icon Cls</span></th>
+            <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.ordernum')">Ordernum</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.keepAlive')">Keep Alive</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.requireAuth')">Require Auth</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.parentId')">Parent Id</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.enabled')">Enabled</span></th>
+            <th scope="row"><span v-text="$t('moneyMakingMachineApp.menu.config')">Config</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -42,14 +42,14 @@
               <router-link :to="{ name: 'MenuView', params: { menuId: menu.id } }">{{ menu.id }}</router-link>
             </td>
             <td>{{ menu.url }}</td>
-            <td>{{ menu.path }}</td>
-            <td>{{ menu.component }}</td>
             <td>{{ menu.name }}</td>
             <td>{{ menu.iconCls }}</td>
+            <td>{{ menu.ordernum }}</td>
             <td>{{ menu.keepAlive }}</td>
             <td>{{ menu.requireAuth }}</td>
             <td>{{ menu.parentId }}</td>
             <td>{{ menu.enabled }}</td>
+            <td>{{ menu.config }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'MenuView', params: { menuId: menu.id } }" custom v-slot="{ navigate }">

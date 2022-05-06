@@ -1,11 +1,11 @@
-id;url;path;component;name;icon_cls;keep_alive;require_auth;parent_id;enabled
-1;http://聪健.com;Bedfordshire infrastructures Salad;Pizza;Bacon;Integration violet open;58545;26086;26066;71454
-2;http://智渊.name;navigating migration Engineer;empower matrix;asymmetric;convergence;85882;51556;39264;15700
-3;https://立辉.net;THX;Granite AI Fresh;Soft Polarised override;Toys parsing Consultant;77534;91290;76609;61014
-4;http://梓晨.biz;Consultant;XSS IB Investor;Berkshire;HTTP;70091;86476;50446;31828
-5;https://鹏涛.com;Cambridgeshire Response incremental;leading-edge Clothing SQL;input Profound;Rubber;8157;94868;40837;56689
-6;https://远航.name;ROI 青海省;compress throughput auxiliary;Avon grey;Awesome;397;33608;71830;54114
-7;http://鹏.org;旁 efficient;azure;dynamic online;Account Industrial channels;54293;24970;93777;83123
-8;http://文.com;侬;port Loan Strategist;Sum incremental robust;Soft 巷 the;83341;14223;62566;81495
-9;https://越彬.name;Account Concrete;frictionless New;AI Argentina;Markets line Borders;34110;770;43122;74596
-10;https://志泽.org;Small Fish bus;user-centric 宁夏;Money Cotton;Sol;34015;52382;4304;82205
+id;url;name;icon_cls;ordernum;keep_alive;require_auth;parent_id;enabled;config
+1;http://聪健.com;Bedfordshire infrastructures Salad;Pizza;994;false;true;79082;true;Compatible supply-chains Quetzal
+2;http://志泽.net;generate navigating;payment;27965;true;true;37568;false;matrix
+3;http://睿渊.com;Keyboard;orchestrate payment;85948;true;true;97293;false;South AI Fresh
+4;https://晟睿.net;Polarised override Supervisor;parsing;99636;true;false;77534;true;Investment actuating bypass
+5;https://鹏.biz;programming Home Berkshire;HTTP;70091;true;true;31828;true;Soft Global
+6;http://越彬.biz;Frozen Steel;circuit withdrawal navigate;65681;false;false;11594;true;Tasty
+7;https://立辉.biz;technologies Organic;Legacy Bedfordshire Licensed;57783;true;false;13366;false;collaborative
+8;http://烨华.name;synergistic;Metrics;45457;true;true;36810;true;Electronics sky capacity
+9;http://荣轩.net;metrics Agent;Granite;93777;true;false;93103;false;侬
+10;https://炫明.biz;Loan Strategist wireless;incremental robust;79055;false;true;80831;false;巷 the

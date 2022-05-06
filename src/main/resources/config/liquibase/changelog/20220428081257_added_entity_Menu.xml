@@ -17,28 +17,28 @@
             <column name="url" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="path" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="component" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="icon_cls" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="keep_alive" type="integer">
+            <column name="ordernum" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="require_auth" type="integer">
+            <column name="keep_alive" type="boolean">
                 <constraints nullable="true" />
             </column>
-            <column name="parent_id" type="integer">
+            <column name="require_auth" type="boolean">
                 <constraints nullable="true" />
             </column>
-            <column name="enabled" type="integer">
+            <column name="parent_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="enabled" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="config" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -63,14 +63,14 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="url" type="string"/>
-            <column name="path" type="string"/>
-            <column name="component" type="string"/>
             <column name="name" type="string"/>
             <column name="icon_cls" type="string"/>
-            <column name="keep_alive" type="numeric"/>
-            <column name="require_auth" type="numeric"/>
+            <column name="ordernum" type="numeric"/>
+            <column name="keep_alive" type="boolean"/>
+            <column name="require_auth" type="boolean"/>
             <column name="parent_id" type="numeric"/>
-            <column name="enabled" type="numeric"/>
+            <column name="enabled" type="boolean"/>
+            <column name="config" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

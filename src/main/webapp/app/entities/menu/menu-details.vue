@@ -13,18 +13,6 @@
             <span>{{ menu.url }}</span>
           </dd>
           <dt>
-            <span v-text="$t('moneyMakingMachineApp.menu.path')">Path</span>
-          </dt>
-          <dd>
-            <span>{{ menu.path }}</span>
-          </dd>
-          <dt>
-            <span v-text="$t('moneyMakingMachineApp.menu.component')">Component</span>
-          </dt>
-          <dd>
-            <span>{{ menu.component }}</span>
-          </dd>
-          <dt>
             <span v-text="$t('moneyMakingMachineApp.menu.name')">Name</span>
           </dt>
           <dd>
@@ -35,6 +23,12 @@
           </dt>
           <dd>
             <span>{{ menu.iconCls }}</span>
+          </dd>
+          <dt>
+            <span v-text="$t('moneyMakingMachineApp.menu.ordernum')">Ordernum</span>
+          </dt>
+          <dd>
+            <span>{{ menu.ordernum }}</span>
           </dd>
           <dt>
             <span v-text="$t('moneyMakingMachineApp.menu.keepAlive')">Keep Alive</span>
@@ -59,6 +53,12 @@
           </dt>
           <dd>
             <span>{{ menu.enabled }}</span>
+          </dd>
+          <dt>
+            <span v-text="$t('moneyMakingMachineApp.menu.config')">Config</span>
+          </dt>
+          <dd>
+            <span>{{ menu.config }}</span>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -10,14 +10,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "path",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "component",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "name",
       "fieldType": "String"
     },
@@ -26,20 +18,28 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "keepAlive",
+      "fieldName": "ordernum",
       "fieldType": "Integer"
+    },
+    {
+      "fieldName": "keepAlive",
+      "fieldType": "Boolean"
     },
     {
       "fieldName": "requireAuth",
-      "fieldType": "Integer"
+      "fieldType": "Boolean"
     },
     {
       "fieldName": "parentId",
-      "fieldType": "Integer"
+      "fieldType": "Long"
     },
     {
       "fieldName": "enabled",
-      "fieldType": "Integer"
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "config",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,
@@ -49,5 +49,5 @@
   "readOnly": false,
   "relationships": [],
   "service": "no",
-  "skipClient": true
+  "skipClient": false
 }

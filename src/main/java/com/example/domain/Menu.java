@@ -23,29 +23,29 @@ public class Menu implements Serializable {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "path")
-    private String path;
-
-    @Column(name = "component")
-    private String component;
-
     @Column(name = "name")
     private String name;
 
     @Column(name = "icon_cls")
     private String iconCls;
 
+    @Column(name = "ordernum")
+    private Integer ordernum;
+
     @Column(name = "keep_alive")
-    private Integer keepAlive;
+    private Boolean keepAlive;
 
     @Column(name = "require_auth")
-    private Integer requireAuth;
+    private Boolean requireAuth;
 
     @Column(name = "parent_id")
-    private Integer parentId;
+    private Long parentId;
 
     @Column(name = "enabled")
-    private Integer enabled;
+    private Boolean enabled;
+
+    @Column(name = "config")
+    private String config;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -75,32 +75,6 @@ public class Menu implements Serializable {
         this.url = url;
     }
 
-    public String getPath() {
-        return this.path;
-    }
-
-    public Menu path(String path) {
-        this.setPath(path);
-        return this;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getComponent() {
-        return this.component;
-    }
-
-    public Menu component(String component) {
-        this.setComponent(component);
-        return this;
-    }
-
-    public void setComponent(String component) {
-        this.component = component;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -127,56 +101,82 @@ public class Menu implements Serializable {
         this.iconCls = iconCls;
     }
 
-    public Integer getKeepAlive() {
+    public Integer getOrdernum() {
+        return this.ordernum;
+    }
+
+    public Menu ordernum(Integer ordernum) {
+        this.setOrdernum(ordernum);
+        return this;
+    }
+
+    public void setOrdernum(Integer ordernum) {
+        this.ordernum = ordernum;
+    }
+
+    public Boolean getKeepAlive() {
         return this.keepAlive;
     }
 
-    public Menu keepAlive(Integer keepAlive) {
+    public Menu keepAlive(Boolean keepAlive) {
         this.setKeepAlive(keepAlive);
         return this;
     }
 
-    public void setKeepAlive(Integer keepAlive) {
+    public void setKeepAlive(Boolean keepAlive) {
         this.keepAlive = keepAlive;
     }
 
-    public Integer getRequireAuth() {
+    public Boolean getRequireAuth() {
         return this.requireAuth;
     }
 
-    public Menu requireAuth(Integer requireAuth) {
+    public Menu requireAuth(Boolean requireAuth) {
         this.setRequireAuth(requireAuth);
         return this;
     }
 
-    public void setRequireAuth(Integer requireAuth) {
+    public void setRequireAuth(Boolean requireAuth) {
         this.requireAuth = requireAuth;
     }
 
-    public Integer getParentId() {
+    public Long getParentId() {
         return this.parentId;
     }
 
-    public Menu parentId(Integer parentId) {
+    public Menu parentId(Long parentId) {
         this.setParentId(parentId);
         return this;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
-    public Integer getEnabled() {
+    public Boolean getEnabled() {
         return this.enabled;
     }
 
-    public Menu enabled(Integer enabled) {
+    public Menu enabled(Boolean enabled) {
         this.setEnabled(enabled);
         return this;
     }
 
-    public void setEnabled(Integer enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getConfig() {
+        return this.config;
+    }
+
+    public Menu config(String config) {
+        this.setConfig(config);
+        return this;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -204,14 +204,14 @@ public class Menu implements Serializable {
         return "Menu{" +
             "id=" + getId() +
             ", url='" + getUrl() + "'" +
-            ", path='" + getPath() + "'" +
-            ", component='" + getComponent() + "'" +
             ", name='" + getName() + "'" +
             ", iconCls='" + getIconCls() + "'" +
-            ", keepAlive=" + getKeepAlive() +
-            ", requireAuth=" + getRequireAuth() +
+            ", ordernum=" + getOrdernum() +
+            ", keepAlive='" + getKeepAlive() + "'" +
+            ", requireAuth='" + getRequireAuth() + "'" +
             ", parentId=" + getParentId() +
-            ", enabled=" + getEnabled() +
+            ", enabled='" + getEnabled() + "'" +
+            ", config='" + getConfig() + "'" +
             "}";
     }
 }

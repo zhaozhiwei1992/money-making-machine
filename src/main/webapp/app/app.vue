@@ -21,15 +21,15 @@
                 <el-submenu :index="item.index.toString()" v-if="item.children.length != 0" :key="index * 30">
                   <template slot="title">
                     <i :class="item.icons"></i>
-                    <span slot="title">{{ item.title }}</span>
+                    <span slot="title">{{ item.name }}</span>
                   </template>
                   <el-menu-item :index="items.index.toString()" v-for="(items, indexs) in item.children" :key="indexs">
-                    {{ items.title }}
+                    {{ items.name }}
                   </el-menu-item>
                 </el-submenu>
                 <el-menu-item :index="item.index.toString()" v-else :key="index * 2">
                   <i :class="item.icons"></i>
-                  <span slot="title">{{ item.title }}</span>
+                  <span slot="title">{{ item.name }}</span>
                 </el-menu-item>
               </template>
             </el-menu>

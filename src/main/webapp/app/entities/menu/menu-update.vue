@@ -27,30 +27,6 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.path')" for="menu-path">Path</label>
-            <input
-              type="text"
-              class="form-control"
-              name="path"
-              id="menu-path"
-              data-cy="path"
-              :class="{ valid: !$v.menu.path.$invalid, invalid: $v.menu.path.$invalid }"
-              v-model="$v.menu.path.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.component')" for="menu-component">Component</label>
-            <input
-              type="text"
-              class="form-control"
-              name="component"
-              id="menu-component"
-              data-cy="component"
-              :class="{ valid: !$v.menu.component.$invalid, invalid: $v.menu.component.$invalid }"
-              v-model="$v.menu.component.$model"
-            />
-          </div>
-          <div class="form-group">
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.name')" for="menu-name">Name</label>
             <input
               type="text"
@@ -75,15 +51,27 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.keepAlive')" for="menu-keepAlive">Keep Alive</label>
+            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.ordernum')" for="menu-ordernum">Ordernum</label>
             <input
               type="number"
               class="form-control"
+              name="ordernum"
+              id="menu-ordernum"
+              data-cy="ordernum"
+              :class="{ valid: !$v.menu.ordernum.$invalid, invalid: $v.menu.ordernum.$invalid }"
+              v-model.number="$v.menu.ordernum.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.keepAlive')" for="menu-keepAlive">Keep Alive</label>
+            <input
+              type="checkbox"
+              class="form-check"
               name="keepAlive"
               id="menu-keepAlive"
               data-cy="keepAlive"
               :class="{ valid: !$v.menu.keepAlive.$invalid, invalid: $v.menu.keepAlive.$invalid }"
-              v-model.number="$v.menu.keepAlive.$model"
+              v-model="$v.menu.keepAlive.$model"
             />
           </div>
           <div class="form-group">
@@ -91,13 +79,13 @@
               >Require Auth</label
             >
             <input
-              type="number"
-              class="form-control"
+              type="checkbox"
+              class="form-check"
               name="requireAuth"
               id="menu-requireAuth"
               data-cy="requireAuth"
               :class="{ valid: !$v.menu.requireAuth.$invalid, invalid: $v.menu.requireAuth.$invalid }"
-              v-model.number="$v.menu.requireAuth.$model"
+              v-model="$v.menu.requireAuth.$model"
             />
           </div>
           <div class="form-group">
@@ -115,13 +103,25 @@
           <div class="form-group">
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.enabled')" for="menu-enabled">Enabled</label>
             <input
-              type="number"
-              class="form-control"
+              type="checkbox"
+              class="form-check"
               name="enabled"
               id="menu-enabled"
               data-cy="enabled"
               :class="{ valid: !$v.menu.enabled.$invalid, invalid: $v.menu.enabled.$invalid }"
-              v-model.number="$v.menu.enabled.$model"
+              v-model="$v.menu.enabled.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.menu.config')" for="menu-config">Config</label>
+            <input
+              type="text"
+              class="form-control"
+              name="config"
+              id="menu-config"
+              data-cy="config"
+              :class="{ valid: !$v.menu.config.$invalid, invalid: $v.menu.config.$invalid }"
+              v-model="$v.menu.config.$model"
             />
           </div>
         </div>
