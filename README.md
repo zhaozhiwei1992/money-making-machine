@@ -78,6 +78,8 @@ so, 你得会撸代码。
 2. springboot 2.6.3.RELEASE
 3. mysql 5.7.5+
 4. redis 5.0.7+
+5. npm 6.14.4+
+6. node 16.13.1
 
 # 安装步骤
 
