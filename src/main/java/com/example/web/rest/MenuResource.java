@@ -3,12 +3,15 @@ package com.example.web.rest;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.example.domain.Menu;
 import com.example.repository.MenuRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -231,6 +234,55 @@ public class MenuResource {
 
         log.info("左侧树构建: {}", treeNodes);
         return treeNodes;
+    }
+
+    /**
+     * @data: 2022/5/8-下午7:44
+     * @User: zhaozhiwei
+     * @method: getMenusRoute
+     * @return: java.util.List<cn.hutool.core.lang.tree.Tree < java.lang.Long>>
+     * @Description: 根据菜单动态产生路由, 菜单表自己加的菜单就不用手动加路由了
+     * url 非#号的都作为路由
+     * <p>
+     * 路由数据结构
+     * export default [
+     * {
+     * path: '/example/uiexample',
+     * name: 'DynamicUiExample',
+     * component: UiExample,
+     * meta: { authorities: [Authority.USER] },
+     * },
+     * {
+     * path: '/example/helloworld',
+     * name: 'HelloWorld',
+     * component: HelloWorld,
+     * meta: { authorities: [Authority.USER] },
+     * },
+     * ]
+     */
+    @GetMapping("/menus/route")
+    public List<Map<String, Object>> getMenusRoute() {
+        log.debug("REST request to get Menus Tree");
+        final List<Menu> allMenusOrderByOrdernumAsc = menuRepository.findAllByOrderByOrdernumAsc();
+
+        final List<Map<String, Object>> collect = allMenusOrderByOrdernumAsc
+            .stream()
+            //            保留url不是#的, 并且config里配置了组件的
+            .filter(menu -> !"#".equals(menu.getUrl()) && menu.getConfig().contains("component"))
+            //            构建成router需要的形式
+            .map(menu -> {
+                final Map<String, Object> map = new HashMap<>();
+                map.put("path", menu.getUrl());
+                final JSONObject jsonObject = JSONUtil.parseObj(menu.getConfig());
+                final String componentid = jsonObject.getStr("component");
+                map.put("name", componentid);
+                //                component字段是字符串，前端需要把这个字符串转化为前端定义的组件
+                map.put("component", componentid);
+                return map;
+            })
+            .collect(Collectors.toList());
+
+        return collect;
     }
 
     /**

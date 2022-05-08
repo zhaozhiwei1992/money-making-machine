@@ -27,6 +27,8 @@ import ElementUI from 'element-ui';
 // 加载 element 组件库的样式
 import 'element-ui/lib/theme-chalk/index.css';
 
+import axios from 'axios';
+
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
 import TranslationService from '@/locale/translation.service';
@@ -54,10 +56,50 @@ const translationService = new TranslationService(store, i18n);
 const loginService = new LoginService();
 const accountService = new AccountService(store, translationService, router);
 
+// 动态路由
 router.beforeEach(async (to, from, next) => {
   if (!to.matched.length) {
-    next('/not-found');
+    // 找不到的路由走这里, 前端没有配置的
+    const asyncRouter = localStorage.getItem('router');
+    console.log('前端缓存路由信息: {}', asyncRouter);
+    let pathExist = false;
+    if (!asyncRouter) {
+      // 如果已经缓存则直接从缓存里搞
+      const datas = JSON.parse(asyncRouter);
+      datas.forEach(v => {
+        v.component = routerToComponent(v.component);
+        router.addRoute(v);
+        if (v.path === to.path) {
+          pathExist = true;
+        }
+      });
+      // 如果path不在路由里, 检查菜单是否配置了config.component
+    } else {
+      axios.get('/api/menus/route').then(resp => {
+        const datas = resp.data;
+        console.log('动态路由信息 {}', datas);
+        // 保存路由信息
+        localStorage.setItem('router', JSON.stringify(datas));
+        datas.forEach(v => {
+          v.component = routerToComponent(v.component);
+          router.addRoute(v);
+          if (v.path === to.path) {
+            pathExist = true;
+          }
+        });
+      });
+    }
+
+    if (pathExist) {
+      // next({
+      //   path: to.fullPath,
+      // });
+      next();
+    } else {
+      next('/not-found');
+    }
   } else if (to.meta && to.meta.authorities && to.meta.authorities.length > 0) {
+    // 需要认证的走这里
     accountService.hasAnyAuthorityAndCheckAuth(to.meta.authorities).then(value => {
       if (!value) {
         sessionStorage.setItem('requested-url', to.fullPath);
@@ -68,6 +110,7 @@ router.beforeEach(async (to, from, next) => {
     });
   } else {
     // no authorities, so just proceed
+    // 存在路由, 但是, 不需要认证的走这里
     next();
   }
 });
@@ -96,3 +139,10 @@ new Vue({
   i18n,
   store,
 });
+
+// 路径转换为component组件
+function routerToComponent(path) {
+  // vue 动态加载路由时报错Error: Cannot find module ‘@/views/xxx‘ at webpackEmptyContext
+  // 只要 require 和import() 两者的参数如果是全路径，那么会报错，如果是部分参拼接后 那么没问题
+  return () => import('@/' + path + '.vue');
+}
