@@ -13,6 +13,7 @@
         "uiTable": "列表配置",
         "uiEditform": "编辑区配置",
         "uiQueryform": "查询区配置",
+        "leaveType": "Leave Type",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

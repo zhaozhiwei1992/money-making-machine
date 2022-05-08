@@ -152,6 +152,10 @@ spring:
   output:
     ansi:
       console-available: true
+  # activity6 工作流配置
+  activiti:
+    database-schema-update: true
+    check-process-definitions: false
 
 server:
   servlet:

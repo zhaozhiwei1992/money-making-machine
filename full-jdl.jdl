@@ -75,3 +75,12 @@ entity Example (t_example) {
 	age   Integer,
 	sex String
 }
+entity LeaveSlip (t_leaveslip) {      
+	type   String,  // 请假类型, 病假? 事假?
+	startTime String, // 开始时间
+	endTime String, //结束时间
+    reason String, //请假原因
+    file String, // 附件
+    superior Long, // 上级主管
+    wfstatus String // 工作流状态
+}

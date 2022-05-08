@@ -49,5 +49,5 @@
   "readOnly": false,
   "relationships": [],
   "service": "no",
-  "skipClient": false
+  "skipClient": true
 }

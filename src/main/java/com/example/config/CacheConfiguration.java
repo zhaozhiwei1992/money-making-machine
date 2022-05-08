@@ -88,6 +88,8 @@ public class CacheConfiguration {
             createCache(cm, com.example.domain.UiEditform.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.UiQueryform.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.Example.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.LeaveSlip.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.LeaveType.class.getName(), jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }

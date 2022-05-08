@@ -18,7 +18,7 @@ import org.springframework.core.env.Environment;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { org.activiti.spring.boot.SecurityAutoConfiguration.class })
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
 public class MoneyMakingMachineApp {
 

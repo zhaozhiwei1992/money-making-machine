@@ -1,0 +1,30 @@
+{
+  "moneyMakingMachineApp": {
+    "leaveType": {
+      "home": {
+        "title": "Leave Types",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Leave Type",
+        "createOrEditLabel": "建立或編輯 Leave Type",
+        "notFound": "No Leave Types found"
+      },
+      "created": "新的 Leave Type 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Leave Type 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Leave Type 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Leave Type {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Leave Type"
+      },
+      "id": "ID",
+      "code": "Code",
+      "name": "Name",
+      "parentid": "Parentid",
+      "enabled": "Enabled",
+      "help": {
+        "parentid": "select 是不需要parentid的，为要素表ele_统一增加该字段"
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "applications": "*",
+  "changelogDate": "20220507141955",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "t_leaveslip",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reason",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "file",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "superior",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "wfstatus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "leavePerson",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LeaveSlip",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no",
+  "skipClient": true
+}

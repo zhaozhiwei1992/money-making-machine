@@ -1,15 +1,21 @@
 package com.example.web.rest;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.example.domain.UiEditform;
 import com.example.repository.UiEditformRepository;
+import com.example.service.CommonEleService;
+import com.example.service.dto.UiEditformDTO;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -188,10 +194,30 @@ public class UiEditformResource {
         return ResponseUtil.wrapOrNotFound(uiEditform);
     }
 
+    @Autowired
+    private CommonEleService commonEleService;
+
     @GetMapping("/ui-editforms/menu/{menuid}")
-    public List<UiEditform> getUiEditformByMenuid(@PathVariable Long menuid) {
+    public List<UiEditformDTO> getUiEditformByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiEditform by menu : {}", menuid);
-        return uiEditformRepository.findByMenuid(menuid);
+        final List<UiEditform> editformByMenuId = uiEditformRepository.findByMenuid(menuid);
+        final List<UiEditformDTO> uiEditformDtoList = editformByMenuId
+            .stream()
+            .map(uiEditform -> {
+                final UiEditformDTO convert = Convert.convert(UiEditformDTO.class, uiEditform);
+                if (uiEditform.getIssource()) {
+                    //               从config获取取数bean, 从而获取数据
+                    final String configJson = uiEditform.getConfig();
+                    final JSONObject jsonObject = JSONUtil.parseObj(configJson);
+                    convert.setConfig(jsonObject);
+                    final List<Map<String, Object>> mappingList = commonEleService.findMapping(jsonObject.getStr("eleBeanName"));
+                    convert.setMapping(mappingList);
+                }
+
+                return convert;
+            })
+            .collect(Collectors.toList());
+        return uiEditformDtoList;
     }
 
     /**

@@ -39,6 +39,12 @@ const UiQueryform = () => import('@/entities/ui-queryform/ui-queryform.vue');
 const UiQueryformUpdate = () => import('@/entities/ui-queryform/ui-queryform-update.vue');
 // prettier-ignore
 const UiQueryformDetails = () => import('@/entities/ui-queryform/ui-queryform-details.vue');
+// prettier-ignore
+const LeaveType = () => import('@/entities/leave-type/leave-type.vue');
+// prettier-ignore
+const LeaveTypeUpdate = () => import('@/entities/leave-type/leave-type-update.vue');
+// prettier-ignore
+const LeaveTypeDetails = () => import('@/entities/leave-type/leave-type-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -187,6 +193,30 @@ export default {
       path: 'ui-queryform/:uiQueryformId/view',
       name: 'UiQueryformView',
       component: UiQueryformDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-type',
+      name: 'LeaveType',
+      component: LeaveType,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-type/new',
+      name: 'LeaveTypeCreate',
+      component: LeaveTypeUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-type/:leaveTypeId/edit',
+      name: 'LeaveTypeEdit',
+      component: LeaveTypeUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-type/:leaveTypeId/view',
+      name: 'LeaveTypeView',
+      component: LeaveTypeDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

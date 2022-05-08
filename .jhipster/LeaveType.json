@@ -1,0 +1,34 @@
+{
+  "applications": "*",
+  "changelogDate": "20220508030550",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "ele_leavetype",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "parentid",
+      "fieldType": "Long",
+      "javadoc": "select 是不需要parentid的，为要素表ele_统一增加该字段"
+    },
+    {
+      "fieldName": "enabled",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "请假类型\\n\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "LeaveType",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

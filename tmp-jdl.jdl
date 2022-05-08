@@ -1,11 +1,14 @@
-entity Menu(sys_menu) {
-  url String,
-  name String,
-  iconCls String,
-  ordernum Integer,
-  keepAlive Boolean,
-  requireAuth Boolean,
-  parentId Long,
-  enabled Boolean,
-  config String
+/**
+ * 请假类型
+ * 
+ * @author zhaozhiwei
+ */
+entity LeaveType (ele_leavetype) {      
+	code String,
+    name String,
+    /**
+   * select 是不需要parentid的，为要素表ele_统一增加该字段
+   */
+    parentid Long,
+    enabled Boolean
 }
