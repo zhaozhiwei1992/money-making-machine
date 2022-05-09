@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <ribbon></ribbon>
-    <div id="app-header">
-      <jhi-navbar></jhi-navbar>
-    </div>
-    <div class="container-fluid">
-      <el-row>
-        <!-- 左侧菜单区 -->
-        <el-col :span="4">
+    <el-container>
+      <el-header>
+        <div id="app-header">
+          <jhi-navbar></jhi-navbar>
+        </div>
+      </el-header>
+      <el-container>
+        <el-aside width="230px">
           <div class="grid-content bg-purple">
             <!-- 动态左侧树 -->
             <el-menu
@@ -34,25 +35,49 @@
               </template>
             </el-menu>
           </div>
-        </el-col>
+        </el-aside>
+        <el-container>
+          <el-main>
+            <div class="grid-content bg-purple-light">
+              <div class="card jh-card">
+                <router-view></router-view>
+              </div>
+            </div>
 
-        <!-- 右侧内容区 -->
-        <el-col :span="20"
-          ><div class="grid-content bg-purple-light">
-            <div class="card jh-card">
-              <router-view></router-view>
-            </div></div
-        ></el-col>
-      </el-row>
+            <b-modal id="login-page" hide-footer lazy>
+              <span data-cy="loginTitle" slot="modal-title" id="login-title" v-text="$t('login.title')">Sign in</span>
+              <login-form></login-form>
+            </b-modal>
+          </el-main>
+        </el-container>
+      </el-container>
 
-      <b-modal id="login-page" hide-footer lazy>
-        <span data-cy="loginTitle" slot="modal-title" id="login-title" v-text="$t('login.title')">Sign in</span>
-        <login-form></login-form>
-      </b-modal>
-
-      <jhi-footer></jhi-footer>
-    </div>
+      <el-footer>
+        <jhi-footer></jhi-footer>
+      </el-footer>
+    </el-container>
   </div>
 </template>
 
 <script lang="ts" src="./app.component.ts"></script>
+
+<style scoped>
+html,
+body,
+#app,
+.el-container {
+  height: 100%;
+}
+
+/* el-header和el-foolter默认都是60px */
+.el-aside {
+  height: calc(100vh - 120px);
+  margin-left: 20px;
+}
+
+.el-main {
+  padding: 0 !important;
+  margin-right: 20px;
+  height: calc(100vh - 120px);
+}
+</style>

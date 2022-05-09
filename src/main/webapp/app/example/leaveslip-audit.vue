@@ -54,6 +54,10 @@ export default {
         alert('审核成功, 请刷新页面');
       });
     },
+
+    fastQuery(obj) {
+      alert('快速查询, 查询参数' + obj);
+    },
   },
 };
 </script>

@@ -1,16 +1,23 @@
 package com.example.web.rest;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.example.domain.Example;
+import com.example.domain.UiTable;
 import com.example.repository.ExampleRepository;
+import com.example.repository.UiTableRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +49,8 @@ public class ExampleResource {
      * {@code POST  /examples} : Create a new example.
      *
      * @param example the example to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new example, or with status {@code 400 (Bad Request)} if the example has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new example, or with
+     * status {@code 400 (Bad Request)} if the example has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/examples")
@@ -61,7 +69,7 @@ public class ExampleResource {
     /**
      * {@code PUT  /examples/:id} : Updates an existing example.
      *
-     * @param id the id of the example to save.
+     * @param id      the id of the example to save.
      * @param example the example to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated example,
      * or with status {@code 400 (Bad Request)} if the example is not valid,
@@ -91,9 +99,10 @@ public class ExampleResource {
     }
 
     /**
-     * {@code PATCH  /examples/:id} : Partial updates given fields of an existing example, field will ignore if it is null
+     * {@code PATCH  /examples/:id} : Partial updates given fields of an existing example, field will ignore if it is
+     * null
      *
-     * @param id the id of the example to save.
+     * @param id      the id of the example to save.
      * @param example the example to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated example,
      * or with status {@code 400 (Bad Request)} if the example is not valid,
@@ -152,11 +161,47 @@ public class ExampleResource {
         return exampleRepository.findAll();
     }
 
+    @Autowired
+    private UiTableRepository uiTableRepository;
+
+    @GetMapping("/examples/search/{key}")
+    public List<Example> searchExamples(@PathVariable String key) {
+        log.debug("REST request to search Examples with key {}", key);
+        if (StrUtil.isEmpty(key)) {
+            return exampleRepository.findAll();
+        }
+        //      1. 根据菜单id, 获取显示列, 这里演示效果写死菜单id
+        final List<UiTable> uiTableList = uiTableRepository.findByMenuid(0L);
+        //      2. 将传入属性, 填充给界面显示字段
+        final Map<String, String> collect = uiTableList.stream().collect(Collectors.toMap(UiTable::getCode, key2 -> key));
+        //      3. 动态构建查询条件
+        final Example example = new Example();
+        BeanUtil.fillBeanWithMap(collect, example, true);
+        log.info("填充后对象信息 {}", example);
+        //创建匹配器，即如何使用查询条件
+        //构建对象
+        ExampleMatcher matcher = ExampleMatcher
+            .matchingAny()
+            //改变默认字符串匹配方式：模糊查询
+            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+            //改变默认大小写忽略方式：忽略大小写
+            .withIgnoreCase(true)
+            //地址采用“开始匹配”的方式查询
+            .withMatcher("address", ExampleMatcher.GenericPropertyMatchers.startsWith())
+            //忽略属性：是否关注。因为是基本类型，需要忽略掉
+            .withIgnorePaths("id");
+
+        //创建实例
+        org.springframework.data.domain.Example<Example> ex = org.springframework.data.domain.Example.of(example, matcher);
+        return exampleRepository.findAll(ex);
+    }
+
     /**
      * {@code GET  /examples/:id} : get the "id" example.
      *
      * @param id the id of the example to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the example, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the example, or with status
+     * {@code 404 (Not Found)}.
      */
     @GetMapping("/examples/{id}")
     public ResponseEntity<Example> getExample(@PathVariable Long id) {

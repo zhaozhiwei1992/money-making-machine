@@ -1,15 +1,15 @@
 <template>
-  <el-row>
-    <el-col>
-      <el-form
-        :model="fieldObj"
-        :ref="innercomponentid"
-        label-width="180px"
-        :label-position="labelPosition"
-        :inline="true"
-        class="demo-form-inline"
-      >
-        <template v-for="(item, index) of fieldArray">
+  <el-form
+    :model="fieldObj"
+    :ref="innercomponentid"
+    label-width="80px"
+    :label-position="labelPosition"
+    :inline="true"
+    class="demo-form-inline"
+  >
+    <el-row>
+      <template v-for="(item, index) of fieldArray">
+        <el-col :key="index" :span="24 / colsOfRow">
           <template v-if="item.type === 'input'">
             <el-form-item :key="index" :label="item.name">
               <el-input v-model="fieldObj[item.code]" :max="item.fieldLength" :placeholder="item.placeholder" show-word-limit></el-input>
@@ -72,10 +72,10 @@
               </el-checkbox-group>
             </el-form-item>
           </template>
-        </template>
-      </el-form>
-    </el-col>
-  </el-row>
+        </el-col>
+      </template>
+    </el-row>
+  </el-form>
 </template>
 
 <script>
@@ -87,6 +87,8 @@ export default {
   props: ['componentid', 'menuid'],
   data() {
     return {
+      // 每行三列
+      colsOfRow: 3,
       labelPosition: 'left',
       // 表单字段集合
       fieldArray: [],

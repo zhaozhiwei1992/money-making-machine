@@ -1,14 +1,22 @@
 <template>
-  <el-row>
-    <el-col>
-      <div style="margin-top: 20px">
+  <div style="margin-top: 20px">
+    <el-row>
+      <el-col :span="6">
+        <el-input v-model="search" placeholder="请输入搜索内容" style="margin-bottom: 15px"></el-input>
+      </el-col>
+      <el-col :span="3">
+        <el-button type="primary" icon="el-icon-search" @click="handleClick()">搜索</el-button>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
         <el-table :ref="innercomponentid" highlight-current-row :data="tableData" class="uitable">
           <el-table-column type="selection" width="40" align="center"></el-table-column>
           <el-table-column v-for="(col, index) in cols" :key="index" :prop="col.code" :label="col.name"> </el-table-column>
         </el-table>
-      </div>
-    </el-col>
-  </el-row>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -20,6 +28,7 @@ export default {
   props: ['componentid', 'menuid', 'tableData'],
   data() {
     return {
+      search: '',
       cols: [],
       innercomponentid: 'singleTable',
     };
@@ -52,6 +61,11 @@ export default {
     setCurrentRow(tableId, row) {
       console.log('子组件被请求了, 传入数据: ' + row);
       this.$refs.singleTable.setCurrentRow(row);
+    },
+
+    handleClick() {
+      // 父组件实现快速查询方法
+      this.$parent.$parent.fastQuery(this.search);
     },
   },
 };

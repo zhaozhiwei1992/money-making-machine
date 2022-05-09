@@ -27,7 +27,7 @@ export default {
   methods: {
     // 自定义加载数据填充列表
     initTableData() {
-      // TODO 后台获取数据
+      // 后台获取数据
       axios.get(baseApiUrl).then(res => {
         let response = res.data;
         console.log('获取example信息, {}', response);
@@ -75,9 +75,18 @@ export default {
         alert('删除成功, 请刷新页面');
       });
     },
-    query() {
-      // 刷新列表
-      // this.$refs.mainRef.$refs.uitable[0];
+    fastQuery(obj) {
+      console.log('快速查询, 查询参数' + obj);
+      let url = baseApiUrl + '/search/' + obj;
+      if (!!!obj) {
+        url = baseApiUrl;
+      }
+      axios.get(url).then(res => {
+        let response = res.data;
+        console.log('获取example信息, {}', response);
+        this.tabDatas = response;
+        this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
+      });
     },
   },
 };
