@@ -46,7 +46,7 @@
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.uiComponent.componentid')" for="ui-component-componentid"
               >Componentid</label
             >
-            <input
+            <!-- <input
               type="text"
               class="form-control"
               name="componentid"
@@ -54,7 +54,16 @@
               data-cy="componentid"
               :class="{ valid: !$v.uiComponent.componentid.$invalid, invalid: $v.uiComponent.componentid.$invalid }"
               v-model="$v.uiComponent.componentid.$model"
-            />
+            /> -->
+            <!-- 
+              提供新组件在这里要添加
+             -->
+            <select class="form-control" id="ui-component-componentid" name="componentid" v-model="$v.uiComponent.componentid.$model">
+              <option value="uitoolbutton">按钮区</option>
+              <option value="uitable">列表区</option>
+              <option value="uieditform">编辑区</option>
+              <option value="uitab">页签区</option>
+            </select>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.uiComponent.config')" for="ui-component-config"

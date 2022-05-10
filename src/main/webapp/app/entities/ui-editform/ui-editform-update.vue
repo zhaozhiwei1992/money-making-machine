@@ -106,7 +106,7 @@
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.uiEditform.type')" for="ui-editform-type">Type</label>
-            <input
+            <!-- <input
               type="text"
               class="form-control"
               name="type"
@@ -114,7 +114,15 @@
               data-cy="type"
               :class="{ valid: !$v.uiEditform.type.$invalid, invalid: $v.uiEditform.type.$invalid }"
               v-model="$v.uiEditform.type.$model"
-            />
+            /> -->
+            <!-- 手动调整为下拉,默认生成为input -->
+            <select class="form-control" id="ui-editform-type" name="type" v-model="$v.uiEditform.type.$model">
+              <option value="input">输入框</option>
+              <option value="textarea">文本域</option>
+              <option value="select">下拉框</option>
+              <option value="date">日期</option>
+              <option value="cascader">树形选择</option>
+            </select>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.uiEditform.placeholder')" for="ui-editform-placeholder"

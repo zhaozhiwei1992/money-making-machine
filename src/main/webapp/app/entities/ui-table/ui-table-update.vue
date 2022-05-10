@@ -102,7 +102,7 @@
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.uiTable.type')" for="ui-table-type">Type</label>
-            <input
+            <!-- <input
               type="text"
               class="form-control"
               name="type"
@@ -110,7 +110,15 @@
               data-cy="type"
               :class="{ valid: !$v.uiTable.type.$invalid, invalid: $v.uiTable.type.$invalid }"
               v-model="$v.uiTable.type.$model"
-            />
+            /> -->
+            <!-- 手动调整为下拉,默认生成为input -->
+            <select class="form-control" id="ui-table-type" name="type" v-model="$v.uiTable.type.$model">
+              <option value="input">输入框</option>
+              <option value="select">下拉框</option>
+              <option value="date">日期</option>
+              <option value="cascader">树形选择</option>
+              <option value="btn">按钮</option>
+            </select>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="$t('moneyMakingMachineApp.uiTable.config')" for="ui-table-config">Config</label>

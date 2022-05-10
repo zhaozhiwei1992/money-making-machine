@@ -20,7 +20,64 @@
       <el-col>
         <el-table :ref="innercomponentid" highlight-current-row :data="tableData" class="uitable">
           <el-table-column type="selection" width="40" align="center"></el-table-column>
-          <el-table-column v-for="(col, index) in cols" :key="index" :prop="col.code" :label="col.name"> </el-table-column>
+          <el-table-column v-for="(col, index) in cols" :key="index" :prop="col.code" :label="col.name">
+            <!-- 调整可编辑列表开始 -->
+            <!-- 设计思路, 先之支持下拉, 输入, 树形, 日期 -->
+            <!-- //根据不同类型显示不同的输入框 可以是下拉选择 /按钮 /输入框 还可以自己定义更多 -->
+            <template slot-scope="scope">
+              <!-- 非编辑直接显示 -->
+              <span v-if="col.isedit == false">{{ scope.row[col.code] }}</span>
+              <!-- 可编辑场景下特殊处理 -->
+              <el-input
+                v-else-if="col.isedit == true && col.type === 'input'"
+                size="small"
+                v-model="scope.row[col.code]"
+                placeholder="请输入内容"
+                @change="handleEdit(scope.$index, scope.row)"
+              />
+              <el-select
+                v-else-if="col.type === 'select'"
+                size="small"
+                v-model="scope.row[col.code]"
+                @change="handleEdit(scope.$index, scope.row)"
+                placeholder="请选择内容"
+                value=""
+              >
+                <el-option
+                  v-for="option in col.mapping"
+                  :disabled="disabled"
+                  :value="option.value"
+                  :key="option.code"
+                  :label="option.name"
+                />
+              </el-select>
+              <el-button
+                v-else-if="col.type === 'btn'"
+                :disabled="disabled"
+                @click="onSelected(scope.$index, scope.row)"
+                type="primary"
+                size="small"
+              >
+                {{ col.text }}
+              </el-button>
+              <el-date-picker
+                v-else-if="col.type === 'date'"
+                v-model="scope.row[col.code]"
+                :name="col.code"
+                type="date"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                placeholder="请选择日期"
+              ></el-date-picker>
+              <el-cascader
+                v-else-if="col.type === 'cascader'"
+                v-model="scope.row[item.code]"
+                :options="item.mapping"
+                :props="{ expandTrigger: 'hover' }"
+              ></el-cascader>
+            </template>
+            <!-- 调整可编辑列表结束, 如果没有此类需求, 删掉开头结尾内容即可 -->
+          </el-table-column>
         </el-table>
       </el-col>
     </el-row>
@@ -120,6 +177,10 @@ export default {
     handleClick() {
       // 父组件实现快速查询方法
       this.$parent.$parent.fastQuery(this.search);
+    },
+    handleEdit(index, row) {
+      console.log('列表编辑', index, row);
+      // this.$emit('handleEdit', { index: index, row: row });
     },
   },
 };
