@@ -8,6 +8,8 @@
 import View from '@/core/ui/view.vue';
 
 import axios from 'axios';
+import qs from 'qs';
+
 const baseApiUrl = 'api/examples';
 
 export default {
@@ -16,6 +18,8 @@ export default {
       // 该菜单主要用作测试
       dymenuid: '0000',
       tabDatas: null,
+      page: 1,
+      size: 5,
     };
   },
   components: {
@@ -28,11 +32,19 @@ export default {
     // 自定义加载数据填充列表
     initTableData() {
       // 后台获取数据
-      axios.get(baseApiUrl).then(res => {
+      // 全部数据方式
+      // axios.get(baseApiUrl).then(res => {
+      //   let response = res.data;
+      //   console.log('获取example信息, {}', response);
+      //   this.tabDatas = response;
+      //   this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
+      // });
+      // 分页查询方式
+      axios.get(baseApiUrl + '/page/' + this.page + '/size/' + this.size).then(res => {
         let response = res.data;
         console.log('获取example信息, {}', response);
-        this.tabDatas = response;
-        this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
+        this.tabDatas = response.content;
+        this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas, response.totalElements);
       });
     },
     setCurrent() {
@@ -69,10 +81,23 @@ export default {
       // 1. 获取列表选中行
       let selectedDatas = this.$refs.mainRef.$refs.uitable[0].$refs.uitable.selection;
       console.log('列表选中数据, {}', selectedDatas);
-      // 2. 删除
-      axios.delete(baseApiUrl + '/' + selectedDatas[0].id).then(res => {
+      // 2. 删除单条
+      // axios.delete(baseApiUrl + '/' + selectedDatas[0].id).then(res => {
+      //   console.log('删除后返回 {}', res);
+      //   alert('删除成功, 请刷新页面');
+      // });
+
+      // 批量删除
+      let postData = qs.stringify(
+        {
+          idList: selectedDatas.map(item => item.id),
+        },
+        { arrayFormat: 'repeat' }
+      );
+      axios.post(baseApiUrl + '/delete/', postData).then(res => {
         console.log('删除后返回 {}', res);
-        alert('删除成功, 请刷新页面');
+        this.initTableData();
+        alert('删除成功');
       });
     },
     fastQuery(obj) {
@@ -87,6 +112,19 @@ export default {
         this.tabDatas = response;
         this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
       });
+    },
+    // 分页测试
+    tableCurrentChange(page, size) {
+      console.log('父页面, 当前页', page, '每页条数', size);
+      this.page = page;
+      this.size = size;
+      this.initTableData();
+    },
+    tableSizeChange(page, size) {
+      console.log('父页面, 当前页', page, '每页条数', size);
+      this.page = page;
+      this.size = size;
+      this.initTableData();
     },
     tabClick(tabValue) {
       console.log('当前选中页签', tabValue);

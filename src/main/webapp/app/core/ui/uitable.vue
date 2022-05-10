@@ -16,6 +16,20 @@
         </el-table>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col :span="8" :offset="10">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[5, 10, 20, 50, 100, 200, 500, 1000]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        >
+        </el-pagination>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -25,12 +39,14 @@ import axios from 'axios';
 const baseApiUrl = 'api/ui-tables';
 
 export default {
-  props: ['componentid', 'menuid', 'tableData'],
+  props: ['componentid', 'menuid', 'tableData', 'total'],
   data() {
     return {
       search: '',
       cols: [],
       innercomponentid: 'singleTable',
+      currentPage: 1,
+      pageSize: 5,
     };
   },
 
@@ -62,7 +78,16 @@ export default {
       console.log('子组件被请求了, 传入数据: ' + row);
       this.$refs.singleTable.setCurrentRow(row);
     },
-
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.$parent.$parent.tableSizeChange(this.currentPage, this.pageSize);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.$parent.$parent.tableCurrentChange(this.currentPage, this.pageSize);
+    },
     handleClick() {
       // 父组件实现快速查询方法
       this.$parent.$parent.fastQuery(this.search);

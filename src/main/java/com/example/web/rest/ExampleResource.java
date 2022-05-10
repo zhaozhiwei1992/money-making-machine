@@ -3,6 +3,7 @@ package com.example.web.rest;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.domain.Example;
+import com.example.domain.LeaveSlip;
 import com.example.domain.UiTable;
 import com.example.repository.ExampleRepository;
 import com.example.repository.UiTableRepository;
@@ -11,13 +12,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -161,6 +163,14 @@ public class ExampleResource {
         return exampleRepository.findAll();
     }
 
+    @GetMapping("/examples/page/{page}/size/{size}")
+    public Page<Example> getPageExamples(@PathVariable int page, @PathVariable int size) {
+        log.debug("REST request to get Page Examples");
+        final PageRequest of = PageRequest.of(page - 1, size);
+        final Page<Example> examplePage = exampleRepository.findAll(of);
+        return examplePage;
+    }
+
     @Autowired
     private UiTableRepository uiTableRepository;
 
@@ -224,5 +234,12 @@ public class ExampleResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/examples/delete")
+    public ResponseEntity<Void> deleteExample(@RequestParam List<Long> idList) {
+        log.debug("REST request to delete Examples, ids: {}", idList);
+        this.exampleRepository.deleteAllByIdInBatch(idList);
+        return ResponseEntity.ok().build();
     }
 }

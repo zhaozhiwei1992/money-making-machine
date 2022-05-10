@@ -9,6 +9,7 @@
       v-bind:menuid="xx"
       v-bind:componentid="item.componentid"
       v-bind:tableData="tabDatas"
+      v-bind:total="total"
       :ref="item.componentid"
     ></component>
   </div>
@@ -31,6 +32,7 @@ export default {
     return {
       xx: null,
       tabDatas: null,
+      total: 10,
       componentArray: [],
     };
   },
@@ -65,8 +67,10 @@ export default {
           });
       }
     },
-    setTableDatas(tableId, datas) {
+    setTableDatas(tableId, datas, total) {
+      console.log('view中接收到总条数', total);
       this.tabDatas = datas;
+      this.total = total;
     },
     setTableCurrentRow(tableId, row) {
       // 操作指定表格选中一行
