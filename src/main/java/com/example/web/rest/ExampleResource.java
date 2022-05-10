@@ -171,7 +171,7 @@ public class ExampleResource {
             return exampleRepository.findAll();
         }
         //      1. 根据菜单id, 获取显示列, 这里演示效果写死菜单id
-        final List<UiTable> uiTableList = uiTableRepository.findByMenuid(0L);
+        final List<UiTable> uiTableList = uiTableRepository.findByMenuidOrderByOrdernumAsc(0L);
         //      2. 将传入属性, 填充给界面显示字段
         final Map<String, String> collect = uiTableList.stream().collect(Collectors.toMap(UiTable::getCode, key2 -> key));
         //      3. 动态构建查询条件

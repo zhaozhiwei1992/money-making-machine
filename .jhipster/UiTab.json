@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20220510065853",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_uitab",
+  "fields": [
+    {
+      "fieldName": "menuid",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "javadoc": "页签的显示编码, 唯一,根据code业务做自己的处理"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "javadoc": "页签显示的标题"
+    },
+    {
+      "fieldName": "ordernum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "config",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "页签配置\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "UiTab",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

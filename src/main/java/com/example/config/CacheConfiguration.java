@@ -90,6 +90,7 @@ public class CacheConfiguration {
             createCache(cm, com.example.domain.Example.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.LeaveSlip.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.LeaveType.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.UiTab.class.getName(), jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }

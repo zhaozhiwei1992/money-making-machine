@@ -88,6 +88,10 @@ export default {
         this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
       });
     },
+    tabClick(tabValue) {
+      console.log('当前选中页签', tabValue);
+      // 根据选中页签过滤数据, 可以参考上边查询区等
+    },
   },
 };
 </script>

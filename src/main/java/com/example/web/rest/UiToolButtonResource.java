@@ -177,9 +177,9 @@ public class UiToolButtonResource {
     }
 
     @GetMapping("/ui-tool-buttons/menu/{menuid}")
-    public List<UiToolButton> getUiTableByMenuid(@PathVariable Long menuid) {
+    public List<UiToolButton> getUiToolButtonByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiToolButton by menu : {}", menuid);
-        return uiToolButtonRepository.findByMenuid(menuid);
+        return uiToolButtonRepository.findByMenuidOrderByOrdernumAsc(menuid);
     }
 
     /**

@@ -1,14 +1,17 @@
 /**
- * 请假类型
- * 
+ * 页签配置
  * @author zhaozhiwei
  */
-entity LeaveType (ele_leavetype) {      
-	code String,
-    name String,
+entity UiTab (sys_uitab) {
+	menuid   Long,
     /**
-   * select 是不需要parentid的，为要素表ele_统一增加该字段
-   */
-    parentid Long,
-    enabled Boolean
+    * 页签的显示编码, 唯一,根据code业务做自己的处理
+    */
+	code   String,
+	/**
+	* 页签显示的标题
+	*/
+	name    String,
+	ordernum Integer,
+	config    String
 }

@@ -19,6 +19,7 @@
 import Editform from '@/core/ui/uieditform.vue';
 import Table from '@/core/ui/uitable.vue';
 import Toolbutton from '@/core/ui/uitoolbutton.vue';
+import Tab from '@/core/ui/uitab.vue';
 
 import axios from 'axios';
 
@@ -37,6 +38,7 @@ export default {
     uieditform: Editform,
     uitable: Table,
     uitoolbutton: Toolbutton,
+    uitab: Tab,
     // uieditform: () => import('@/core/ui/uieditform.vue'),
     // uitable: () => import('@/core/ui/uitable.vue'),
     // uitoolbutton: () => import('@/core/ui/uitoolbutton.vue'),

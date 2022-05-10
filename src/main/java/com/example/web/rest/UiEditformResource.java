@@ -200,7 +200,7 @@ public class UiEditformResource {
     @GetMapping("/ui-editforms/menu/{menuid}")
     public List<UiEditformDTO> getUiEditformByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiEditform by menu : {}", menuid);
-        final List<UiEditform> editformByMenuId = uiEditformRepository.findByMenuid(menuid);
+        final List<UiEditform> editformByMenuId = uiEditformRepository.findByMenuidOrderByOrdernumAsc(menuid);
         final List<UiEditformDTO> uiEditformDtoList = editformByMenuId
             .stream()
             .map(uiEditform -> {

@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface UiQueryformRepository extends JpaRepository<UiQueryform, Long> {
-    List<UiQueryform> findByMenuid(Long menuid);
+    List<UiQueryform> findByMenuidOrderByOrdernumAsc(Long menuid);
 }

@@ -187,9 +187,9 @@ public class UiQueryformResource {
     }
 
     @GetMapping("/ui-queryforms/menu/{menuid}")
-    public List<UiQueryform> getUiQueryformsByMenuid(@PathVariable Long menuid) {
+    public List<UiQueryform> getUiQueryformByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiQueryform by menu : {}", menuid);
-        return uiQueryformRepository.findByMenuid(menuid);
+        return uiQueryformRepository.findByMenuidOrderByOrdernumAsc(menuid);
     }
 
     /**

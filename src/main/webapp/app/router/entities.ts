@@ -45,6 +45,12 @@ const LeaveType = () => import('@/entities/leave-type/leave-type.vue');
 const LeaveTypeUpdate = () => import('@/entities/leave-type/leave-type-update.vue');
 // prettier-ignore
 const LeaveTypeDetails = () => import('@/entities/leave-type/leave-type-details.vue');
+// prettier-ignore
+const UiTab = () => import('@/entities/ui-tab/ui-tab.vue');
+// prettier-ignore
+const UiTabUpdate = () => import('@/entities/ui-tab/ui-tab-update.vue');
+// prettier-ignore
+const UiTabDetails = () => import('@/entities/ui-tab/ui-tab-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -217,6 +223,30 @@ export default {
       path: 'leave-type/:leaveTypeId/view',
       name: 'LeaveTypeView',
       component: LeaveTypeDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ui-tab',
+      name: 'UiTab',
+      component: UiTab,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ui-tab/new',
+      name: 'UiTabCreate',
+      component: UiTabUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ui-tab/:uiTabId/edit',
+      name: 'UiTabEdit',
+      component: UiTabUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ui-tab/:uiTabId/view',
+      name: 'UiTabView',
+      component: UiTabDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

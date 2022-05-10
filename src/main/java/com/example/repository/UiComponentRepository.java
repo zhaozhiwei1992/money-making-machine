@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface UiComponentRepository extends JpaRepository<UiComponent, Long> {
-    List<UiComponent> findByMenuid(Long menuid);
+    List<UiComponent> findByMenuidOrderByOrdernumAsc(Long menuid);
 }

@@ -1,0 +1,32 @@
+{
+  "moneyMakingMachineApp": {
+    "uiTab": {
+      "home": {
+        "title": "Ui Tabs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Ui Tab",
+        "createOrEditLabel": "建立或編輯 Ui Tab",
+        "notFound": "No Ui Tabs found"
+      },
+      "created": "新的 Ui Tab 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Ui Tab 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Ui Tab 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Ui Tab {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Ui Tab"
+      },
+      "id": "ID",
+      "menuid": "Menuid",
+      "code": "Code",
+      "name": "Name",
+      "ordernum": "Ordernum",
+      "config": "Config",
+      "help": {
+        "code": "页签的显示编码, 唯一,根据code业务做自己的处理",
+        "name": "页签显示的标题"
+      }
+    }
+  }
+}

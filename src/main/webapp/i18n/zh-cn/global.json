@@ -14,6 +14,7 @@
         "uiEditform": "编辑区配置",
         "uiQueryform": "查询区配置",
         "leaveType": "Leave Type",
+        "uiTab": "Ui Tab",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

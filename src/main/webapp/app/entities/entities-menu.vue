@@ -28,6 +28,10 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="$t('global.menu.entities.leaveType')">Leave Type</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/ui-tab">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.uiTab')">Ui Tab</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

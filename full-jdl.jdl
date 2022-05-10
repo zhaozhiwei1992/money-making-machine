@@ -75,7 +75,7 @@ entity Example (t_example) {
 	age   Integer,
 	sex String
 }
-entity LeaveSlip (t_leaveslip) {      
+entity LeaveSlip (t_leaveslip) {
 	type   String,  // 请假类型, 病假? 事假?
 	startTime String, // 开始时间
 	endTime String, //结束时间
@@ -84,3 +84,19 @@ entity LeaveSlip (t_leaveslip) {
     superior Long, // 上级主管
     wfstatus String // 工作流状态
 }
+
+/**
+ * 请假类型
+ *
+ * @author zhaozhiwei
+ */
+entity LeaveType (ele_leavetype) {
+	code String,
+    name String,
+    /**
+   * select 是不需要parentid的，为要素表ele_统一增加该字段
+   */
+    parentid Long,
+    enabled Boolean
+}
+

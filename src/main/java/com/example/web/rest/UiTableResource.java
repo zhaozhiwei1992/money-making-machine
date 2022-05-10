@@ -186,7 +186,7 @@ public class UiTableResource {
     @GetMapping("/ui-tables/menu/{menuid}")
     public List<UiTable> getUiTableByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiTable by menu : {}", menuid);
-        return uiTableRepository.findByMenuid(menuid);
+        return uiTableRepository.findByMenuidOrderByOrdernumAsc(menuid);
     }
 
     /**

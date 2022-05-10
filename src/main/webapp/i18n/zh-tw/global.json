@@ -14,6 +14,7 @@
         "uiEditform": "Ui Editform",
         "uiQueryform": "Ui Queryform",
         "leaveType": "Leave Type",
+        "uiTab": "Ui Tab",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

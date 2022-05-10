@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface UiEditformRepository extends JpaRepository<UiEditform, Long> {
-    List<UiEditform> findByMenuid(Long menuid);
+    List<UiEditform> findByMenuidOrderByOrdernumAsc(Long menuid);
 }

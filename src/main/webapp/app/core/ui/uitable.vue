@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top: 20px">
     <el-row>
-      <el-col :span="6">
+      <el-col :span="6" :offset="15">
         <el-input v-model="search" placeholder="请输入搜索内容" style="margin-bottom: 15px"></el-input>
       </el-col>
       <el-col :span="3">

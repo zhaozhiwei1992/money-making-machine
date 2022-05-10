@@ -174,7 +174,7 @@ public class UiComponentResource {
     @GetMapping("/ui-components/menu/{menuid}")
     public List<UiComponent> getUiComponentByMenuId(@PathVariable Long menuid) {
         log.debug("REST request to get UiComponent by menuid : {}", menuid);
-        return uiComponentRepository.findByMenuid(menuid);
+        return uiComponentRepository.findByMenuidOrderByOrdernumAsc(menuid);
     }
 
     /**
