@@ -180,14 +180,23 @@ public class ExampleResource {
         if (StrUtil.isEmpty(key)) {
             return exampleRepository.findAll();
         }
-        //      1. 根据菜单id, 获取显示列, 这里演示效果写死菜单id
-        final List<UiTable> uiTableList = uiTableRepository.findByMenuidOrderByOrdernumAsc(0L);
-        //      2. 将传入属性, 填充给界面显示字段
-        final Map<String, String> collect = uiTableList.stream().collect(Collectors.toMap(UiTable::getCode, key2 -> key));
-        //      3. 动态构建查询条件
+
         final Example example = new Example();
-        BeanUtil.fillBeanWithMap(collect, example, true);
-        log.info("填充后对象信息 {}", example);
+        //       模糊查询下拉选了某个属性, 则使用精确查询
+        if (key.contains(":")) {
+            final Map<String, Object> map = new HashMap<>();
+            final String[] split = key.split(":");
+            map.put(split[0], split[1]);
+            BeanUtil.fillBeanWithMap(map, example, true);
+        } else {
+            //      1. 根据菜单id, 获取显示列, 这里演示效果写死菜单id
+            final List<UiTable> uiTableList = uiTableRepository.findByMenuidOrderByOrdernumAsc(0L);
+            //      2. 将传入属性, 填充给界面显示字段
+            final Map<String, String> map = uiTableList.stream().collect(Collectors.toMap(UiTable::getCode, key2 -> key));
+            //      3. 动态构建查询条件
+            BeanUtil.fillBeanWithMap(map, example, true);
+            log.info("填充后对象信息 {}", example);
+        }
         //创建匹配器，即如何使用查询条件
         //构建对象
         ExampleMatcher matcher = ExampleMatcher

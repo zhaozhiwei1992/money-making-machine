@@ -1,8 +1,16 @@
 <template>
   <div style="margin-top: 20px">
     <el-row>
-      <el-col :span="6" :offset="15">
-        <el-input v-model="search" placeholder="请输入搜索内容" style="margin-bottom: 15px"></el-input>
+      <el-col :span="4" :offset="17">
+        <!-- <el-input v-model="search" placeholder="请输入搜索内容" style="margin-bottom: 15px"></el-input> -->
+        <el-autocomplete
+          class="inline-input"
+          v-model="search"
+          :fetch-suggestions="querySearch"
+          placeholder="请输入搜素内容"
+          :trigger-on-focus="false"
+          @select="handleSelect"
+        ></el-autocomplete>
       </el-col>
       <el-col :span="3">
         <el-button type="primary" icon="el-icon-search" @click="handleClick()">搜索</el-button>
@@ -16,19 +24,20 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="8" :offset="10">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[5, 10, 20, 50, 100, 200, 500, 1000]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
-      </el-col>
+    <el-row type="flex" justify="end">
+      <!-- 使用flex直接布局, 否则内部组建动态无法指定精确值 -->
+      <!-- <el-col :span="8" :offset="10"> -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[4, 10, 20, 50, 100, 200, 500, 1000]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
+      <!-- </el-col> -->
     </el-row>
   </div>
 </template>
@@ -87,6 +96,26 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
       this.$parent.$parent.tableCurrentChange(this.currentPage, this.pageSize);
+    },
+    // 快速查询组件选中
+    querySearch(queryString, cb) {
+      // 1. 获取列表区列配置信息
+      var tableCols = this.cols;
+
+      // 2. 数据拼装为 col | queryString形式, 如显示 性别 | 2, 实际后台查询 sex:2
+      // console.log("列信息", tableCols);
+      var queryView = [];
+      tableCols.forEach(colObj => {
+        queryView.push({ value: colObj.name + ' | ' + queryString, realValue: colObj.code + ':' + queryString });
+      });
+
+      // 调用 callback 返回建议列表的数据
+      cb(queryView);
+    },
+    handleSelect(item) {
+      // console.log('选中的item', item);
+      this.search = item.realValue;
+      this.handleClick();
     },
     handleClick() {
       // 父组件实现快速查询方法
