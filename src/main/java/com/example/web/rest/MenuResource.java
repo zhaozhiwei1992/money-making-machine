@@ -15,10 +15,17 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -167,10 +174,28 @@ public class MenuResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of menus in body.
      */
+    //    @GetMapping("/menus")
+    //    public List<Menu> getAllMenus() {
+    //        log.debug("REST request to get all Menus");
+    //        return menuRepository.findAll();
+    //    }
+
     @GetMapping("/menus")
-    public List<Menu> getAllMenus() {
-        log.debug("REST request to get all Menus");
-        return menuRepository.findAll();
+    public ResponseEntity<List<Menu>> getAllMenus(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) String name
+    ) {
+        log.debug("REST request to get a page of UiComponents");
+
+        // 菜单精确匹配
+        ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        final Menu menu = new Menu();
+        menu.setName(name);
+        final Example<Menu> of = Example.of(menu, matcher);
+
+        Page<Menu> page = menuRepository.findAll(of, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

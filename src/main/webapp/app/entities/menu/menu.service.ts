@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import buildPaginationQueryOpts from '@/shared/sort/sorts';
+
 import { IMenu } from '@/shared/model/menu.model';
 
 const baseApiUrl = 'api/menus';
@@ -18,10 +20,10 @@ export default class MenuService {
     });
   }
 
-  public retrieve(): Promise<any> {
+  public retrieve(paginationQuery?: any, name?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(baseApiUrl)
+        .get(baseApiUrl + `?${buildPaginationQueryOpts(paginationQuery)}` + '&name=' + name)
         .then(res => {
           resolve(res);
         })
