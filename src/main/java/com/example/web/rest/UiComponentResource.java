@@ -12,6 +12,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -48,7 +50,8 @@ public class UiComponentResource {
      * {@code POST  /ui-components} : Create a new uiComponent.
      *
      * @param uiComponent the uiComponent to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new uiComponent, or with status {@code 400 (Bad Request)} if the uiComponent has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new uiComponent, or
+     * with status {@code 400 (Bad Request)} if the uiComponent has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/ui-components")
@@ -67,7 +70,7 @@ public class UiComponentResource {
     /**
      * {@code PUT  /ui-components/:id} : Updates an existing uiComponent.
      *
-     * @param id the id of the uiComponent to save.
+     * @param id          the id of the uiComponent to save.
      * @param uiComponent the uiComponent to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated uiComponent,
      * or with status {@code 400 (Bad Request)} if the uiComponent is not valid,
@@ -99,9 +102,10 @@ public class UiComponentResource {
     }
 
     /**
-     * {@code PATCH  /ui-components/:id} : Partial updates given fields of an existing uiComponent, field will ignore if it is null
+     * {@code PATCH  /ui-components/:id} : Partial updates given fields of an existing uiComponent, field will ignore
+     * if it is null
      *
-     * @param id the id of the uiComponent to save.
+     * @param id          the id of the uiComponent to save.
      * @param uiComponent the uiComponent to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated uiComponent,
      * or with status {@code 400 (Bad Request)} if the uiComponent is not valid,
@@ -170,9 +174,19 @@ public class UiComponentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of uiComponents in body.
      */
     @GetMapping("/ui-components")
-    public ResponseEntity<List<UiComponent>> getAllUiComponents(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<UiComponent>> getAllUiComponents(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) Long menuid
+    ) {
         log.debug("REST request to get a page of UiComponents");
-        Page<UiComponent> page = uiComponentRepository.findAll(pageable);
+
+        // 菜单精确匹配
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiComponent uiComponent = new UiComponent();
+        uiComponent.setMenuid(menuid);
+        final Example<UiComponent> of = Example.of(uiComponent, matcher);
+
+        Page<UiComponent> page = uiComponentRepository.findAll(of, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -181,7 +195,8 @@ public class UiComponentResource {
      * {@code GET  /ui-components/:id} : get the "id" uiComponent.
      *
      * @param id the id of the uiComponent to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the uiComponent, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the uiComponent, or with status
+     * {@code 404 (Not Found)}.
      */
     @GetMapping("/ui-components/{id}")
     public ResponseEntity<UiComponent> getUiComponent(@PathVariable Long id) {

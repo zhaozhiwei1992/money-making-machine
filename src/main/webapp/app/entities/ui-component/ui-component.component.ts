@@ -20,6 +20,8 @@ export default class UiComponent extends Vue {
   public propOrder = 'menuid';
   public reverse = false;
   public totalItems = 0;
+  // 默认菜单0
+  public menuid = 0;
 
   public uiComponents: IUiComponent[] = [];
 
@@ -57,7 +59,7 @@ export default class UiComponent extends Vue {
       sort: this.sort(),
     };
     this.uiComponentService()
-      .retrieve(paginationQuery)
+      .retrieve(paginationQuery, this.menuid)
       .then(
         res => {
           this.uiComponents = res.data;

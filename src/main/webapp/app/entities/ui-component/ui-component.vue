@@ -3,6 +3,8 @@
     <h2 id="page-heading" data-cy="UiComponentHeading">
       <span v-text="$t('moneyMakingMachineApp.uiComponent.home.title')" id="ui-component-heading">Ui Components</span>
       <div class="d-flex justify-content-end">
+        <span style="margin-right: 5px">菜单id:</span>
+        <input type="text" v-model="menuid" style="margin-right: 5px" />
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
           <span v-text="$t('moneyMakingMachineApp.uiComponent.home.refreshListLabel')">Refresh List</span>

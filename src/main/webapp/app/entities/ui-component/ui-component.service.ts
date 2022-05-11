@@ -32,10 +32,10 @@ export default class UiComponentService {
   //       });
   //   });
   // }
-  public retrieve(paginationQuery?: any): Promise<any> {
+  public retrieve(paginationQuery?: any, menuid?: number): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(baseApiUrl + `?${buildPaginationQueryOpts(paginationQuery)}`)
+        .get(baseApiUrl + `?${buildPaginationQueryOpts(paginationQuery)}` + '&menuid=' + menuid)
         .then(res => {
           resolve(res);
         })
