@@ -11,10 +11,17 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -165,9 +172,21 @@ public class UiTableResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of uiTables in body.
      */
     @GetMapping("/ui-tables")
-    public List<UiTable> getAllUiTables() {
-        log.debug("REST request to get all UiTables");
-        return uiTableRepository.findAll();
+    public ResponseEntity<List<UiTable>> getAllUiTables(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) Long menuid
+    ) {
+        log.debug("REST request to get a page of UiComponents");
+
+        // 根据菜单精确匹配
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiTable uiTable = new UiTable();
+        uiTable.setMenuid(menuid);
+        final Example<UiTable> of = Example.of(uiTable, matcher);
+
+        Page<UiTable> page = uiTableRepository.findAll(of, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

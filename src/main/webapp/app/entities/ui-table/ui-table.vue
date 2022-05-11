@@ -3,6 +3,8 @@
     <h2 id="page-heading" data-cy="UiTableHeading">
       <span v-text="$t('moneyMakingMachineApp.uiTable.home.title')" id="ui-table-heading">Ui Tables</span>
       <div class="d-flex justify-content-end">
+        <span style="margin-right: 5px">菜单id:</span>
+        <input type="text" v-model="menuid" style="margin-right: 5px" />
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
           <span v-text="$t('moneyMakingMachineApp.uiTable.home.refreshListLabel')">Refresh List</span>
@@ -110,6 +112,14 @@
         </button>
       </div>
     </b-modal>
+    <div v-show="uiTables && uiTables.length > 0">
+      <div class="row justify-content-center">
+        <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
+      </div>
+      <div class="row justify-content-center">
+        <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
