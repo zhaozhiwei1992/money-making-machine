@@ -100,3 +100,8 @@ entity LeaveType (ele_leavetype) {
     enabled Boolean
 }
 
+/**
+* 全部增加分页
+* 下述只作为参考
+*/
+paginate UiComponent with pagination

@@ -15,3 +15,5 @@ entity UiTab (sys_uitab) {
 	ordernum Integer,
 	config    String
 }
+
+paginate UiComponent with pagination
