@@ -31,6 +31,7 @@ export default class Menu extends Vue {
   }
 
   public clear(): void {
+    this.page = 1;
     this.retrieveAllMenus();
   }
 

@@ -1,5 +1,6 @@
 package com.example.web.rest;
 
+import com.example.domain.UiComponent;
 import com.example.domain.UiToolButton;
 import com.example.repository.UiToolButtonRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
@@ -11,10 +12,17 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -157,10 +165,23 @@ public class UiToolButtonResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of uiToolButtons in body.
      */
+
     @GetMapping("/ui-tool-buttons")
-    public List<UiToolButton> getAllUiToolButtons() {
-        log.debug("REST request to get all UiToolButtons");
-        return uiToolButtonRepository.findAll();
+    public ResponseEntity<List<UiToolButton>> getAllUiToolButtons(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) Long menuid
+    ) {
+        log.debug("REST request to get a page of UiComponents");
+
+        // 根据菜单精确匹配
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiToolButton uiToolButton = new UiToolButton();
+        uiToolButton.setMenuid(menuid);
+        final Example<UiToolButton> of = Example.of(uiToolButton, matcher);
+
+        Page<UiToolButton> page = uiToolButtonRepository.findAll(of, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
