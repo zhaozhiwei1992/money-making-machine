@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.example.domain.UiEditform;
+import com.example.domain.UiEditform;
 import com.example.repository.UiEditformRepository;
 import com.example.service.CommonEleService;
 import com.example.service.dto.UiEditformDTO;
@@ -17,10 +18,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -176,9 +184,21 @@ public class UiEditformResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of uiEditforms in body.
      */
     @GetMapping("/ui-editforms")
-    public List<UiEditform> getAllUiEditforms() {
-        log.debug("REST request to get all UiEditforms");
-        return uiEditformRepository.findAll();
+    public ResponseEntity<List<UiEditform>> getAllUiEditforms(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) Long menuid
+    ) {
+        log.debug("REST request to get a page of UiComponents");
+
+        // 根据菜单精确匹配
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiEditform uiEditform = new UiEditform();
+        uiEditform.setMenuid(menuid);
+        final Example<UiEditform> of = Example.of(uiEditform, matcher);
+
+        Page<UiEditform> page = uiEditformRepository.findAll(of, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
