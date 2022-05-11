@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import buildPaginationQueryOpts from '@/shared/sort/sorts';
+
 import { IUiComponent } from '@/shared/model/ui-component.model';
 
 const baseApiUrl = 'api/ui-components';
@@ -18,10 +20,22 @@ export default class UiComponentService {
     });
   }
 
-  public retrieve(): Promise<any> {
+  // public retrieve(): Promise<any> {
+  //   return new Promise<any>((resolve, reject) => {
+  //     axios
+  //       .get(baseApiUrl)
+  //       .then(res => {
+  //         resolve(res);
+  //       })
+  //       .catch(err => {
+  //         reject(err);
+  //       });
+  //   });
+  // }
+  public retrieve(paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(baseApiUrl)
+        .get(baseApiUrl + `?${buildPaginationQueryOpts(paginationQuery)}`)
         .then(res => {
           resolve(res);
         })
