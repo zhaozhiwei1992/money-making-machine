@@ -2,7 +2,7 @@
   "moneyMakingMachineApp": {
     "uiTab": {
       "home": {
-        "title": "Ui Tabs",
+        "title": "页签区配置",
         "refreshListLabel": "Refresh list",
         "createLabel": "创建新 Ui Tab",
         "createOrEditLabel": "创建或编辑 Ui Tab",

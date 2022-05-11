@@ -13,8 +13,8 @@
         "uiTable": "列表配置",
         "uiEditform": "编辑区配置",
         "uiQueryform": "查询区配置",
-        "leaveType": "Leave Type",
-        "uiTab": "Ui Tab",
+        "leaveType": "请假类型",
+        "uiTab": "页签区配置",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

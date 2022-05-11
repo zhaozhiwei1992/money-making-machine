@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import buildPaginationQueryOpts from '@/shared/sort/sorts';
 import { IUiTab } from '@/shared/model/ui-tab.model';
 
 const baseApiUrl = 'api/ui-tabs';
@@ -18,10 +19,10 @@ export default class UiTabService {
     });
   }
 
-  public retrieve(): Promise<any> {
+  public retrieve(paginationQuery?: any, menuid?: number): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios
-        .get(baseApiUrl)
+        .get(baseApiUrl + `?${buildPaginationQueryOpts(paginationQuery)}` + '&menuid=' + menuid)
         .then(res => {
           resolve(res);
         })
