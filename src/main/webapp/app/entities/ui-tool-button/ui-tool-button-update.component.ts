@@ -31,6 +31,8 @@ export default class UiToolButtonUpdate extends Vue {
     next(vm => {
       if (to.params.uiToolButtonId) {
         vm.retrieveUiToolButton(to.params.uiToolButtonId);
+      } else {
+        vm.uiToolButton.config = '{}';
       }
     });
   }

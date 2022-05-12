@@ -30,6 +30,8 @@ export default class UiTabUpdate extends Vue {
     next(vm => {
       if (to.params.uiTabId) {
         vm.retrieveUiTab(to.params.uiTabId);
+      } else {
+        vm.uiTab.config = '{}';
       }
     });
   }

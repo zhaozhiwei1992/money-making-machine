@@ -35,6 +35,8 @@ export default class UiEditformUpdate extends Vue {
     next(vm => {
       if (to.params.uiEditformId) {
         vm.retrieveUiEditform(to.params.uiEditformId);
+      } else {
+        vm.uiEditform.config = '{}';
       }
     });
   }
@@ -96,6 +98,7 @@ export default class UiEditformUpdate extends Vue {
     this.uiEditformService()
       .find(uiEditformId)
       .then(res => {
+        console.log('编辑区输出', res);
         this.uiEditform = res;
       })
       .catch(error => {

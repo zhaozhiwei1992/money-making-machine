@@ -246,6 +246,10 @@ public class MenuResource {
                 tree.putExtra("icons", menuObj.getIconCls());
                 tree.putExtra("url", menuObj.getUrl());
                 tree.putExtra("index", menuObj.getUrl());
+                //                防止index相同导致el-menu全部展开
+                if (menuObj.getParentId() == 0) {
+                    tree.putExtra("index", menuObj.getId());
+                }
                 tree.putExtra("ordernum", menuObj.getOrdernum());
             }
         );

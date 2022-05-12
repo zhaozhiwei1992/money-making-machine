@@ -34,6 +34,8 @@ export default class UiTableUpdate extends Vue {
     next(vm => {
       if (to.params.uiTableId) {
         vm.retrieveUiTable(to.params.uiTableId);
+      } else {
+        vm.uiTable.config = '{}';
       }
     });
   }

@@ -34,6 +34,10 @@ export default class MenuUpdate extends Vue {
     next(vm => {
       if (to.params.menuId) {
         vm.retrieveMenu(to.params.menuId);
+      } else {
+        vm.menu.config = '{}';
+        vm.menu.parentId = 0;
+        vm.menu.enabled = true;
       }
     });
   }

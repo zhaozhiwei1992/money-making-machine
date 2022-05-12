@@ -29,6 +29,8 @@ export default class UiComponentUpdate extends Vue {
     next(vm => {
       if (to.params.uiComponentId) {
         vm.retrieveUiComponent(to.params.uiComponentId);
+      } else {
+        vm.uiComponent.config = '{}';
       }
     });
   }

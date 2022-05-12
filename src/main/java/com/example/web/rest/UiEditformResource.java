@@ -1,10 +1,8 @@
 package com.example.web.rest;
 
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.example.domain.UiEditform;
 import com.example.domain.UiEditform;
 import com.example.repository.UiEditformRepository;
 import com.example.service.CommonEleService;
@@ -12,7 +10,10 @@ import com.example.service.dto.UiEditformDTO;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

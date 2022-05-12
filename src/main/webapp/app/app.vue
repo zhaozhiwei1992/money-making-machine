@@ -19,7 +19,7 @@
               :collapse="isCollapse"
             >
               <template v-for="(item, index) in homeMenu">
-                <el-submenu :index="item.index.toString()" v-if="item.children.length != 0" :key="index * 30">
+                <el-submenu :index="item.index.toString()" v-if="item.children.length != 0" :key="index">
                   <template slot="title">
                     <i :class="item.icons"></i>
                     <span slot="title">{{ item.name }}</span>
@@ -28,7 +28,7 @@
                     {{ items.name }}
                   </el-menu-item>
                 </el-submenu>
-                <el-menu-item :index="item.index.toString()" v-else :key="index * 2">
+                <el-menu-item :index="item.index.toString()" v-else :key="index">
                   <i :class="item.icons"></i>
                   <span slot="title">{{ item.name }}</span>
                 </el-menu-item>
