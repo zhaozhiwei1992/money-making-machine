@@ -1,5 +1,6 @@
 package com.example.web.rest;
 
+import com.example.domain.UiTab;
 import com.example.domain.UiTable;
 import com.example.repository.UiTableRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
@@ -58,6 +59,14 @@ public class UiTableResource {
         if (uiTable.getId() != null) {
             throw new BadRequestAlertException("A new uiTable cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiTable filterObj = new UiTable();
+        filterObj.setMenuid(uiTable.getMenuid());
+        final Example<UiTable> of = Example.of(filterObj, matcher);
+        final long count = uiTableRepository.count(of);
+        uiTable.setOrdernum(Integer.parseInt(String.valueOf(count + 1)));
+
         UiTable result = uiTableRepository.save(uiTable);
         return ResponseEntity
             .created(new URI("/api/ui-tables/" + result.getId()))

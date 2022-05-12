@@ -1,6 +1,5 @@
 package com.example.web.rest;
 
-import com.example.domain.UiComponent;
 import com.example.domain.UiToolButton;
 import com.example.repository.UiToolButtonRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
@@ -59,6 +58,14 @@ public class UiToolButtonResource {
         if (uiToolButton.getId() != null) {
             throw new BadRequestAlertException("A new uiToolButton cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiToolButton filterObj = new UiToolButton();
+        filterObj.setMenuid(uiToolButton.getMenuid());
+        final Example<UiToolButton> of = Example.of(filterObj, matcher);
+        final long count = uiToolButtonRepository.count(of);
+        uiToolButton.setOrdernum(Integer.parseInt(String.valueOf(count + 1)));
+
         UiToolButton result = uiToolButtonRepository.save(uiToolButton);
         return ResponseEntity
             .created(new URI("/api/ui-tool-buttons/" + result.getId()))

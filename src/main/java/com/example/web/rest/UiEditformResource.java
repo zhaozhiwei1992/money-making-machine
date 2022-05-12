@@ -1,6 +1,7 @@
 package com.example.web.rest;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.example.domain.UiEditform;
@@ -66,6 +67,17 @@ public class UiEditformResource {
         if (uiEditform.getId() != null) {
             throw new BadRequestAlertException("A new uiEditform cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        //      保存时如果没有录入排序号，或者录入为0, 则程序自动计算
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiEditform filterObj = new UiEditform();
+        filterObj.setMenuid(uiEditform.getMenuid());
+        final Example<UiEditform> of = Example.of(filterObj, matcher);
+        final long count = uiEditformRepository.count(of);
+        uiEditform.setOrdernum(Integer.parseInt(String.valueOf(count + 1)));
+        if (StrUtil.isEmpty(uiEditform.getPlaceholder())) {
+            uiEditform.setPlaceholder("请输入" + uiEditform.getName());
+        }
+
         UiEditform result = uiEditformRepository.save(uiEditform);
         return ResponseEntity
             .created(new URI("/api/ui-editforms/" + result.getId()))

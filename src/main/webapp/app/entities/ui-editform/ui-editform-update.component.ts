@@ -37,6 +37,7 @@ export default class UiEditformUpdate extends Vue {
         vm.retrieveUiEditform(to.params.uiEditformId);
       } else {
         vm.uiEditform.config = '{}';
+        vm.uiEditform.isedit = true;
       }
     });
   }

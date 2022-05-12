@@ -1,6 +1,5 @@
 package com.example.web.rest;
 
-import com.example.domain.UiEditform;
 import com.example.domain.UiQueryform;
 import com.example.repository.UiQueryformRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
@@ -12,6 +11,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,14 @@ public class UiQueryformResource {
         if (uiQueryform.getId() != null) {
             throw new BadRequestAlertException("A new uiQueryform cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiQueryform filterObj = new UiQueryform();
+        filterObj.setMenuid(uiQueryform.getMenuid());
+        final Example<UiQueryform> of = Example.of(filterObj, matcher);
+        final long count = uiQueryformRepository.count(of);
+        uiQueryform.setOrdernum(Integer.parseInt(String.valueOf(count + 1)));
+
         UiQueryform result = uiQueryformRepository.save(uiQueryform);
         return ResponseEntity
             .created(new URI("/api/ui-queryforms/" + result.getId()))

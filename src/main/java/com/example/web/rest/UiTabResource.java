@@ -1,7 +1,6 @@
 package com.example.web.rest;
 
 import com.example.domain.UiTab;
-import com.example.domain.UiTab;
 import com.example.repository.UiTabRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -59,6 +58,13 @@ public class UiTabResource {
         if (uiTab.getId() != null) {
             throw new BadRequestAlertException("A new uiTab cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final UiTab filterObj = new UiTab();
+        filterObj.setMenuid(uiTab.getMenuid());
+        final Example<UiTab> of = Example.of(filterObj, matcher);
+        final long count = uiTabRepository.count(of);
+        uiTab.setOrdernum(Integer.parseInt(String.valueOf(count + 1)));
+
         UiTab result = uiTabRepository.save(uiTab);
         return ResponseEntity
             .created(new URI("/api/ui-tabs/" + result.getId()))

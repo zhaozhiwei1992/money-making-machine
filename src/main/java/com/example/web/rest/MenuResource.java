@@ -6,6 +6,7 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.example.domain.Menu;
+import com.example.domain.UiTable;
 import com.example.repository.MenuRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -63,6 +64,13 @@ public class MenuResource {
         if (menu.getId() != null) {
             throw new BadRequestAlertException("A new menu cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        ExampleMatcher matcher = ExampleMatcher.matching();
+        final Menu filterObj = new Menu();
+        final Example<Menu> of = Example.of(filterObj, matcher);
+        final long count = menuRepository.count(of);
+        menu.setOrdernum(Integer.parseInt(String.valueOf(count + 1)));
+
         Menu result = menuRepository.save(menu);
         return ResponseEntity
             .created(new URI("/api/menus/" + result.getId()))
