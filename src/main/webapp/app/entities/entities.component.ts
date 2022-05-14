@@ -9,6 +9,7 @@ import UiEditformService from './ui-editform/ui-editform.service';
 import UiQueryformService from './ui-queryform/ui-queryform.service';
 import LeaveTypeService from './leave-type/leave-type.service';
 import UiTabService from './ui-tab/ui-tab.service';
+import DataPermissionService from './data-permission/data-permission.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
 @Component
@@ -22,5 +23,6 @@ export default class Entities extends Vue {
   @Provide('uiQueryformService') private uiQueryformService = () => new UiQueryformService();
   @Provide('leaveTypeService') private leaveTypeService = () => new LeaveTypeService();
   @Provide('uiTabService') private uiTabService = () => new UiTabService();
+  @Provide('dataPermissionService') private dataPermissionService = () => new DataPermissionService();
   // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
 }

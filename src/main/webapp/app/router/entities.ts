@@ -51,6 +51,12 @@ const UiTab = () => import('@/entities/ui-tab/ui-tab.vue');
 const UiTabUpdate = () => import('@/entities/ui-tab/ui-tab-update.vue');
 // prettier-ignore
 const UiTabDetails = () => import('@/entities/ui-tab/ui-tab-details.vue');
+// prettier-ignore
+const DataPermission = () => import('@/entities/data-permission/data-permission.vue');
+// prettier-ignore
+const DataPermissionUpdate = () => import('@/entities/data-permission/data-permission-update.vue');
+// prettier-ignore
+const DataPermissionDetails = () => import('@/entities/data-permission/data-permission-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -247,6 +253,30 @@ export default {
       path: 'ui-tab/:uiTabId/view',
       name: 'UiTabView',
       component: UiTabDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permission',
+      name: 'DataPermission',
+      component: DataPermission,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permission/new',
+      name: 'DataPermissionCreate',
+      component: DataPermissionUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permission/:dataPermissionId/edit',
+      name: 'DataPermissionEdit',
+      component: DataPermissionUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permission/:dataPermissionId/view',
+      name: 'DataPermissionView',
+      component: DataPermissionDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

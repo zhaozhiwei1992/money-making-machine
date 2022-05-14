@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220514181352",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_data_permissions",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "javadoc": "权限编码"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "javadoc": "权限名称"
+    },
+    {
+      "fieldName": "ruleSql",
+      "fieldType": "String",
+      "javadoc": "规则sql, 配置明细时候才生成"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "数据权限主表\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "DataPermission",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

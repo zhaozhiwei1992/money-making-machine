@@ -17,6 +17,7 @@
               @select="handleSelect"
               style="margin-top: 20px"
               :collapse="isCollapse"
+              unique-opened="true"
             >
               <template v-for="(item, index) in homeMenu">
                 <el-submenu :index="item.index.toString()" v-if="item.children.length != 0" :key="index">

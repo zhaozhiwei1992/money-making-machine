@@ -101,7 +101,25 @@ entity LeaveType (ele_leavetype) {
 }
 
 /**
-* 全部增加分页
-* 下述只作为参考
-*/
-paginate UiComponent with pagination
+ * 数据权限主表
+ * @author zhaozhiwei
+ */
+entity DataPermission (sys_data_permissions) {
+
+	/**
+	* 权限编码
+	*/
+	code    String,
+
+	/**
+	* 权限名称
+	*/
+	name    String,
+
+	/**
+	* 规则sql, 配置明细时候才生成
+	*/
+	ruleSql String
+}
+
+paginate DataPermission with pagination

@@ -1,19 +1,23 @@
 /**
- * 页签配置
+ * 数据权限主表
  * @author zhaozhiwei
  */
-entity UiTab (sys_uitab) {
-	menuid   Long,
-    /**
-    * 页签的显示编码, 唯一,根据code业务做自己的处理
-    */
-	code   String,
+entity DataPermission (sys_data_permissions) {
+
 	/**
-	* 页签显示的标题
+	* 权限编码
+	*/
+	code    String,
+
+	/**
+	* 权限名称
 	*/
 	name    String,
-	ordernum Integer,
-	config    String
+
+	/**
+	* 规则sql, 配置明细时候才生成
+	*/
+	ruleSql String
 }
 
-paginate UiComponent with pagination
+paginate DataPermission with pagination

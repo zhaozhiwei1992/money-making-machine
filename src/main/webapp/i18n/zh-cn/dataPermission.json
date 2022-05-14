@@ -1,0 +1,31 @@
+{
+  "moneyMakingMachineApp": {
+    "dataPermission": {
+      "home": {
+        "title": "Data Permissions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Data Permission",
+        "createOrEditLabel": "创建或编辑 Data Permission",
+        "notFound": "No Data Permissions found"
+      },
+      "created": "Data Permission {{ param }} 创建成功",
+      "updated": "Data Permission {{ param }} 更新成功",
+      "deleted": "Data Permission {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Data Permission {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Data Permission"
+      },
+      "id": "ID",
+      "code": "Code",
+      "name": "Name",
+      "ruleSql": "Rule Sql",
+      "help": {
+        "code": "权限编码",
+        "name": "权限名称",
+        "ruleSql": "规则sql, 配置明细时候才生成"
+      }
+    }
+  }
+}

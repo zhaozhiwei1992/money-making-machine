@@ -15,6 +15,7 @@
         "uiQueryform": "Ui Queryform",
         "leaveType": "Leave Type",
         "uiTab": "Ui Tab",
+        "dataPermission": "Data Permission",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
