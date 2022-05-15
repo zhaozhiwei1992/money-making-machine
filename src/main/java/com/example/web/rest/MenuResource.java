@@ -315,6 +315,11 @@ public class MenuResource {
                 map.put("name", componentid);
                 //                component字段是字符串，前端需要把这个字符串转化为前端定义的组件
                 map.put("component", componentid);
+
+                final Map<String, Object> metaMap = new HashMap<>();
+                metaMap.put("menuid", menu.getId());
+                map.put("meta", metaMap);
+
                 return map;
             })
             .collect(Collectors.toList());

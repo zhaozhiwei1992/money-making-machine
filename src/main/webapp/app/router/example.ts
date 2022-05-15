@@ -6,12 +6,12 @@ const LeaveSlipAdd = () => import('@/example/leaveslip-add.vue');
 const LeaveSlipAudit = () => import('@/example/leaveslip-audit.vue');
 
 export default [
-  {
-    path: '/example/uiexample',
-    name: 'DynamicUiExample',
-    component: UiExample,
-    meta: { authorities: [Authority.USER] },
-  },
+  // {
+  //   path: '/example/uiexample',
+  //   name: 'DynamicUiExample',
+  //   component: UiExample,
+  //   meta: { authorities: [Authority.USER] },
+  // },
   {
     path: '/example/helloworld',
     name: 'HelloWorld',

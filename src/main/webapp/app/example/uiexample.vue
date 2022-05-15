@@ -39,8 +39,9 @@ export default {
       //   this.tabDatas = response;
       //   this.$refs.mainRef.setTableDatas('singleTable', this.tabDatas);
       // });
+      console.log('列表查询获取菜单id', this.$route.meta.menuid);
       // 分页查询方式
-      axios.get(baseApiUrl + '/page/' + this.page + '/size/' + this.size).then(res => {
+      axios.get(baseApiUrl + '/page/' + this.page + '/size/' + this.size + '?menuid=' + this.$route.meta.menuid).then(res => {
         let response = res.data;
         console.log('获取example信息, {}', response);
         this.tabDatas = response.content;
