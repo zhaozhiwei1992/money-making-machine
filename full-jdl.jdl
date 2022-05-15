@@ -181,3 +181,22 @@ entity DataPermissionsRel (sys_data_permissions_rel) {
 }
 
 paginate DataPermissionsRel with pagination
+
+/**
+ * 角色对菜单
+ * @author zhaozhiwei
+ */
+entity RoleMenu (sys_role_menu) {
+
+	/**
+	* 角色id
+	*/
+	roleId   String,
+
+	/**
+	* 菜单id
+	*/
+	menuId   String,
+
+}
+

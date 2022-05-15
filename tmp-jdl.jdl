@@ -1,8 +1,8 @@
 /**
- * 角色对菜单
+ * 角色,菜单,按钮权限
  * @author zhaozhiwei
  */
-entity RoleMenu (sys_role_menu) {
+entity RoleMenuToolButton (sys_role_menu_button) {
 
 	/**
 	* 角色id
@@ -14,4 +14,5 @@ entity RoleMenu (sys_role_menu) {
 	*/
 	menuId   String,
 
+	toolButtonId Long
 }

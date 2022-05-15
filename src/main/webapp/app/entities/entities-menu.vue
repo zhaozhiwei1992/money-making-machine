@@ -48,6 +48,10 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="$t('global.menu.entities.roleMenu')">Role Menu</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/role-menu-tool-button">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.roleMenuToolButton')">Role Menu Tool Button</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

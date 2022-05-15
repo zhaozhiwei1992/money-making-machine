@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20220515132234",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_role_menu_button",
+  "fields": [
+    {
+      "fieldName": "roleId",
+      "fieldType": "String",
+      "javadoc": "角色id"
+    },
+    {
+      "fieldName": "menuId",
+      "fieldType": "String",
+      "javadoc": "菜单id"
+    },
+    {
+      "fieldName": "toolButtonId",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "角色,菜单,按钮权限\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "RoleMenuToolButton",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

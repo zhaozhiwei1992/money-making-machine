@@ -75,6 +75,12 @@ const RoleMenu = () => import('@/entities/role-menu/role-menu.vue');
 const RoleMenuUpdate = () => import('@/entities/role-menu/role-menu-update.vue');
 // prettier-ignore
 const RoleMenuDetails = () => import('@/entities/role-menu/role-menu-details.vue');
+// prettier-ignore
+const RoleMenuToolButton = () => import('@/entities/role-menu-tool-button/role-menu-tool-button.vue');
+// prettier-ignore
+const RoleMenuToolButtonUpdate = () => import('@/entities/role-menu-tool-button/role-menu-tool-button-update.vue');
+// prettier-ignore
+const RoleMenuToolButtonDetails = () => import('@/entities/role-menu-tool-button/role-menu-tool-button-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -367,6 +373,30 @@ export default {
       path: 'role-menu/:roleMenuId/view',
       name: 'RoleMenuView',
       component: RoleMenuDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu-tool-button',
+      name: 'RoleMenuToolButton',
+      component: RoleMenuToolButton,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu-tool-button/new',
+      name: 'RoleMenuToolButtonCreate',
+      component: RoleMenuToolButtonUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu-tool-button/:roleMenuToolButtonId/edit',
+      name: 'RoleMenuToolButtonEdit',
+      component: RoleMenuToolButtonUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu-tool-button/:roleMenuToolButtonId/view',
+      name: 'RoleMenuToolButtonView',
+      component: RoleMenuToolButtonDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

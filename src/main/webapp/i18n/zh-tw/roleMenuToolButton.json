@@ -1,0 +1,30 @@
+{
+  "moneyMakingMachineApp": {
+    "roleMenuToolButton": {
+      "home": {
+        "title": "Role Menu Tool Buttons",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Role Menu Tool Button",
+        "createOrEditLabel": "建立或編輯 Role Menu Tool Button",
+        "notFound": "No Role Menu Tool Buttons found"
+      },
+      "created": "新的 Role Menu Tool Button 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Role Menu Tool Button 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Role Menu Tool Button 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Role Menu Tool Button {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Role Menu Tool Button"
+      },
+      "id": "ID",
+      "roleId": "Role Id",
+      "menuId": "Menu Id",
+      "toolButtonId": "Tool Button Id",
+      "help": {
+        "roleId": "角色id",
+        "menuId": "菜单id"
+      }
+    }
+  }
+}

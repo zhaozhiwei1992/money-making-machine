@@ -19,6 +19,7 @@
         "dataPermissionDetails": "Data Permission Details",
         "dataPermissionsRel": "Data Permissions Rel",
         "roleMenu": "Role Menu",
+        "roleMenuToolButton": "Role Menu Tool Button",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
