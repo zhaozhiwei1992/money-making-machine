@@ -320,7 +320,14 @@
             <version>${hutool.version}</version>
         </dependency>
 
-<!--        工作流开始-->
+        <!-- https://mvnrepository.com/artifact/com.github.jsqlparser/jsqlparser -->
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>4.3</version>
+        </dependency>
+
+        <!--        工作流开始-->
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
