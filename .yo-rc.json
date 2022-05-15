@@ -30,14 +30,15 @@
       "LeaveSlip",
       "LeaveType",
       "UiTab",
-      "DataPermission"
+      "DataPermission",
+      "DataPermissionDetails"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.6.0",
     "jwtSecretKey": "OTYwZmRhYWZiOWY1NzJlYTMxOTkwMDI4NGQ2NzZiODU3ZDcxM2I5OGE1OTViZjQyZDZhNzBlNDcwMzM4MTQ1MWRkMjNmYTUyMjYyN2FhZWJlZGYxZjgzNWFmNTBhM2RlOGM1OWZhYTNhYTMwNDk2NzM1NGU0ZjYwOTM1Mzg5YTk=",
     "languages": ["zh-cn", "zh-tw"],
-    "lastLiquibaseTimestamp": 1652552032000,
+    "lastLiquibaseTimestamp": 1652598013000,
     "messageBroker": false,
     "nativeLanguage": "zh-cn",
     "otherModules": [],

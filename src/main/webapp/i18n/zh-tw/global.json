@@ -16,6 +16,7 @@
         "leaveType": "Leave Type",
         "uiTab": "Ui Tab",
         "dataPermission": "Data Permission",
+        "dataPermissionDetails": "Data Permission Details",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

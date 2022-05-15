@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20220515070013",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_data_permission_details",
+  "fields": [
+    {
+      "fieldName": "ruleId",
+      "fieldType": "String",
+      "javadoc": "权限名称"
+    },
+    {
+      "fieldName": "leftBracket",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "^\\($",
+      "javadoc": "左括号"
+    },
+    {
+      "fieldName": "column",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "op",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "value",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "rightBracket",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "^\\)$",
+      "javadoc": "右括号"
+    },
+    {
+      "fieldName": "ordernum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "logicalRel",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "数据权限明细\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "DataPermissionDetails",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

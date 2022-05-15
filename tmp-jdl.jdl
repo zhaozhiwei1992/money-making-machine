@@ -1,23 +1,31 @@
 /**
- * 数据权限主表
+ * 数据权限明细
  * @author zhaozhiwei
  */
-entity DataPermission (sys_data_permissions) {
-
-	/**
-	* 权限编码
-	*/
-	code    String,
+entity DataPermissionDetails (sys_data_permission_details) {
 
 	/**
 	* 权限名称
 	*/
-	name    String,
+	ruleId   String,
 
 	/**
-	* 规则sql, 配置明细时候才生成
+	* 左括号
 	*/
-	ruleSql String
+	leftBracket  String pattern(/^\($/),
+
+	column String,
+	op String,
+	value String,
+
+	/**
+	* 右括号
+	*/
+	rightBracket  String pattern(/^\)$/),
+
+	ordernum Integer,
+
+	logicalRel String
 }
 
-paginate DataPermission with pagination
+paginate DataPermissionDetails with pagination
