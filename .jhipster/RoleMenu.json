@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20220515130727",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_role_menu",
+  "fields": [
+    {
+      "fieldName": "roleId",
+      "fieldType": "String",
+      "javadoc": "角色id"
+    },
+    {
+      "fieldName": "menuId",
+      "fieldType": "String",
+      "javadoc": "菜单id"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "角色对菜单\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "RoleMenu",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

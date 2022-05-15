@@ -155,3 +155,29 @@ entity DataPermissionDetails (sys_data_permission_details) {
 }
 
 paginate DataPermissionDetails with pagination
+
+/**
+ * 角色, 菜单, 数据权限关系
+ * 角色能看得所有菜单不一定都要有数据权限, 但是只有能看到菜单才能去配置权限
+ * @author zhaozhiwei
+ */
+entity DataPermissionsRel (sys_data_permissions_rel) {
+
+	/**
+	* 权限id
+	*/
+	ruleId   String,
+
+	/**
+	* 角色id
+	*/
+	roleId   String,
+
+	/**
+	* 菜单id
+	*/
+	menuId   String,
+
+}
+
+paginate DataPermissionsRel with pagination

@@ -1,0 +1,29 @@
+{
+  "moneyMakingMachineApp": {
+    "roleMenu": {
+      "home": {
+        "title": "Role Menus",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Role Menu",
+        "createOrEditLabel": "建立或編輯 Role Menu",
+        "notFound": "No Role Menus found"
+      },
+      "created": "新的 Role Menu 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Role Menu 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Role Menu 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Role Menu {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Role Menu"
+      },
+      "id": "ID",
+      "roleId": "Role Id",
+      "menuId": "Menu Id",
+      "help": {
+        "roleId": "角色id",
+        "menuId": "菜单id"
+      }
+    }
+  }
+}

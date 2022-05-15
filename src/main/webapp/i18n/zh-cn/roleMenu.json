@@ -1,0 +1,29 @@
+{
+  "moneyMakingMachineApp": {
+    "roleMenu": {
+      "home": {
+        "title": "Role Menus",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Role Menu",
+        "createOrEditLabel": "创建或编辑 Role Menu",
+        "notFound": "No Role Menus found"
+      },
+      "created": "Role Menu {{ param }} 创建成功",
+      "updated": "Role Menu {{ param }} 更新成功",
+      "deleted": "Role Menu {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Role Menu {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Role Menu"
+      },
+      "id": "ID",
+      "roleId": "Role Id",
+      "menuId": "Menu Id",
+      "help": {
+        "roleId": "角色id",
+        "menuId": "菜单id"
+      }
+    }
+  }
+}

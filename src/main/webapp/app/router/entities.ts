@@ -69,6 +69,12 @@ const DataPermissionsRel = () => import('@/entities/data-permissions-rel/data-pe
 const DataPermissionsRelUpdate = () => import('@/entities/data-permissions-rel/data-permissions-rel-update.vue');
 // prettier-ignore
 const DataPermissionsRelDetails = () => import('@/entities/data-permissions-rel/data-permissions-rel-details.vue');
+// prettier-ignore
+const RoleMenu = () => import('@/entities/role-menu/role-menu.vue');
+// prettier-ignore
+const RoleMenuUpdate = () => import('@/entities/role-menu/role-menu-update.vue');
+// prettier-ignore
+const RoleMenuDetails = () => import('@/entities/role-menu/role-menu-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -337,6 +343,30 @@ export default {
       path: 'data-permissions-rel/:dataPermissionsRelId/view',
       name: 'DataPermissionsRelView',
       component: DataPermissionsRelDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu',
+      name: 'RoleMenu',
+      component: RoleMenu,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu/new',
+      name: 'RoleMenuCreate',
+      component: RoleMenuUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu/:roleMenuId/edit',
+      name: 'RoleMenuEdit',
+      component: RoleMenuUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'role-menu/:roleMenuId/view',
+      name: 'RoleMenuView',
+      component: RoleMenuDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
