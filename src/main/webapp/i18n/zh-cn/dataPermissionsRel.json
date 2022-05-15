@@ -1,0 +1,31 @@
+{
+  "moneyMakingMachineApp": {
+    "dataPermissionsRel": {
+      "home": {
+        "title": "Data Permissions Rels",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Data Permissions Rel",
+        "createOrEditLabel": "创建或编辑 Data Permissions Rel",
+        "notFound": "No Data Permissions Rels found"
+      },
+      "created": "Data Permissions Rel {{ param }} 创建成功",
+      "updated": "Data Permissions Rel {{ param }} 更新成功",
+      "deleted": "Data Permissions Rel {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Data Permissions Rel {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Data Permissions Rel"
+      },
+      "id": "ID",
+      "ruleId": "Rule Id",
+      "roleId": "Role Id",
+      "menuId": "Menu Id",
+      "help": {
+        "ruleId": "权限id",
+        "roleId": "角色id",
+        "menuId": "菜单id"
+      }
+    }
+  }
+}

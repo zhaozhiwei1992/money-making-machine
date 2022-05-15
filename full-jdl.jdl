@@ -123,3 +123,35 @@ entity DataPermission (sys_data_permissions) {
 }
 
 paginate DataPermission with pagination
+
+/**
+ * 数据权限明细
+ * @author zhaozhiwei
+ */
+entity DataPermissionDetails (sys_data_permission_details) {
+
+	/**
+	* 权限名称
+	*/
+	ruleId   String,
+
+	/**
+	* 左括号
+	*/
+	leftBracket  String pattern(/^\($/),
+
+	column String,
+	op String,
+	value String,
+
+	/**
+	* 右括号
+	*/
+	rightBracket  String pattern(/^\)$/),
+
+	ordernum Integer,
+
+	logicalRel String
+}
+
+paginate DataPermissionDetails with pagination

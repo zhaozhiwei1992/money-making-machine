@@ -40,6 +40,10 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="$t('global.menu.entities.dataPermissionDetails')">Data Permission Details</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/data-permissions-rel">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.dataPermissionsRel')">Data Permissions Rel</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

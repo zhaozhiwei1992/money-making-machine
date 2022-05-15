@@ -27,6 +27,7 @@
     <include file="config/liquibase/changelog/20220510065853_added_entity_UiTab.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220514181352_added_entity_DataPermission.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220515070013_added_entity_DataPermissionDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220515082952_added_entity_DataPermissionsRel.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

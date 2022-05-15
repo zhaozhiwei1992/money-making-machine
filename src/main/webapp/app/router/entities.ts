@@ -63,6 +63,12 @@ const DataPermissionDetails = () => import('@/entities/data-permission-details/d
 const DataPermissionDetailsUpdate = () => import('@/entities/data-permission-details/data-permission-details-update.vue');
 // prettier-ignore
 const DataPermissionDetailsDetails = () => import('@/entities/data-permission-details/data-permission-details-details.vue');
+// prettier-ignore
+const DataPermissionsRel = () => import('@/entities/data-permissions-rel/data-permissions-rel.vue');
+// prettier-ignore
+const DataPermissionsRelUpdate = () => import('@/entities/data-permissions-rel/data-permissions-rel-update.vue');
+// prettier-ignore
+const DataPermissionsRelDetails = () => import('@/entities/data-permissions-rel/data-permissions-rel-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -307,6 +313,30 @@ export default {
       path: 'data-permission-details/:dataPermissionDetailsId/view',
       name: 'DataPermissionDetailsView',
       component: DataPermissionDetailsDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permissions-rel',
+      name: 'DataPermissionsRel',
+      component: DataPermissionsRel,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permissions-rel/new',
+      name: 'DataPermissionsRelCreate',
+      component: DataPermissionsRelUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permissions-rel/:dataPermissionsRelId/edit',
+      name: 'DataPermissionsRelEdit',
+      component: DataPermissionsRelUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'data-permissions-rel/:dataPermissionsRelId/view',
+      name: 'DataPermissionsRelView',
+      component: DataPermissionsRelDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

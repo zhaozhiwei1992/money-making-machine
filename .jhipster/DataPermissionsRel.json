@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220515082952",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_data_permissions_rel",
+  "fields": [
+    {
+      "fieldName": "ruleId",
+      "fieldType": "String",
+      "javadoc": "权限id"
+    },
+    {
+      "fieldName": "roleId",
+      "fieldType": "String",
+      "javadoc": "角色id"
+    },
+    {
+      "fieldName": "menuId",
+      "fieldType": "String",
+      "javadoc": "菜单id"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "角色, 菜单, 数据权限关系\\n角色能看得所有菜单不一定都要有数据权限, 但是只有能看到菜单才能去配置权限\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "DataPermissionsRel",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

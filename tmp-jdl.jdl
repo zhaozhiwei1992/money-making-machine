@@ -1,31 +1,25 @@
 /**
- * 数据权限明细
+ * 角色, 菜单, 数据权限关系
+ * 角色能看得所有菜单不一定都要有数据权限, 但是只有能看到菜单才能去配置权限
  * @author zhaozhiwei
  */
-entity DataPermissionDetails (sys_data_permission_details) {
+entity DataPermissionsRel (sys_data_permissions_rel) {
 
 	/**
-	* 权限名称
+	* 权限id
 	*/
 	ruleId   String,
 
 	/**
-	* 左括号
+	* 角色id
 	*/
-	leftBracket  String pattern(/^\($/),
-
-	column String,
-	op String,
-	value String,
+	roleId   String,
 
 	/**
-	* 右括号
+	* 菜单id
 	*/
-	rightBracket  String pattern(/^\)$/),
+	menuId   String,
 
-	ordernum Integer,
-
-	logicalRel String
 }
 
-paginate DataPermissionDetails with pagination
+paginate DataPermissionsRel with pagination
