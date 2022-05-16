@@ -9,6 +9,12 @@ const onRequestSuccess = config => {
     }
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // 获取路由中的menuid信息
+  const menuid = localStorage.getItem('menuid');
+  if (menuid) {
+    console.log('菜单信息, ', menuid);
+    config.headers.menuid = `${menuid}`;
+  }
   config.timeout = TIMEOUT;
   config.url = `${SERVER_API_URL}${config.url}`;
   return config;

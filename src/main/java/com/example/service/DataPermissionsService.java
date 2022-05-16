@@ -2,16 +2,14 @@ package com.example.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.aop.HttpServletRequestAspect;
-import com.example.domain.Authority;
 import com.example.domain.DataPermissionsRel;
-import com.example.domain.User;
 import com.example.repository.DataPermissionRepository;
 import com.example.repository.DataPermissionsRelRepository;
-import com.example.repository.UserRepository;
 import com.example.security.SecurityUtils;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
@@ -24,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author zhaozhiwei
@@ -40,24 +39,22 @@ import org.springframework.stereotype.Service;
  *
  * @date 2022/5/15 下午3:10
  */
+
 @Service
+@Transactional
 public class DataPermissionsService {
 
     private static final Logger log = LoggerFactory.getLogger(DataPermissionsService.class);
 
     private final DataPermissionRepository dataPermissionRepository;
 
-    private final UserRepository userRepository;
-
     private final DataPermissionsRelRepository dataPermissionsRelRepository;
 
     public DataPermissionsService(
         DataPermissionRepository dataPermissionRepository,
-        UserRepository userRepository,
         DataPermissionsRelRepository dataPermissionsRelRepository
     ) {
         this.dataPermissionRepository = dataPermissionRepository;
-        this.userRepository = userRepository;
         this.dataPermissionsRelRepository = dataPermissionsRelRepository;
     }
 
@@ -82,14 +79,16 @@ public class DataPermissionsService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
             log.info("登录用户角色信息: {}", roleIds);
+            // 2. TODO 获取当前用户角色 + menuid组合所配置的权限
+            //  多个权限取交集 不同的权限设计不同sql
+            //            final List<DataPermissionsRel> byMenuIdAndRoleIdIn =
+            //                dataPermissionsRelRepository.findAll();
+            //            if(!byMenuIdAndRoleIdIn.isEmpty()){
+            //                dataRightCondition.setLeftExpression(this.getAliasColumn(table, "name"));
+            //                dataRightCondition.setRightExpression(new StringValue("张三"));
+            //                appendExpression = dataRightCondition;
+            //            }
 
-            // 2. TODO 获取当前用户角色 + menuid组合所配置的权限, 多个权限取交集 不同的权限设计不同sql
-            final DataPermissionsRel dataPermissionsRel = new DataPermissionsRel();
-            dataPermissionsRel.setMenuId(menuId);
-
-            dataRightCondition.setLeftExpression(this.getAliasColumn(table, "name"));
-            dataRightCondition.setRightExpression(new StringValue("张三"));
-            appendExpression = dataRightCondition;
         }
         return appendExpression;
     }

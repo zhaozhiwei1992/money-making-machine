@@ -39,7 +39,9 @@ public class HttpServletRequestAspect {
         String methodName = joinPoint.getSignature().getName();
 
         log.info("++++++++++++++++++++ before ++" + tragetClassName + "." + methodName + " 方法开始 ++++++++++++++++++++++++");
-        final String menuid = request.getParameter("menuid");
+        //        前端路由统一设置menuid
+        //        localStorage.setItem('menuid', v.meta.menuid);
+        final String menuid = request.getHeader("menuid");
         set("menuid", menuid);
         log.info("menuid: {}", menuid);
         log.info("++++++++++++++++++++ before ++ " + tragetClassName + "." + methodName + " 方法结束 ++++++++++++++++++++++++");

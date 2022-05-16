@@ -5,6 +5,7 @@ import com.example.repository.DataPermissionsRelRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -162,6 +163,7 @@ public class DataPermissionsRelResource {
     ) {
         log.debug("REST request to get a page of DataPermissionsRels");
         Page<DataPermissionsRel> page = dataPermissionsRelRepository.findAll(pageable);
+        final List<DataPermissionsRel> allByMenuId = dataPermissionsRelRepository.findAllByMenuIdAndRoleIdIn("1", Arrays.asList("1"));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

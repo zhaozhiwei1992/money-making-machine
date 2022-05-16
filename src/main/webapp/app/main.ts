@@ -60,6 +60,8 @@ const accountService = new AccountService(store, translationService, router);
 router.beforeEach(async (to, from, next) => {
   if (!to.matched.length) {
     // 找不到的路由走这里, 前端没有配置的
+    // 塞入当前请求的menuid, 数据权限中使用
+    localStorage.removeItem('menuid');
     const asyncRouter = localStorage.getItem('router');
     console.log('前端缓存路由信息: {}', asyncRouter);
     let pathExist = false;
@@ -71,6 +73,7 @@ router.beforeEach(async (to, from, next) => {
         router.addRoute(v);
         if (v.path === to.path) {
           pathExist = true;
+          localStorage.setItem('menuid', v.meta.menuid);
         }
       });
       // 如果path不在路由里, 检查菜单是否配置了config.component
@@ -85,6 +88,7 @@ router.beforeEach(async (to, from, next) => {
           router.addRoute(v);
           if (v.path === to.path) {
             pathExist = true;
+            localStorage.setItem('menuid', v.meta.menuid);
           }
         });
       });
