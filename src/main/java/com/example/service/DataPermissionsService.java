@@ -2,18 +2,21 @@ package com.example.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.aop.HttpServletRequestAspect;
+import com.example.domain.DataPermission;
 import com.example.domain.DataPermissionsRel;
 import com.example.repository.DataPermissionRepository;
 import com.example.repository.DataPermissionsRelRepository;
+import com.example.repository.UserRepository;
 import com.example.security.SecurityUtils;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.StringValue;
+import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
+import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import org.slf4j.Logger;
@@ -50,25 +53,37 @@ public class DataPermissionsService {
 
     private final DataPermissionsRelRepository dataPermissionsRelRepository;
 
+    private final UserRepository userRepository;
+
     public DataPermissionsService(
         DataPermissionRepository dataPermissionRepository,
-        DataPermissionsRelRepository dataPermissionsRelRepository
+        DataPermissionsRelRepository dataPermissionsRelRepository,
+        UserRepository userRepository
     ) {
         this.dataPermissionRepository = dataPermissionRepository;
         this.dataPermissionsRelRepository = dataPermissionsRelRepository;
+        this.userRepository = userRepository;
     }
 
     public Expression buildDataPermissionCondition(Table table) {
         // 根据Expression接口的规则，　构建where条件
         final StringValue stringValue = new StringValue("1");
-        final EqualsTo dataRightCondition = new EqualsTo(stringValue, stringValue);
+        final EqualsTo equalsToCondition = new EqualsTo(stringValue, stringValue);
 
-        Expression appendExpression = dataRightCondition;
+        Expression appendExpression = equalsToCondition;
         // 根据菜单id和当前用户角色，确定是否有权限
         final Object menuIdObj = HttpServletRequestAspect.get("menuid");
         final String loginName = SecurityUtils.getCurrentUserLogin().get();
 
-        if (!Objects.isNull(menuIdObj) && !StrUtil.isEmpty(loginName)) {
+        //        需要通过table判断，如果是权限表本身不去处理这些过滤, 避免stackoverflow, 死循环, repository去查询会出发到该逻辑
+        //        系统表(sys_), jhi_表, 工作流(act_)表都不走数据权限
+        if (
+            !Objects.isNull(menuIdObj) &&
+            !StrUtil.isEmpty(loginName) &&
+            !table.getName().contains("sys_") &&
+            !table.getName().contains("jhi_") &&
+            !table.getName().contains("act_")
+        ) {
             String menuId = String.valueOf(menuIdObj);
 
             // 1. 获取用户角色
@@ -79,16 +94,46 @@ public class DataPermissionsService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
             log.info("登录用户角色信息: {}", roleIds);
-            // 2. TODO 获取当前用户角色 + menuid组合所配置的权限
+            // 2. 获取当前用户角色 + menuid组合所配置的权限
             //  多个权限取交集 不同的权限设计不同sql
-            //            final List<DataPermissionsRel> byMenuIdAndRoleIdIn =
-            //                dataPermissionsRelRepository.findAll();
-            //            if(!byMenuIdAndRoleIdIn.isEmpty()){
-            //                dataRightCondition.setLeftExpression(this.getAliasColumn(table, "name"));
-            //                dataRightCondition.setRightExpression(new StringValue("张三"));
-            //                appendExpression = dataRightCondition;
-            //            }
+            final List<DataPermissionsRel> byMenuIdAndRoleIdIn = dataPermissionsRelRepository.findAllByMenuIdAndRoleIdIn(menuId, roleIds);
+            if (!byMenuIdAndRoleIdIn.isEmpty()) {
+                // 3. 获取权限信息
+                final List<Long> ruleIdList = byMenuIdAndRoleIdIn
+                    .stream()
+                    .map(m -> Long.parseLong(m.getRuleId()))
+                    .collect(Collectors.toList());
+                final List<DataPermission> allRuleList = dataPermissionRepository.findAllById(ruleIdList);
+                final List<String> ruleCodeList = allRuleList.stream().map(m -> m.getCode()).collect(Collectors.toList());
+                if (ruleCodeList.contains(Constants.ALL_DATA_PERMISSION)) {
+                    appendExpression = equalsToCondition;
+                } else {
+                    //                    多个权限用or拼起来
+                    final OrExpression orExpression = new OrExpression();
+                    for (DataPermission dataPermission : allRuleList) {
+                        final String code = dataPermission.getCode();
+                        if (Constants.INSTITUTION_DATA_PERMISSION.equals(code)) {
+                            //                            所属机构权限
+                            //                            获取用户所属机构
+                            orExpression.withRightExpression(new InExpression(this.getAliasColumn(table, "机构"), null));
+                        }
 
+                        if (Constants.INSTITUTION_WITH_FOLLOWING_DATA_PERMISSION.equals(code)) {
+                            //                            所属机构及下级
+                            orExpression.withRightExpression(new InExpression(this.getAliasColumn(table, "机构"), null));
+                        }
+
+                        if (Constants.PERSONAL_ONLY_DATA_PERMISSION.equals(code)) {
+                            //                            仅自己权限
+                            final Long id = userRepository.findOneByLogin(loginName).get().getId();
+                            equalsToCondition.setLeftExpression(this.getAliasColumn(table, "creater"));
+                            equalsToCondition.setRightExpression(new StringValue(id.toString()));
+                            orExpression.withRightExpression(equalsToCondition);
+                        }
+                    }
+                    appendExpression = new Parenthesis(orExpression);
+                }
+            }
         }
         return appendExpression;
     }
