@@ -1,15 +1,20 @@
 <template>
   <el-row>
-    <h2 class="jh-entity-heading" data-cy="menuDetailsHeading">
-      <span>角色菜单维护</span>
-    </h2>
-    <el-button type="primary" @click="save()">保存</el-button>
-    <el-col :span="6">
+    <el-row>
+      <h2 class="jh-entity-heading" data-cy="menuDetailsHeading">
+        <span>角色菜单维护</span>
+      </h2>
+    </el-row>
+    <el-row type="flex" justify="end">
+      <el-button type="primary" @click="save()">保存</el-button>
+    </el-row>
+
+    <el-col :span="10">
       <div class="grid-content bg-purple">
         <el-tree :data="role_data" show-checkbox node-key="label" :default-expand-all="true" ref="roles"> </el-tree>
       </div>
     </el-col>
-    <el-col :span="18"
+    <el-col :span="14"
       ><div class="grid-content bg-purple-light">
         <el-tree :data="menu_data" show-checkbox node-key="id" :default-expanded-keys="[2]" :accordion="true" ref="menus"> </el-tree></div
     ></el-col>
