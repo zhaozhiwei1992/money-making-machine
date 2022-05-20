@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
     List<Menu> findAllByOrderByOrdernumAsc();
+
+    List<Menu> findByIdInOrderByOrdernumAsc(List<Long> menuIdList);
 }

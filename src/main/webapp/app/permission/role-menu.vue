@@ -11,7 +11,8 @@
 
     <el-col :span="10">
       <div class="grid-content bg-purple">
-        <el-tree :data="role_data" show-checkbox node-key="label" :default-expand-all="true" ref="roles"> </el-tree>
+        <el-tree :data="role_data" show-checkbox node-key="label" :default-expand-all="true" ref="roles" @node-click="handleRoleNodeClick">
+        </el-tree>
       </div>
     </el-col>
     <el-col :span="14"
@@ -23,9 +24,11 @@
 
 <script>
 import axios from 'axios';
+import qs from 'qs';
 
 const roleBaseApiUrl = 'api/roles';
 const menuBaseApiUrl = 'api/menus';
+const baseApiUrl = 'api/role-menus';
 
 export default {
   data() {
@@ -93,6 +96,24 @@ export default {
       console.log(this.$refs.roles.getCheckedKeys());
       console.log(this.$refs.menus.getCheckedKeys());
       // 2. 调用后台方法保存, 先删后插
+      let postData = qs.stringify(
+        {
+          roleIdList: this.$refs.roles.getCheckedKeys(),
+          menuIdList: this.$refs.menus.getCheckedKeys(),
+        },
+        { arrayFormat: 'repeat' }
+      );
+      axios.post(baseApiUrl + '/save/', postData).then(res => {
+        alert('保存成功');
+      });
+    },
+    handleRoleNodeClick(data) {
+      console.log('选中节点信息', data);
+      // 根据角色点击信息，重新渲染菜单选中信息
+      axios.get(baseApiUrl + '/menu/by/role/' + data.label).then(res => {
+        // 选中菜单
+        this.$refs.menus.setCheckedKeys(res.data);
+      });
     },
   },
 };

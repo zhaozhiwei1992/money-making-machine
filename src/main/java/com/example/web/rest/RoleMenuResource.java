@@ -1,13 +1,13 @@
 package com.example.web.rest;
 
 import com.example.domain.RoleMenu;
+import com.example.repository.MenuRepository;
 import com.example.repository.RoleMenuRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,15 +34,19 @@ public class RoleMenuResource {
 
     private final RoleMenuRepository roleMenuRepository;
 
-    public RoleMenuResource(RoleMenuRepository roleMenuRepository) {
+    private final MenuRepository menuRepository;
+
+    public RoleMenuResource(RoleMenuRepository roleMenuRepository, MenuRepository menuRepository) {
         this.roleMenuRepository = roleMenuRepository;
+        this.menuRepository = menuRepository;
     }
 
     /**
      * {@code POST  /role-menus} : Create a new roleMenu.
      *
      * @param roleMenu the roleMenu to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new roleMenu, or with status {@code 400 (Bad Request)} if the roleMenu has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new roleMenu, or with
+     * status {@code 400 (Bad Request)} if the roleMenu has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/role-menus")
@@ -61,7 +65,7 @@ public class RoleMenuResource {
     /**
      * {@code PUT  /role-menus/:id} : Updates an existing roleMenu.
      *
-     * @param id the id of the roleMenu to save.
+     * @param id       the id of the roleMenu to save.
      * @param roleMenu the roleMenu to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated roleMenu,
      * or with status {@code 400 (Bad Request)} if the roleMenu is not valid,
@@ -93,9 +97,10 @@ public class RoleMenuResource {
     }
 
     /**
-     * {@code PATCH  /role-menus/:id} : Partial updates given fields of an existing roleMenu, field will ignore if it is null
+     * {@code PATCH  /role-menus/:id} : Partial updates given fields of an existing roleMenu, field will ignore if it
+     * is null
      *
-     * @param id the id of the roleMenu to save.
+     * @param id       the id of the roleMenu to save.
      * @param roleMenu the roleMenu to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated roleMenu,
      * or with status {@code 400 (Bad Request)} if the roleMenu is not valid,
@@ -155,7 +160,8 @@ public class RoleMenuResource {
      * {@code GET  /role-menus/:id} : get the "id" roleMenu.
      *
      * @param id the id of the roleMenu to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the roleMenu, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the roleMenu, or with status
+     * {@code 404 (Not Found)}.
      */
     @GetMapping("/role-menus/{id}")
     public ResponseEntity<RoleMenu> getRoleMenu(@PathVariable Long id) {
@@ -178,5 +184,43 @@ public class RoleMenuResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/role-menus/save")
+    public ResponseEntity<Void> deleteExample(@RequestParam List<String> roleIdList, @RequestParam List<String> menuIdList) {
+        log.debug("REST request to save role menus ");
+        //        每个角色都对应所有的menuidList, 如果需要每个角色分别配置，则每次单选角色
+        final List<RoleMenu> roleMenus = new ArrayList<>();
+        for (String roleId : roleIdList) {
+            for (String menuId : menuIdList) {
+                final RoleMenu roleMenu = new RoleMenu();
+                roleMenu.setRoleId(roleId);
+                roleMenu.setMenuId(menuId);
+                if ("全部".equals(roleId) || "0".equals(menuId)) {
+                    continue;
+                }
+                roleMenus.add(roleMenu);
+            }
+        }
+        //        删除原角色删除配置信息
+        this.roleMenuRepository.deleteAllByRoleIdIn(roleIdList);
+        this.roleMenuRepository.saveAll(roleMenus);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * @data: 2022/5/20-下午9:02
+     * @User: zhaozhiwei
+     * @method: getMenusTree
+     * @param roleId :
+     * @return: java.util.List<java.lang.String>
+     * @Description: 返回选中的菜单id
+     */
+    @GetMapping("/role-menus/menu/by/role/{roleId}")
+    public List<String> getMenusTree(@PathVariable String roleId) {
+        log.debug("REST request to get Menus Tree");
+        List<RoleMenu> roleMenuList = roleMenuRepository.findByRoleId(roleId);
+        final List<String> menuIdList = roleMenuList.stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
+        return menuIdList;
     }
 }
