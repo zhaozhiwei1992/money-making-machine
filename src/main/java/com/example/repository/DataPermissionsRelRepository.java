@@ -12,4 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DataPermissionsRelRepository extends JpaRepository<DataPermissionsRel, Long> {
     List<DataPermissionsRel> findAllByMenuIdAndRoleIdIn(String s, List<String> asList);
+
+    void deleteAllByRoleIdInAndMenuIdIn(List<String> roleIdList, List<String> menuIdList);
+
+    List<DataPermissionsRel> findByRoleId(String roleId);
+
+    List<DataPermissionsRel> findByRoleIdAndMenuId(String roleId, String menuId);
 }

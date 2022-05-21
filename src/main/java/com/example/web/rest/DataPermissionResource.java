@@ -1,13 +1,19 @@
 package com.example.web.rest;
 
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
+import com.example.domain.Authority;
 import com.example.domain.DataPermission;
 import com.example.repository.DataPermissionRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -190,5 +196,46 @@ public class DataPermissionResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/data-permissions/tree")
+    public List<Tree<Long>> getDataPermissionTree() {
+        log.debug("REST request to get Permission Tree");
+
+        final List<DataPermission> dataPermissionList = dataPermissionRepository.findAll();
+
+        //树形结构一些特殊配置
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        // 自定义属性名 都要默认值的
+        treeNodeConfig.setWeightKey("name");
+        //        数据库设计如果和默认值一致，就不设置了
+        //        treeNodeConfig.setIdKey("id");
+        //        treeNodeConfig.setParentIdKey("parentId");
+        //        treeNodeConfig.setChildrenKey("children");
+        //        最大递归深度
+        treeNodeConfig.setDeep(3);
+
+        //转换器
+        List<Tree<Long>> treeNodes = TreeUtil.build(
+            dataPermissionList,
+            0L,
+            treeNodeConfig,
+            (dataPermission, tree) -> {
+                tree.setId(dataPermission.getId());
+                tree.setParentId(0L);
+                tree.setName(dataPermission.getName());
+                tree.putExtra("label", dataPermission.getName());
+            }
+        );
+
+        // children默认给空, 防止前端解析报错
+        for (Tree<Long> treeNode : treeNodes) {
+            if (Objects.isNull(treeNode.getChildren())) {
+                treeNode.setChildren(Collections.emptyList());
+            }
+        }
+
+        log.info("权限树构建: {}", treeNodes);
+        return treeNodes;
     }
 }

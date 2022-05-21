@@ -58,12 +58,13 @@ const accountService = new AccountService(store, translationService, router);
 
 // 动态路由
 router.beforeEach(async (to, from, next) => {
+  localStorage.setItem('menuid', to.meta.menuid);
   if (!to.matched.length) {
     // 找不到的路由走这里, 前端没有配置的
     // 塞入当前请求的menuid, 数据权限中使用
-    localStorage.removeItem('menuid');
+    // localStorage.removeItem('menuid');
     const asyncRouter = localStorage.getItem('router');
-    console.log('前端缓存路由信息: {}', asyncRouter);
+    // console.log('前端缓存路由信息: {}', asyncRouter);
     let pathExist = false;
     if (!asyncRouter) {
       // 如果已经缓存则直接从缓存里搞
@@ -80,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       axios.get('/api/menus/route').then(resp => {
         const datas = resp.data;
-        console.log('动态路由信息 {}', datas);
+        // console.log('动态路由信息 {}', datas);
         // 保存路由信息
         localStorage.setItem('router', JSON.stringify(datas));
         datas.forEach(v => {

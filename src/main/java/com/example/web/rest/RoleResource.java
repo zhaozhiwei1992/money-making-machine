@@ -56,8 +56,8 @@ public class RoleResource {
      *       ],
      */
     @GetMapping("/roles/tree")
-    public List<Tree<Long>> getMenusTree() {
-        log.debug("REST request to get Menus Tree");
+    public List<Tree<Long>> getRolesTree() {
+        log.debug("REST request to get Roles Tree");
 
         final List<String> roleList = authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
 
@@ -65,11 +65,6 @@ public class RoleResource {
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         // 自定义属性名 都要默认值的
         treeNodeConfig.setWeightKey("name");
-        //        数据库设计如果和默认值一致，就不设置了
-        //        treeNodeConfig.setIdKey("id");
-        //        treeNodeConfig.setParentIdKey("parentId");
-        //        treeNodeConfig.setChildrenKey("children");
-        //        最大递归深度
         treeNodeConfig.setDeep(3);
 
         //转换器

@@ -11,12 +11,14 @@ import com.example.security.SecurityUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import org.slf4j.Logger;
@@ -93,7 +95,7 @@ public class DataPermissionsService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-            log.info("登录用户角色信息: {}", roleIds);
+            log.info("数据权限用户角色信息: {}, 菜单信息: {}", roleIds, menuId);
             // 2. 获取当前用户角色 + menuid组合所配置的权限
             //  多个权限取交集 不同的权限设计不同sql
             final List<DataPermissionsRel> byMenuIdAndRoleIdIn = dataPermissionsRelRepository.findAllByMenuIdAndRoleIdIn(menuId, roleIds);
@@ -129,6 +131,17 @@ public class DataPermissionsService {
                             equalsToCondition.setLeftExpression(this.getAliasColumn(table, "creater"));
                             equalsToCondition.setRightExpression(new StringValue(id.toString()));
                             orExpression.withRightExpression(equalsToCondition);
+                        }
+
+                        //                      存在规则sql,解析成Expression形式, 规则sql,通过规则界面配置明细生成
+                        if (StrUtil.isNotEmpty(dataPermission.getRuleSql())) {
+                            final Expression expression;
+                            try {
+                                expression = CCJSqlParserUtil.parseCondExpression(dataPermission.getRuleSql());
+                            } catch (JSQLParserException e) {
+                                throw new RuntimeException(e);
+                            }
+                            orExpression.withRightExpression(expression);
                         }
                     }
                     appendExpression = new Parenthesis(orExpression);

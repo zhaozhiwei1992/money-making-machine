@@ -1,14 +1,13 @@
 package com.example.web.rest;
 
 import com.example.domain.DataPermissionsRel;
+import com.example.domain.RoleMenu;
 import com.example.repository.DataPermissionsRelRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -195,5 +194,48 @@ public class DataPermissionsRelResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/data-permissions-rels/save")
+    public ResponseEntity<Void> deleteExample(
+        @RequestParam List<String> roleIdList,
+        @RequestParam List<String> menuIdList,
+        @RequestParam List<String> permissionIdList
+    ) {
+        log.debug("REST request to save role menus ");
+        //        每个角色都对应所有的menuidList, 如果需要每个角色分别配置，则每次单选角色
+        final List<DataPermissionsRel> dataPermissionsRelList = new ArrayList<>();
+        for (String roleId : roleIdList) {
+            for (String menuId : menuIdList) {
+                for (String permissionId : permissionIdList) {
+                    if ("全部".equals(roleId) || "0".equals(menuId) || "0".equals(permissionId)) {
+                        continue;
+                    }
+                    final DataPermissionsRel dataPermissionsRel = new DataPermissionsRel();
+                    dataPermissionsRel.setRoleId(roleId);
+                    dataPermissionsRel.setMenuId(menuId);
+                    dataPermissionsRel.setRuleId(permissionId);
+                    dataPermissionsRelList.add(dataPermissionsRel);
+                }
+            }
+        }
+        //        删除原角色删除配置信息
+        this.dataPermissionsRelRepository.deleteAllByRoleIdInAndMenuIdIn(roleIdList, menuIdList);
+        this.dataPermissionsRelRepository.saveAll(dataPermissionsRelList);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/data-permissions-rels/menu/permission/by/role/{roleId}")
+    public List<String> getDataPermissionsRelMenuSelect(@PathVariable String roleId) {
+        log.debug("REST request to get DataPermissionRels Tree");
+        List<DataPermissionsRel> roleMenuList = dataPermissionsRelRepository.findByRoleId(roleId);
+        return roleMenuList.stream().map(DataPermissionsRel::getMenuId).collect(Collectors.toList());
+    }
+
+    @GetMapping("/data-permissions-rels/menu/permission/by/role/{roleId}/menu/{menuId}")
+    public List<String> getDataPermissionsRelPermissionSelect(@PathVariable String roleId, @PathVariable String menuId) {
+        log.debug("REST request to get DataPermissionRels Tree");
+        List<DataPermissionsRel> dataPermissionsRelList = dataPermissionsRelRepository.findByRoleIdAndMenuId(roleId, menuId);
+        return dataPermissionsRelList.stream().map(DataPermissionsRel::getRuleId).collect(Collectors.toList());
     }
 }
