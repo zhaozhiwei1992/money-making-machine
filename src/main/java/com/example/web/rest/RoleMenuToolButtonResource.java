@@ -1,13 +1,18 @@
 package com.example.web.rest;
 
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
+import com.example.domain.DataPermissionsRel;
 import com.example.domain.RoleMenuToolButton;
+import com.example.domain.UiToolButton;
 import com.example.repository.RoleMenuToolButtonRepository;
+import com.example.repository.UiToolButtonRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +39,14 @@ public class RoleMenuToolButtonResource {
 
     private final RoleMenuToolButtonRepository roleMenuToolButtonRepository;
 
-    public RoleMenuToolButtonResource(RoleMenuToolButtonRepository roleMenuToolButtonRepository) {
+    private final UiToolButtonRepository uiToolButtonRepository;
+
+    public RoleMenuToolButtonResource(
+        RoleMenuToolButtonRepository roleMenuToolButtonRepository,
+        UiToolButtonRepository uiToolButtonRepository
+    ) {
         this.roleMenuToolButtonRepository = roleMenuToolButtonRepository;
+        this.uiToolButtonRepository = uiToolButtonRepository;
     }
 
     /**
@@ -182,5 +193,95 @@ public class RoleMenuToolButtonResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/role-menu-tool-buttons/menu/by/role/{roleId}")
+    public List<String> getRoleMenuToolMenuSelect(@PathVariable String roleId) {
+        log.debug("REST request to get DataPermissionRels Tree");
+        List<RoleMenuToolButton> roleMenuList = roleMenuToolButtonRepository.findByRoleId(roleId);
+        return roleMenuList.stream().map(RoleMenuToolButton::getMenuId).collect(Collectors.toList());
+    }
+
+    /**
+     * @data: 2022/5/21-下午4:41
+     * @User: zhaozhiwei
+     * @method: getRoleMenuToolButtonTreeWithSelect
+     * @param roleId :
+     * @param menuId :
+     * @return: java.util.Map<java.lang.String,java.lang.Object>
+     * @Description: 获取按钮信息并选中
+     */
+    @GetMapping("/role-menu-tool-buttons/toolbutton/by/role/{roleId}/menu/{menuId}")
+    public Map<String, Object> getRoleMenuToolButtonTreeWithSelect(@PathVariable String roleId, @PathVariable String menuId) {
+        log.debug("REST request to get DataPermissionRels Tree");
+        List<RoleMenuToolButton> dataPermissionsRelList = roleMenuToolButtonRepository.findByRoleIdAndMenuId(roleId, menuId);
+        final List<Long> selectButtonId = dataPermissionsRelList
+            .stream()
+            .map(RoleMenuToolButton::getToolButtonId)
+            .collect(Collectors.toList());
+
+        //        菜单下所有的按钮
+        final List<UiToolButton> buttonList = uiToolButtonRepository.findByMenuidOrderByOrdernumAsc(Long.parseLong(menuId));
+
+        //树形结构一些特殊配置
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        // 自定义属性名 都要默认值的
+        treeNodeConfig.setWeightKey("ordernum");
+        treeNodeConfig.setDeep(3);
+
+        //转换器
+        List<Tree<Long>> treeNodes = TreeUtil.build(
+            buttonList,
+            0L,
+            treeNodeConfig,
+            (uiToolButton, tree) -> {
+                tree.setId(uiToolButton.getId());
+                tree.setParentId(0L);
+                tree.setName(uiToolButton.getName());
+                tree.putExtra("label", uiToolButton.getName());
+                tree.putExtra("ordernum", uiToolButton.getOrdernum());
+            }
+        );
+
+        // children默认给空, 防止前端解析报错
+        for (Tree<Long> treeNode : treeNodes) {
+            if (Objects.isNull(treeNode.getChildren())) {
+                treeNode.setChildren(Collections.emptyList());
+            }
+        }
+
+        final Map<String, Object> result = new HashMap<>();
+        result.put("buttonTree", treeNodes);
+        result.put("buttonSelect", selectButtonId);
+        return result;
+    }
+
+    @PostMapping("/role-menu-tool-buttons/save")
+    public ResponseEntity<Void> save(
+        @RequestParam List<String> roleIdList,
+        @RequestParam List<String> menuIdList,
+        @RequestParam List<String> toolButtonIdList
+    ) {
+        log.debug("REST request to save role menus toolButtons");
+        //        每个角色都对应所有的menuidList, 如果需要每个角色分别配置，则每次单选角色
+        final List<RoleMenuToolButton> roleMenuToolButtonList = new ArrayList<>();
+        for (String roleId : roleIdList) {
+            for (String menuId : menuIdList) {
+                for (String toolButtonId : toolButtonIdList) {
+                    if ("全部".equals(roleId) || "0".equals(menuId) || "0".equals(toolButtonId)) {
+                        continue;
+                    }
+                    final RoleMenuToolButton roleMenuToolButton = new RoleMenuToolButton();
+                    roleMenuToolButton.setRoleId(roleId);
+                    roleMenuToolButton.setMenuId(menuId);
+                    roleMenuToolButton.setToolButtonId(Long.parseLong(toolButtonId));
+                    roleMenuToolButtonList.add(roleMenuToolButton);
+                }
+            }
+        }
+        //        删除原角色删除配置信息
+        this.roleMenuToolButtonRepository.deleteAllByRoleIdInAndMenuIdIn(roleIdList, menuIdList);
+        this.roleMenuToolButtonRepository.saveAll(roleMenuToolButtonList);
+        return ResponseEntity.ok().build();
     }
 }

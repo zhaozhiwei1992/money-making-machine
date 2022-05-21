@@ -1,6 +1,8 @@
 package com.example.web.rest;
 
+import com.example.domain.RoleMenuToolButton;
 import com.example.domain.UiToolButton;
+import com.example.repository.RoleMenuToolButtonRepository;
 import com.example.repository.UiToolButtonRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -8,6 +10,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,8 +47,11 @@ public class UiToolButtonResource {
 
     private final UiToolButtonRepository uiToolButtonRepository;
 
-    public UiToolButtonResource(UiToolButtonRepository uiToolButtonRepository) {
+    private final RoleMenuToolButtonRepository roleMenuToolButtonRepository;
+
+    public UiToolButtonResource(UiToolButtonRepository uiToolButtonRepository, RoleMenuToolButtonRepository roleMenuToolButtonRepository) {
         this.uiToolButtonRepository = uiToolButtonRepository;
+        this.roleMenuToolButtonRepository = roleMenuToolButtonRepository;
     }
 
     /**
@@ -207,7 +216,24 @@ public class UiToolButtonResource {
     @GetMapping("/ui-tool-buttons/menu/{menuid}")
     public List<UiToolButton> getUiToolButtonByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiToolButton by menu : {}", menuid);
-        return uiToolButtonRepository.findByMenuidOrderByOrdernumAsc(menuid);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final List<String> roleIds = authentication
+            .getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
+        log.info("数据权限用户角色信息: {}, 菜单信息: {}", roleIds, menuid);
+        List<RoleMenuToolButton> roleMenuToolButtonList = roleMenuToolButtonRepository.findByMenuIdAndRoleIdIn(
+            String.valueOf(menuid),
+            roleIds
+        );
+
+        if (roleMenuToolButtonList.size() > 0) {
+            final List<Long> toolButtonList = roleMenuToolButtonList.stream().map(m -> m.getToolButtonId()).collect(Collectors.toList());
+            return uiToolButtonRepository.findAllById(toolButtonList);
+        } else {
+            return uiToolButtonRepository.findByMenuidOrderByOrdernumAsc(menuid);
+        }
     }
 
     /**

@@ -197,7 +197,7 @@ public class DataPermissionsRelResource {
     }
 
     @PostMapping("/data-permissions-rels/save")
-    public ResponseEntity<Void> deleteExample(
+    public ResponseEntity<Void> save(
         @RequestParam List<String> roleIdList,
         @RequestParam List<String> menuIdList,
         @RequestParam List<String> permissionIdList
