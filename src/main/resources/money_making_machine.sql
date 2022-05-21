@@ -1080,7 +1080,7 @@ CREATE TABLE `databasechangelog` (
 
 LOCK TABLES `databasechangelog` WRITE;
 /*!40000 ALTER TABLE `databasechangelog` DISABLE KEYS */;
-INSERT INTO `databasechangelog` VALUES ('00000000000001','jhipster','config/liquibase/changelog/00000000000000_initial_schema.xml','2022-04-28 09:46:38',1,'EXECUTED','8:ee6ac84cdbeb19acaf73c39298fb40f8','createTable tableName=jhi_user; createTable tableName=jhi_authority; createTable tableName=jhi_user_authority; addPrimaryKey tableName=jhi_user_authority; addForeignKeyConstraint baseTableName=jhi_user_authority, constraintName=fk_authority_name, ...','',NULL,'4.6.1',NULL,NULL,'1110392312'),('20220428081257-1','jhipster','config/liquibase/changelog/20220428081257_added_entity_Menu.xml','2022-04-28 16:19:20',2,'EXECUTED','8:78a95988dd89eb412aa72c226b0c6925','createTable tableName=sys_menu','',NULL,'4.6.1',NULL,NULL,'1133959792'),('20220428081257-1-data','jhipster','config/liquibase/changelog/20220428081257_added_entity_Menu.xml','2022-04-28 16:19:20',3,'EXECUTED','8:01a6ff240d4bb49283d3de14ba345521','loadData tableName=sys_menu','',NULL,'4.6.1','faker',NULL,'1133959792'),('20220503083341-1','jhipster','config/liquibase/changelog/20220503083341_added_entity_UiComponent.xml','2022-05-03 16:57:04',4,'EXECUTED','8:d1a8ed54189536ab5e60623a2f7133b4','createTable tableName=sys_uicomponent','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083341-1-data','jhipster','config/liquibase/changelog/20220503083341_added_entity_UiComponent.xml','2022-05-03 16:57:05',5,'EXECUTED','8:14e127fab9099393cf8b6922a14251a4','loadData tableName=sys_uicomponent','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083342-1','jhipster','config/liquibase/changelog/20220503083342_added_entity_UiToolButton.xml','2022-05-03 16:57:05',6,'EXECUTED','8:a00984989faaa13d01c05329e5eeb066','createTable tableName=sys_uitoolbutton','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083342-1-data','jhipster','config/liquibase/changelog/20220503083342_added_entity_UiToolButton.xml','2022-05-03 16:57:05',7,'EXECUTED','8:cf6d3cd718598305ac4040c85d2fb4de','loadData tableName=sys_uitoolbutton','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083343-1','jhipster','config/liquibase/changelog/20220503083343_added_entity_UiTable.xml','2022-05-03 16:57:06',8,'EXECUTED','8:6c227879eaf083133eff7e28aaa0a7f5','createTable tableName=sys_uitable','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083343-1-data','jhipster','config/liquibase/changelog/20220503083343_added_entity_UiTable.xml','2022-05-03 16:57:06',9,'EXECUTED','8:65b8683246ea12a32062164d3831d2fa','loadData tableName=sys_uitable','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083344-1','jhipster','config/liquibase/changelog/20220503083344_added_entity_UiEditform.xml','2022-05-03 16:57:06',10,'EXECUTED','8:6e35bb04e028f4b22c5ceb841f3cb7ce','createTable tableName=sys_uieditform','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083344-1-data','jhipster','config/liquibase/changelog/20220503083344_added_entity_UiEditform.xml','2022-05-03 16:57:06',11,'EXECUTED','8:9ce4fb7f8f075080a0e133a4c45bf027','loadData tableName=sys_uieditform','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083345-1','jhipster','config/liquibase/changelog/20220503083345_added_entity_UiQueryform.xml','2022-05-03 16:57:07',12,'EXECUTED','8:b185356129014a88b858dcacc58cbb97','createTable tableName=sys_uiqueryform','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083345-1-data','jhipster','config/liquibase/changelog/20220503083345_added_entity_UiQueryform.xml','2022-05-03 16:57:07',13,'EXECUTED','8:7d9d176176c1403be896486498104cda','loadData tableName=sys_uiqueryform','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220504121625-1','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-04 20:34:55',14,'EXECUTED','8:b2cbe3b600976fb47508ded908be3693','createTable tableName=t_example','',NULL,'4.6.1',NULL,NULL,'1667694945'),('20220504121625-1-data','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-04 20:34:55',15,'EXECUTED','8:69f7e341c65f756008df04426334f341','loadData tableName=t_example','',NULL,'4.6.1','faker',NULL,'1667694945'),('20220504123346-1','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-05 16:59:46',16,'EXECUTED','8:b2cbe3b600976fb47508ded908be3693','createTable tableName=t_example','',NULL,'4.6.1',NULL,NULL,'1741186154'),('20220504123346-1-data','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-05 16:59:46',17,'EXECUTED','8:69f7e341c65f756008df04426334f341','loadData tableName=t_example','',NULL,'4.6.1','faker',NULL,'1741186154'),('20220507141955-1','jhipster','config/liquibase/changelog/20220507141955_added_entity_LeaveSlip.xml','2022-05-07 22:22:27',18,'EXECUTED','8:5933d84eecf76ca243e4a975ba7397ea','createTable tableName=t_leaveslip','',NULL,'4.6.1',NULL,NULL,'1933346695'),('20220507141955-1-data','jhipster','config/liquibase/changelog/20220507141955_added_entity_LeaveSlip.xml','2022-05-07 22:22:27',19,'EXECUTED','8:c2853df03bebde01bae62dc285eacc1a','loadData tableName=t_leaveslip','',NULL,'4.6.1','faker',NULL,'1933346695'),('20220508030550-1','jhipster','config/liquibase/changelog/20220508030550_added_entity_LeaveType.xml','2022-05-08 11:10:16',20,'EXECUTED','8:b9841d88feb49a742bea4ddfef2a9d3c','createTable tableName=ele_leavetype','',NULL,'4.6.1',NULL,NULL,'1979416033'),('20220508030550-1-data','jhipster','config/liquibase/changelog/20220508030550_added_entity_LeaveType.xml','2022-05-08 11:10:16',21,'EXECUTED','8:9c60885e7adcd1f1cb40c0b7985f2f9c','loadData tableName=ele_leavetype','',NULL,'4.6.1','faker',NULL,'1979416033'),('20220510065853-1','jhipster','config/liquibase/changelog/20220510065853_added_entity_UiTab.xml','2022-05-10 15:03:00',22,'EXECUTED','8:54625e5965044bf9c5e005b4ef9e017e','createTable tableName=sys_uitab','',NULL,'4.6.1',NULL,NULL,'2166179798'),('20220510065853-1-data','jhipster','config/liquibase/changelog/20220510065853_added_entity_UiTab.xml','2022-05-10 15:03:00',23,'EXECUTED','8:638d93222d02102a1b36418cdb948295','loadData tableName=sys_uitab','',NULL,'4.6.1','faker',NULL,'2166179798');
+INSERT INTO `databasechangelog` VALUES ('00000000000001','jhipster','config/liquibase/changelog/00000000000000_initial_schema.xml','2022-04-28 09:46:38',1,'EXECUTED','8:ee6ac84cdbeb19acaf73c39298fb40f8','createTable tableName=jhi_user; createTable tableName=jhi_authority; createTable tableName=jhi_user_authority; addPrimaryKey tableName=jhi_user_authority; addForeignKeyConstraint baseTableName=jhi_user_authority, constraintName=fk_authority_name, ...','',NULL,'4.6.1',NULL,NULL,'1110392312'),('20220428081257-1','jhipster','config/liquibase/changelog/20220428081257_added_entity_Menu.xml','2022-04-28 16:19:20',2,'EXECUTED','8:78a95988dd89eb412aa72c226b0c6925','createTable tableName=sys_menu','',NULL,'4.6.1',NULL,NULL,'1133959792'),('20220428081257-1-data','jhipster','config/liquibase/changelog/20220428081257_added_entity_Menu.xml','2022-04-28 16:19:20',3,'EXECUTED','8:01a6ff240d4bb49283d3de14ba345521','loadData tableName=sys_menu','',NULL,'4.6.1','faker',NULL,'1133959792'),('20220503083341-1','jhipster','config/liquibase/changelog/20220503083341_added_entity_UiComponent.xml','2022-05-03 16:57:04',4,'EXECUTED','8:d1a8ed54189536ab5e60623a2f7133b4','createTable tableName=sys_uicomponent','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083341-1-data','jhipster','config/liquibase/changelog/20220503083341_added_entity_UiComponent.xml','2022-05-03 16:57:05',5,'EXECUTED','8:14e127fab9099393cf8b6922a14251a4','loadData tableName=sys_uicomponent','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083342-1','jhipster','config/liquibase/changelog/20220503083342_added_entity_UiToolButton.xml','2022-05-03 16:57:05',6,'EXECUTED','8:a00984989faaa13d01c05329e5eeb066','createTable tableName=sys_uitoolbutton','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083342-1-data','jhipster','config/liquibase/changelog/20220503083342_added_entity_UiToolButton.xml','2022-05-03 16:57:05',7,'EXECUTED','8:cf6d3cd718598305ac4040c85d2fb4de','loadData tableName=sys_uitoolbutton','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083343-1','jhipster','config/liquibase/changelog/20220503083343_added_entity_UiTable.xml','2022-05-03 16:57:06',8,'EXECUTED','8:6c227879eaf083133eff7e28aaa0a7f5','createTable tableName=sys_uitable','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083343-1-data','jhipster','config/liquibase/changelog/20220503083343_added_entity_UiTable.xml','2022-05-03 16:57:06',9,'EXECUTED','8:65b8683246ea12a32062164d3831d2fa','loadData tableName=sys_uitable','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083344-1','jhipster','config/liquibase/changelog/20220503083344_added_entity_UiEditform.xml','2022-05-03 16:57:06',10,'EXECUTED','8:6e35bb04e028f4b22c5ceb841f3cb7ce','createTable tableName=sys_uieditform','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083344-1-data','jhipster','config/liquibase/changelog/20220503083344_added_entity_UiEditform.xml','2022-05-03 16:57:06',11,'EXECUTED','8:9ce4fb7f8f075080a0e133a4c45bf027','loadData tableName=sys_uieditform','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220503083345-1','jhipster','config/liquibase/changelog/20220503083345_added_entity_UiQueryform.xml','2022-05-03 16:57:07',12,'EXECUTED','8:b185356129014a88b858dcacc58cbb97','createTable tableName=sys_uiqueryform','',NULL,'4.6.1',NULL,NULL,'1568224373'),('20220503083345-1-data','jhipster','config/liquibase/changelog/20220503083345_added_entity_UiQueryform.xml','2022-05-03 16:57:07',13,'EXECUTED','8:7d9d176176c1403be896486498104cda','loadData tableName=sys_uiqueryform','',NULL,'4.6.1','faker',NULL,'1568224373'),('20220504121625-1','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-04 20:34:55',14,'EXECUTED','8:b2cbe3b600976fb47508ded908be3693','createTable tableName=t_example','',NULL,'4.6.1',NULL,NULL,'1667694945'),('20220504121625-1-data','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-04 20:34:55',15,'EXECUTED','8:69f7e341c65f756008df04426334f341','loadData tableName=t_example','',NULL,'4.6.1','faker',NULL,'1667694945'),('20220504123346-1','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-05 16:59:46',16,'EXECUTED','8:b2cbe3b600976fb47508ded908be3693','createTable tableName=t_example','',NULL,'4.6.1',NULL,NULL,'1741186154'),('20220504123346-1-data','jhipster','config/liquibase/changelog/20220504121625_added_entity_Example.xml','2022-05-05 16:59:46',17,'EXECUTED','8:69f7e341c65f756008df04426334f341','loadData tableName=t_example','',NULL,'4.6.1','faker',NULL,'1741186154'),('20220507141955-1','jhipster','config/liquibase/changelog/20220507141955_added_entity_LeaveSlip.xml','2022-05-07 22:22:27',18,'EXECUTED','8:5933d84eecf76ca243e4a975ba7397ea','createTable tableName=t_leaveslip','',NULL,'4.6.1',NULL,NULL,'1933346695'),('20220507141955-1-data','jhipster','config/liquibase/changelog/20220507141955_added_entity_LeaveSlip.xml','2022-05-07 22:22:27',19,'EXECUTED','8:c2853df03bebde01bae62dc285eacc1a','loadData tableName=t_leaveslip','',NULL,'4.6.1','faker',NULL,'1933346695'),('20220508030550-1','jhipster','config/liquibase/changelog/20220508030550_added_entity_LeaveType.xml','2022-05-08 11:10:16',20,'EXECUTED','8:b9841d88feb49a742bea4ddfef2a9d3c','createTable tableName=ele_leavetype','',NULL,'4.6.1',NULL,NULL,'1979416033'),('20220508030550-1-data','jhipster','config/liquibase/changelog/20220508030550_added_entity_LeaveType.xml','2022-05-08 11:10:16',21,'EXECUTED','8:9c60885e7adcd1f1cb40c0b7985f2f9c','loadData tableName=ele_leavetype','',NULL,'4.6.1','faker',NULL,'1979416033'),('20220510065853-1','jhipster','config/liquibase/changelog/20220510065853_added_entity_UiTab.xml','2022-05-10 15:03:00',22,'EXECUTED','8:54625e5965044bf9c5e005b4ef9e017e','createTable tableName=sys_uitab','',NULL,'4.6.1',NULL,NULL,'2166179798'),('20220510065853-1-data','jhipster','config/liquibase/changelog/20220510065853_added_entity_UiTab.xml','2022-05-10 15:03:00',23,'EXECUTED','8:638d93222d02102a1b36418cdb948295','loadData tableName=sys_uitab','',NULL,'4.6.1','faker',NULL,'2166179798'),('20220514181352-1','jhipster','config/liquibase/changelog/20220514181352_added_entity_DataPermission.xml','2022-05-15 02:16:14',24,'EXECUTED','8:47c14f534ecd78551f13f641f004da6a','createTable tableName=sys_data_permissions','',NULL,'4.6.1',NULL,NULL,'2552173977'),('20220514181352-1-data','jhipster','config/liquibase/changelog/20220514181352_added_entity_DataPermission.xml','2022-05-15 02:16:14',25,'EXECUTED','8:73f5903c34625de2687a42c74d8c35dd','loadData tableName=sys_data_permissions','',NULL,'4.6.1','faker',NULL,'2552173977'),('20220515070013-1','jhipster','config/liquibase/changelog/20220515070013_added_entity_DataPermissionDetails.xml','2022-05-15 15:01:57',26,'EXECUTED','8:39de15badf2acd6b0dafd4b97e842ee6','createTable tableName=sys_data_permission_details','',NULL,'4.6.1',NULL,NULL,'2598116848'),('20220515070013-1-data','jhipster','config/liquibase/changelog/20220515070013_added_entity_DataPermissionDetails.xml','2022-05-15 15:01:57',27,'EXECUTED','8:bb5d6ff1f0f2a34e428bdb56e3414555','loadData tableName=sys_data_permission_details','',NULL,'4.6.1','faker',NULL,'2598116848'),('20220515082952-1','jhipster','config/liquibase/changelog/20220515082952_added_entity_DataPermissionsRel.xml','2022-05-15 16:34:37',28,'EXECUTED','8:0967b6172cf96b7074fa4e36d40eac12','createTable tableName=sys_data_permissions_rel','',NULL,'4.6.1',NULL,NULL,'2603677272'),('20220515082952-1-data','jhipster','config/liquibase/changelog/20220515082952_added_entity_DataPermissionsRel.xml','2022-05-15 16:34:38',29,'EXECUTED','8:13a9128d07f5cf2fb70f01c2a4decde8','loadData tableName=sys_data_permissions_rel','',NULL,'4.6.1','faker',NULL,'2603677272'),('20220515130727-1','jhipster','config/liquibase/changelog/20220515130727_added_entity_RoleMenu.xml','2022-05-15 21:10:01',30,'EXECUTED','8:384441a05500e8c6201ac9794b03ce0d','createTable tableName=sys_role_menu','',NULL,'4.6.1',NULL,NULL,'2620201300'),('20220515130727-1-data','jhipster','config/liquibase/changelog/20220515130727_added_entity_RoleMenu.xml','2022-05-15 21:10:02',31,'EXECUTED','8:dbf7241664a36220ed4d35e0b8c82e68','loadData tableName=sys_role_menu','',NULL,'4.6.1','faker',NULL,'2620201300'),('20220515132234-1','jhipster','config/liquibase/changelog/20220515132234_added_entity_RoleMenuToolButton.xml','2022-05-15 21:24:25',32,'EXECUTED','8:3c91410f0c2c3a1897c29583c5acf242','createTable tableName=sys_role_menu_button','',NULL,'4.6.1',NULL,NULL,'2621064678'),('20220515132234-1-data','jhipster','config/liquibase/changelog/20220515132234_added_entity_RoleMenuToolButton.xml','2022-05-15 21:24:25',33,'EXECUTED','8:1de8db3ef0fd257cd180252f7f6aac89','loadData tableName=sys_role_menu_button','',NULL,'4.6.1','faker',NULL,'2621064678');
 /*!40000 ALTER TABLE `databasechangelog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1228,6 +1228,88 @@ INSERT INTO `jhi_user_authority` VALUES (1,'ROLE_ADMIN'),(1,'ROLE_USER'),(2,'ROL
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sys_data_permission_details`
+--
+
+DROP TABLE IF EXISTS `sys_data_permission_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_data_permission_details` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `rule_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限名称',
+  `left_bracket` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '左括号',
+  `jhi_column` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `op` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `right_bracket` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '右括号',
+  `ordernum` int(11) DEFAULT NULL,
+  `logical_rel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='数据权限明细\\n@author zhaozhiwei';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_data_permission_details`
+--
+
+LOCK TABLES `sys_data_permission_details` WRITE;
+/*!40000 ALTER TABLE `sys_data_permission_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_data_permission_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_data_permissions`
+--
+
+DROP TABLE IF EXISTS `sys_data_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_data_permissions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限编码',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限名称',
+  `rule_sql` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '规则sql, 配置明细时候才生成',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='数据权限主表\\n@author zhaozhiwei';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_data_permissions`
+--
+
+LOCK TABLES `sys_data_permissions` WRITE;
+/*!40000 ALTER TABLE `sys_data_permissions` DISABLE KEYS */;
+INSERT INTO `sys_data_permissions` VALUES (1,'all_data_permission','全部数据权限',NULL),(2,'institution_data_permission','机构数据权限',NULL),(3,'institution_with_following_data_permission','机构及以下数据权限',NULL),(4,'personal_only_data_permission','仅本人数据权限',NULL),(5,'','测试动态权限','name=\'张三\'');
+/*!40000 ALTER TABLE `sys_data_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_data_permissions_rel`
+--
+
+DROP TABLE IF EXISTS `sys_data_permissions_rel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_data_permissions_rel` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `rule_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限id',
+  `role_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色id',
+  `menu_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色, 菜单, 数据权限关系\\n角色能看得所有菜单不一定都要有数据权限, 但是只有能看到菜单才能去配置权限\\n@author zhaozhiwei';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_data_permissions_rel`
+--
+
+LOCK TABLES `sys_data_permissions_rel` WRITE;
+/*!40000 ALTER TABLE `sys_data_permissions_rel` DISABLE KEYS */;
+INSERT INTO `sys_data_permissions_rel` VALUES (6,'1','ROLE_ADMIN','6'),(7,'5','ROLE_ADMIN','4');
+/*!40000 ALTER TABLE `sys_data_permissions_rel` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sys_menu`
 --
 
@@ -1247,7 +1329,7 @@ CREATE TABLE `sys_menu` (
   `ordernum` int(11) DEFAULT NULL,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1256,8 +1338,59 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,NULL,'首页','el-icon-s-home','','\0',0,'','{}',1,'/'),(2,NULL,'示例菜单','el-icon-share','\0','',0,'','{}',2,'#'),(3,NULL,'演示-HelloWorld','el-icon-share','\0','\0',2,'','{component:\"example/hello-world\"}',3,'/example/helloworld'),(4,NULL,'演示-动态界面','el-icon-star-on','\0','\0',2,'','{component:\"example/uiexample\"}',4,'/example/uiexample'),(5,NULL,'演示-请假单录入','el-icon-share','\0','\0',2,'','{component:\"example/leaveslip-add\"}',5,'/example/leaveslip/add'),(6,NULL,'演示-请假单审核','el-icon-share','\0','\0',2,'','{component:\"example/leaveslip-audit\"}',6,'/example/leaveslip/audit'),(7,NULL,'菜单管理','el-icon-s-data','\0','\0',0,'','{}',7,'#1'),(8,NULL,'基础要素维护','el-icon-s-data','\0','\0',0,'','{}',8,'#'),(9,NULL,'菜单维护',NULL,'\0','\0',7,'','{}',9,'/menu/'),(10,NULL,'组件配置',NULL,'\0','\0',7,'','{}',10,'/ui-component/'),(11,NULL,'按钮配置',NULL,'\0','\0',7,'','{}',11,'/ui-tool-button/'),(12,NULL,'列表配置',NULL,'\0','\0',7,'','{}',12,'/ui-table/'),(13,NULL,'编辑区配置',NULL,'\0','\0',7,'','{}',13,'/ui-editform/'),(14,NULL,'查询区配置',NULL,'\0','\0',7,'','{}',14,'/ui-queryform/'),(15,NULL,'页签区配置',NULL,'\0','\0',7,'','{}',15,'/ui-tab/'),(16,NULL,'请假类型维护',NULL,'\0','\0',8,'','{}',16,'/leave-type/'),(17,NULL,'权限管理',NULL,'\0','\0',0,'','{}',17,'#'),(18,NULL,'数据权限维护',NULL,'\0','\0',17,'','{}',18,'#'),(19,NULL,'数据权限分配',NULL,'\0','\0',17,'','{}',19,'#'),(20,NULL,'功能权限分配',NULL,'\0','\0',17,'','{}',20,'#'),(21,NULL,'大屏管理',NULL,'\0','\0',0,'','{}',21,'#'),(22,NULL,'系统配置',NULL,'\0','\0',0,'','{}',22,'#'),(23,NULL,'系统参数配置',NULL,'\0','\0',22,'','{}',23,'#'),(24,NULL,'定时任务配置',NULL,'\0','\0',22,'','{}',24,'#'),(25,NULL,'仪表盘组件维护',NULL,'\0','\0',21,'','{}',25,'#'),(26,NULL,'仪表盘组件配置',NULL,'\0','\0',21,'','{}',26,'#'),(27,NULL,'系统监控',NULL,'\0','\0',0,'','{}',27,'#'),(28,NULL,'在线人员监控',NULL,'\0','\0',27,'','{}',28,'#'),(29,NULL,'操作日志监控',NULL,'\0','\0',27,'','{}',29,'#');
+INSERT INTO `sys_menu` VALUES (1,NULL,'首页','el-icon-s-home','','\0',0,'','{}',1,'/'),(2,NULL,'示例菜单','el-icon-share','\0','',0,'','{}',2,'#'),(3,NULL,'演示-HelloWorld','el-icon-share','\0','\0',2,'','{component:\"example/hello-world\"}',3,'/example/helloworld'),(4,NULL,'演示-动态界面','el-icon-star-on','\0','\0',2,'','{component:\"example/uiexample\"}',4,'/example/uiexample'),(5,NULL,'演示-请假单录入','el-icon-share','\0','\0',2,'','{component:\"example/leaveslip-add\"}',5,'/example/leaveslip/add'),(6,NULL,'演示-请假单审核','el-icon-share','\0','\0',2,'','{component:\"example/leaveslip-audit\"}',6,'/example/leaveslip/audit'),(7,NULL,'菜单管理','el-icon-s-data','\0','\0',0,'','{}',7,'#1'),(8,NULL,'基础要素维护','el-icon-s-data','\0','\0',0,'','{}',8,'#'),(9,NULL,'菜单维护',NULL,'\0','\0',7,'','{}',9,'/menu/'),(10,NULL,'组件配置',NULL,'\0','\0',7,'','{}',10,'/ui-component/'),(11,NULL,'按钮配置',NULL,'\0','\0',7,'','{}',11,'/ui-tool-button/'),(12,NULL,'列表配置',NULL,'\0','\0',7,'','{}',12,'/ui-table/'),(13,NULL,'编辑区配置',NULL,'\0','\0',7,'','{}',13,'/ui-editform/'),(14,NULL,'查询区配置',NULL,'\0','\0',7,'','{}',14,'/ui-queryform/'),(15,NULL,'页签区配置',NULL,'\0','\0',7,'','{}',15,'/ui-tab/'),(16,NULL,'请假类型维护',NULL,'\0','\0',8,'','{}',16,'/leave-type/'),(17,NULL,'权限管理','el-icon-user-solid','\0','\0',0,'','{}',17,'#'),(18,NULL,'数据权限维护',NULL,'\0','\0',17,'','{}',18,'/data-permission/'),(19,NULL,'数据权限分配',NULL,'\0','\0',17,'','{component:\"permission/data-permission\"}',19,'/sys/data-permission/create'),(20,NULL,'功能权限分配',NULL,'\0','\0',17,'','{component:\"permission/tool-button-permission\"}',20,'/sys/tool-button-permission/create'),(21,NULL,'大屏管理','el-icon-s-platform','\0','\0',0,'','{}',21,'#'),(22,NULL,'系统配置','el-icon-setting','\0','\0',0,'','{}',22,'#'),(23,NULL,'系统参数配置',NULL,'\0','\0',22,'','{}',23,'#'),(24,NULL,'定时任务配置',NULL,'\0','\0',22,'','{}',24,'#'),(25,NULL,'仪表盘组件维护',NULL,'\0','\0',21,'','{}',25,'#'),(26,NULL,'仪表盘组件配置',NULL,'\0','\0',21,'','{}',26,'#'),(27,NULL,'系统监控','el-icon-camera-solid','\0','\0',0,'','{}',27,'#'),(28,NULL,'在线人员监控',NULL,'\0','\0',27,'','{}',28,'#'),(29,NULL,'操作日志监控',NULL,'\0','\0',27,'','{}',29,'#'),(30,NULL,'采集表定义',NULL,'\0','\0',22,'','{}',30,'#'),(31,NULL,'菜单角色权限分配',NULL,'\0','\0',17,'','{component:\"permission/role-menu\"}',31,'/sys/role-menu/create');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_role_menu`
+--
+
+DROP TABLE IF EXISTS `sys_role_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_role_menu` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `role_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色id',
+  `menu_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=224 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色对菜单\\n@author zhaozhiwei';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_role_menu`
+--
+
+LOCK TABLES `sys_role_menu` WRITE;
+/*!40000 ALTER TABLE `sys_role_menu` DISABLE KEYS */;
+INSERT INTO `sys_role_menu` VALUES (187,'ROLE_ADMIN','1'),(188,'ROLE_ADMIN','2'),(189,'ROLE_ADMIN','3'),(190,'ROLE_ADMIN','4'),(191,'ROLE_ADMIN','5'),(192,'ROLE_ADMIN','6'),(193,'ROLE_ADMIN','7'),(194,'ROLE_ADMIN','9'),(195,'ROLE_ADMIN','10'),(196,'ROLE_ADMIN','11'),(197,'ROLE_ADMIN','12'),(198,'ROLE_ADMIN','13'),(199,'ROLE_ADMIN','14'),(200,'ROLE_ADMIN','15'),(201,'ROLE_ADMIN','8'),(202,'ROLE_ADMIN','16'),(203,'ROLE_ADMIN','17'),(204,'ROLE_ADMIN','18'),(205,'ROLE_ADMIN','19'),(206,'ROLE_ADMIN','20'),(207,'ROLE_ADMIN','31'),(208,'ROLE_ADMIN','21'),(209,'ROLE_ADMIN','25'),(210,'ROLE_ADMIN','26'),(211,'ROLE_ADMIN','22'),(212,'ROLE_ADMIN','23'),(213,'ROLE_ADMIN','24'),(214,'ROLE_ADMIN','30'),(215,'ROLE_ADMIN','27'),(216,'ROLE_ADMIN','28'),(217,'ROLE_ADMIN','29'),(218,'ROLE_USER','1'),(219,'ROLE_USER','2'),(220,'ROLE_USER','3'),(221,'ROLE_USER','4'),(222,'ROLE_USER','5'),(223,'ROLE_USER','6');
+/*!40000 ALTER TABLE `sys_role_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_role_menu_button`
+--
+
+DROP TABLE IF EXISTS `sys_role_menu_button`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_role_menu_button` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `role_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色id',
+  `menu_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '菜单id',
+  `tool_button_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色,菜单,按钮权限\\n@author zhaozhiwei';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_role_menu_button`
+--
+
+LOCK TABLES `sys_role_menu_button` WRITE;
+/*!40000 ALTER TABLE `sys_role_menu_button` DISABLE KEYS */;
+INSERT INTO `sys_role_menu_button` VALUES (4,'ROLE_ADMIN','6',15);
+/*!40000 ALTER TABLE `sys_role_menu_button` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1506,4 +1639,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-14  7:09:11
+-- Dump completed on 2022-05-21 10:07:56
