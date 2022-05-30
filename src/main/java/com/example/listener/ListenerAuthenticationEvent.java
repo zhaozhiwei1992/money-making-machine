@@ -1,7 +1,13 @@
 package com.example.listener;
 
 import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.example.service.OnLineUserService;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -40,23 +46,30 @@ public class ListenerAuthenticationEvent {
     public void onSuccess(AuthenticationSuccessEvent successEvent) {
         log.info("{} 认证成功", successEvent.getAuthentication().getName());
 
-        //        todo 获取客户端信息, 如果获取不到则调整在 com.example.web.rest.UserJWTController.authorize写入threadLocal这里获取
+        //      获取客户端信息, 如果获取不到则调整在 com.example.web.rest.UserJWTController.authorize写入threadLocal这里获取
         final HashMap<String, Object> onLineUser = new HashMap<>();
         onLineUser.put("ip", ServletUtil.getClientIP(request));
-        onLineUser.put("os", "");
-        onLineUser.put("sessionId", "");
+        final UserAgent userAgentParse = UserAgentUtil.parse(request.getHeader("User-Agent"));
+        onLineUser.put("os", userAgentParse.getOs().toString());
+
         onLineUser.put("userName", successEvent.getAuthentication().getName());
-        onLineUser.put("browser", "");
-        onLineUser.put("nowTime", successEvent.getTimestamp());
+        onLineUser.put("browser", userAgentParse.getBrowser().toString());
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String format = dateTimeFormatter.format(
+            LocalDateTime.ofInstant(Instant.ofEpochMilli(successEvent.getTimestamp()), ZoneId.of("Asia/Shanghai"))
+        );
+        onLineUser.put("nowTime", format);
+        onLineUserService.add(onLineUser);
     }
 
     @EventListener
     public void onFailure(AbstractAuthenticationFailureEvent failureEvent) {
-        System.out.println(failureEvent.getAuthentication().getName() + "认证失败，失败原因：" + failureEvent.getException().getMessage());
+        log.info("{} 认证失败，失败原因： {}", failureEvent.getAuthentication().getName(), failureEvent.getException().getMessage());
     }
 
-    @EventListener
+    @EventListener(classes = LogoutSuccessEvent.class)
     public void onLogout(LogoutSuccessEvent logoutSuccessEvent) {
         log.info("{} 退出成功", logoutSuccessEvent.getAuthentication().getName());
+        onLineUserService.delete(logoutSuccessEvent.getAuthentication().getName());
     }
 }

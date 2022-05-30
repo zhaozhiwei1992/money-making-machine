@@ -62,11 +62,11 @@ router.beforeEach(async (to, from, next) => {
   if (!to.matched.length) {
     // 找不到的路由走这里, 前端没有配置的
     // 塞入当前请求的menuid, 数据权限中使用
-    // localStorage.removeItem('menuid');
+    // localStorage.removeItem('router');
     const asyncRouter = localStorage.getItem('router');
-    // console.log('前端缓存路由信息: {}', asyncRouter);
+    console.log('前端缓存路由信息: {}', asyncRouter);
     let pathExist = false;
-    if (!asyncRouter) {
+    if (asyncRouter) {
       // 如果已经缓存则直接从缓存里搞
       const datas = JSON.parse(asyncRouter);
       datas.forEach(v => {

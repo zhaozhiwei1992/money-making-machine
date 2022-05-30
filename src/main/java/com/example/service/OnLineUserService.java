@@ -1,10 +1,8 @@
 package com.example.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import liquibase.pro.packaged.M;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,11 +22,12 @@ public class OnLineUserService {
     private List<Map<String, Object>> onlineUserList = new ArrayList<>();
 
     public void add(Map<String, Object> map) {
+        onlineUserList.removeIf(next -> map.get("userName").equals(next.get("userName")));
         onlineUserList.add(map);
     }
 
     public void delete(String loginName) {
-        onlineUserList.removeIf(next -> loginName.equals(next.get("username")));
+        onlineUserList.removeIf(next -> loginName.equals(next.get("userName")));
     }
 
     public List<Map<String, Object>> findAll() {
