@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
  * <p>
  * 为什么使用sql方式? 后续采集表没有domain对象, 都是原生sql, 可兼容
  * <p>
+ * 通过druid的filter可以实现同样的功能
  * @date 2022/5/14 下午10:22
  */
 public class CustomStatementInspector implements StatementInspector {
