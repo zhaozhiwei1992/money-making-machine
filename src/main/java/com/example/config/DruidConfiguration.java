@@ -29,7 +29,8 @@ public class DruidConfiguration {
     @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DruidDataSource druid() {
         final DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setStatLogger(new PersistentStatLogger());
+        //        这个配置以后, sql监控会给这个里写值, 可能导致druid本身提供的sql监控界面没数据
+        //        druidDataSource.setStatLogger(new PersistentStatLogger());
         //        增加自己的过滤器
         final List<Filter> proxyFilters = druidDataSource.getProxyFilters();
         proxyFilters.add(customDruidStatLogFilter());

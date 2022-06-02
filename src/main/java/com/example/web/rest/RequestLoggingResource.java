@@ -11,10 +11,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -162,9 +163,30 @@ public class RequestLoggingResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of requestLoggings in body.
      */
     @GetMapping("/request-loggings")
-    public ResponseEntity<List<RequestLogging>> getAllRequestLoggings(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<RequestLogging>> getAllRequestLoggings(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) String condition
+    ) {
         log.debug("REST request to get a page of RequestLoggings");
-        Page<RequestLogging> page = requestLoggingRepository.findAll(pageable);
+
+        // 根据条件模糊匹配
+        ExampleMatcher matcher = ExampleMatcher
+            .matchingAny()
+            //改变默认字符串匹配方式：模糊查询
+            .withStringMatcher(ExampleMatcher.StringMatcher.STARTING)
+            //改变默认大小写忽略方式：忽略大小写
+            .withIgnoreCase(true)
+            //忽略属性：是否关注。因为是基本类型，需要忽略掉
+            .withIgnorePaths("id");
+
+        final RequestLogging requestLogging = new RequestLogging();
+        requestLogging.setTraceId(condition);
+        requestLogging.setLoginName(condition);
+        requestLogging.setRequestURI(condition);
+        requestLogging.setCurrentTime(condition);
+
+        final Example<RequestLogging> of = Example.of(requestLogging, matcher);
+        Page<RequestLogging> page = requestLoggingRepository.findAll(of, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

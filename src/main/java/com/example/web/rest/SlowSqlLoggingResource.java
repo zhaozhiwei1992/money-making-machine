@@ -1,5 +1,7 @@
 package com.example.web.rest;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.example.domain.Menu;
 import com.example.domain.SlowSqlLogging;
 import com.example.repository.SlowSqlLoggingRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
@@ -11,6 +13,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -162,9 +166,29 @@ public class SlowSqlLoggingResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of slowSqlLoggings in body.
      */
     @GetMapping("/slow-sql-loggings")
-    public ResponseEntity<List<SlowSqlLogging>> getAllSlowSqlLoggings(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<SlowSqlLogging>> getAllSlowSqlLoggings(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false) String condition
+    ) {
         log.debug("REST request to get a page of SlowSqlLoggings");
-        Page<SlowSqlLogging> page = slowSqlLoggingRepository.findAll(pageable);
+
+        // 根据条件模糊匹配
+        ExampleMatcher matcher = ExampleMatcher
+            .matchingAny()
+            //改变默认字符串匹配方式：模糊查询
+            .withStringMatcher(ExampleMatcher.StringMatcher.STARTING)
+            //改变默认大小写忽略方式：忽略大小写
+            .withIgnoreCase(true)
+            //忽略属性：是否关注。因为是基本类型，需要忽略掉
+            .withIgnorePaths("id");
+
+        final SlowSqlLogging slowSqlLogging = new SlowSqlLogging();
+        slowSqlLogging.setTraceId(condition);
+        slowSqlLogging.setCurrentTime(condition);
+        slowSqlLogging.setSql(condition);
+        final Example<SlowSqlLogging> of = Example.of(slowSqlLogging, matcher);
+
+        Page<SlowSqlLogging> page = slowSqlLoggingRepository.findAll(of, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

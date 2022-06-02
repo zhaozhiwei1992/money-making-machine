@@ -60,7 +60,7 @@ spring:
       # 配置初始化大小、最小、最大
       initial-size: 5
       minIdle: 10
-      max-active: 20
+      max-active: 50
       # 配置获取连接等待超时的时间(单位：毫秒)
       max-wait: 60000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
@@ -93,7 +93,7 @@ spring:
       aop-patterns: 'com.example.repository.*'
       ########### 启用内置过滤器（第一个 stat必须，否则监控不到SQL）##########
       #      filters: stat,wall,log4j2
-      #      todo 去掉wall 防止数据权限1=1被拦截
+      #      todo 去掉wall 防止数据权限1=1被当作sql注入拦截
       filters: stat,log4j2
       # 自己配置监控统计拦截的filter
       filter:

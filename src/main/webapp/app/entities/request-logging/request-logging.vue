@@ -3,6 +3,9 @@
     <h2 id="page-heading" data-cy="RequestLoggingHeading">
       <span v-text="$t('moneyMakingMachineApp.requestLogging.home.title')" id="request-logging-heading">Request Loggings</span>
       <div class="d-flex justify-content-end">
+        <span style="margin-right: 5px">搜索条件:</span>
+        <input type="text" v-model="condition" style="margin-right: 5px" />
+
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
           <span v-text="$t('moneyMakingMachineApp.requestLogging.home.refreshListLabel')">Refresh List</span>

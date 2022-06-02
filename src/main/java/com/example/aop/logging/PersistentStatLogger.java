@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
  * @Description:
  * 自定义实现druid的日志监控, 可以根据需要持久化, 默认的重启服务就没了
  * 这个是由druid根据配置参数间隔时间进行触发
+ *
+ * 这个搞了以后可能出现druid管理界面sql监控界面没值
  * https://www.bookstack.cn/read/Druid/374ebae44c3f5412.md
  * @author zhaozhiwei
  * @date 2022/5/31 下午10:32

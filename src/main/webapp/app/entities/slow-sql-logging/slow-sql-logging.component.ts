@@ -13,13 +13,14 @@ export default class SlowSqlLogging extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
 
   private removeId: number = null;
-  public itemsPerPage = 20;
+  public itemsPerPage = 10;
   public queryCount: number = null;
   public page = 1;
   public previousPage = 1;
   public propOrder = 'id';
-  public reverse = false;
+  public reverse = true;
   public totalItems = 0;
+  public condition = '';
 
   public slowSqlLoggings: ISlowSqlLogging[] = [];
 
@@ -42,7 +43,7 @@ export default class SlowSqlLogging extends Vue {
       sort: this.sort(),
     };
     this.slowSqlLoggingService()
-      .retrieve(paginationQuery)
+      .retrieve(paginationQuery, this.condition)
       .then(
         res => {
           this.slowSqlLoggings = res.data;

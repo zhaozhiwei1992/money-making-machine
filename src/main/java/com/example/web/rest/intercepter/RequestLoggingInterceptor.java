@@ -1,6 +1,8 @@
 package com.example.web.rest.intercepter;
 
 import cn.hutool.extra.servlet.ServletUtil;
+import com.example.domain.RequestLogging;
+import com.example.repository.RequestLoggingRepository;
 import com.example.security.SecurityUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -31,6 +34,9 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
     public static String getCurrentTraceId() {
         return traceIdThreadLocal.get();
     }
+
+    @Autowired
+    private RequestLoggingRepository requestLoggingRepository;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -57,7 +63,15 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             final LocalDateTime now = LocalDateTime.now();
             final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             final String currentTime = now.format(dateTimeFormatter);
+
             //           异步线程记录到数据库
+            final RequestLogging requestLogging = new RequestLogging();
+            requestLogging.setTraceId(traceId);
+            requestLogging.setLoginName(loginName);
+            requestLogging.setRequestURI(requestURI);
+            requestLogging.setClientIP(clientIP);
+            requestLogging.setCurrentTime(currentTime);
+            requestLoggingRepository.save(requestLogging);
         }
 
         return true;
@@ -65,7 +79,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //        清理threadLocal
-
+        //  清理threadLocal
+        traceIdThreadLocal.remove();
     }
 }

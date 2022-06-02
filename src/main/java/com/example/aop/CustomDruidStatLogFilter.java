@@ -1,20 +1,25 @@
 package com.example.aop;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.druid.filter.FilterEventAdapter;
 import com.alibaba.druid.proxy.jdbc.JdbcParameter;
 import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
 import com.alibaba.druid.proxy.jdbc.StatementProxy;
 import com.alibaba.druid.support.json.JSONWriter;
+import com.example.domain.SlowSqlLogging;
+import com.example.repository.SlowSqlLoggingRepository;
 import com.example.web.rest.intercepter.RequestLoggingInterceptor;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.NClob;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * @author zhaozhiwei
@@ -82,7 +87,20 @@ public class CustomDruidStatLogFilter extends FilterEventAdapter {
 
                     final String currentTraceId = RequestLoggingInterceptor.getCurrentTraceId();
                     // 打印日志。还可自行替换为使用数据库等方式来保存，用于后续统计
+                    //                    todo 输出es可识别形式日志, 进行慢sql日志收集
                     log.warn("custom slow sql [" + millis + "] millis, sql: [" + sql + "], params: " + slowParameters);
+
+                    //                  数据库记录慢sql信息
+                    final SlowSqlLogging slowSqlLogging = new SlowSqlLogging();
+                    slowSqlLogging.setTraceId(currentTraceId);
+                    final LocalDateTime now = LocalDateTime.now();
+                    final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    slowSqlLogging.setCurrentTime(now.format(dateTimeFormatter));
+                    slowSqlLogging.setSql(sql);
+                    slowSqlLogging.setExecuteMillis(String.valueOf(millis));
+                    slowSqlLogging.setExecuteParams(slowParameters);
+                    final SlowSqlLoggingRepository slowSqlLoggingRepository = SpringUtil.getBean(SlowSqlLoggingRepository.class);
+                    slowSqlLoggingRepository.save(slowSqlLogging);
                 }
             }
         }
