@@ -1,68 +1,69 @@
 /**
- * 用户请求日志信息
+ * 定时任务配置信息
  * @author zhaozhiwei
  */
-entity RequestLogging (sys_request_log) {
-
+entity JobDetail (sys_job_detail) {
     /**
-    * 请求唯一id, 方便问题定位
+    * 定时任务名称
     */
-	traceId String,
+	name String,
 
 	/**
-	* 用户名
+	* 表达式
 	*/
-	loginName String,
+	cronExpression String,
 
 	/**
-	* 请求地址
+	* 定时任务入口
 	*/
-	requestURI String,
+	startClass String,
 
     /**
-    * 客户端ip
+    * 是否启用
     */
-	clientIP String,
-
-    /**
-    * 当前时间
-    */
-	currentTime String
-
+	enable Boolean
 }
 
-paginate RequestLogging with pagination
+paginate JobDetail with pagination
 
 /**
- * 慢sql记录
+ * 系统参数信息
+ *
+ * 一些需要经常性手动调整, 跟业务相关的配置放这里
+ * 程序相关的可以方式spring配置文件
+ *
  * @author zhaozhiwei
  */
-entity SlowSqlLogging (sys_slow_sql_log) {
+entity SystemParam (sys_param) {
 
     /**
-    * 请求唯一id, 方便问题定位
+    * 配置编码
+    *
+    * 使用时通过编码获取参数
     */
-	traceId String,
+	code String,
 
     /**
-    * 当前时间
+    * 配置名称
     */
-	currentTime String,
+	name String,
+
+	/**
+	* 参数信息
+	* 可以是普通value或者json等，使时自行解析
+	*/
+	value String,
+
+	/**
+	* 备注
+	* 根据需要对参数更细致的描述
+	*/
+	remark String,
 
     /**
-    * 完整sql
+    * 是否启用
     */
-	sql String,
-
-    /**
-    * 运行时间
-    */
-    executeMillis String,
-
-    /**
-    * 运行时涉及的参数
-    */
-    executeParams String
+	enable Boolean
 }
 
-paginate SlowSqlLogging with pagination
+paginate SystemParam with pagination
