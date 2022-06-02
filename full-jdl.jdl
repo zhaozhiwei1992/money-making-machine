@@ -200,3 +200,21 @@ entity RoleMenu (sys_role_menu) {
 
 }
 
+/**
+ * 角色,菜单,按钮权限
+ * @author zhaozhiwei
+ */
+entity RoleMenuToolButton (sys_role_menu_button) {
+
+	/**
+	* 角色id
+	*/
+	roleId   String,
+
+	/**
+	* 菜单id
+	*/
+	menuId   String,
+
+	toolButtonId Long
+}

@@ -1,18 +1,68 @@
 /**
- * 角色,菜单,按钮权限
+ * 用户请求日志信息
  * @author zhaozhiwei
  */
-entity RoleMenuToolButton (sys_role_menu_button) {
+entity RequestLogging (sys_request_log) {
+
+    /**
+    * 请求唯一id, 方便问题定位
+    */
+	traceId String,
 
 	/**
-	* 角色id
+	* 用户名
 	*/
-	roleId   String,
+	loginName String,
 
 	/**
-	* 菜单id
+	* 请求地址
 	*/
-	menuId   String,
+	requestURI String,
 
-	toolButtonId Long
+    /**
+    * 客户端ip
+    */
+	clientIP String,
+
+    /**
+    * 当前时间
+    */
+	currentTime String
+
 }
+
+paginate RequestLogging with pagination
+
+/**
+ * 慢sql记录
+ * @author zhaozhiwei
+ */
+entity SlowSqlLogging (sys_slow_sql_log) {
+
+    /**
+    * 请求唯一id, 方便问题定位
+    */
+	traceId String,
+
+    /**
+    * 当前时间
+    */
+	currentTime String,
+
+    /**
+    * 完整sql
+    */
+	sql String,
+
+    /**
+    * 运行时间
+    */
+    executeMillis String,
+
+    /**
+    * 运行时涉及的参数
+    */
+    executeParams String
+}
+
+paginate SlowSqlLogging with pagination
