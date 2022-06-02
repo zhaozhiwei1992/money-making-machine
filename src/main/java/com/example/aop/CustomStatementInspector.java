@@ -1,12 +1,8 @@
 package com.example.aop;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.example.domain.DataPermissionsRel;
-import com.example.repository.DataPermissionsRelRepository;
 import com.example.security.SecurityUtils;
 import com.example.service.DataPermissionsService;
-import java.util.List;
-import java.util.Objects;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.StringValue;
@@ -55,8 +51,9 @@ public class CustomStatementInspector implements StatementInspector {
             // 1. 是否登录状态, 未登录不允许查看数据
             final boolean authenticated = SecurityUtils.isAuthenticated();
             if (!authenticated) {
-                //                可以显示未登录不允许查看任何数据 1<>1
+                // 可以显示未登录不允许查看任何数据 1<>1
                 log.info("当前未登录, 看着办吧");
+                return sql;
             }
 
             // 2. 登录状态下加载权限, 根据类型增加不同sql过滤
@@ -76,7 +73,7 @@ public class CustomStatementInspector implements StatementInspector {
             log.info("处理后SQL：{}", newSql);
             return newSql;
         } catch (Exception e) {
-            log.error("组织筛选解析失败，解析SQL异常{}", e.getMessage());
+            log.error("组织筛选解析失败，解析SQL异常", e);
             e.printStackTrace();
         }
         return null;

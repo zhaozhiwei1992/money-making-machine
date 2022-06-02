@@ -370,6 +370,14 @@
         </dependency>
 
         <!--        工作流结束-->
+
+<!--     定时任务配置开始 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+        <!--    定时任务配置结束 -->
+
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
 
