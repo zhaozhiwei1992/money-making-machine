@@ -2,7 +2,7 @@
  * 定时任务配置信息
  * @author zhaozhiwei
  */
-entity JobDetail (sys_job_detail) {
+entity TaskParam (sys_task_param) {
     /**
     * 定时任务名称
     */
@@ -24,7 +24,7 @@ entity JobDetail (sys_job_detail) {
 	enable Boolean
 }
 
-paginate JobDetail with pagination
+paginate TaskParam with pagination
 
 /**
  * 系统参数信息
