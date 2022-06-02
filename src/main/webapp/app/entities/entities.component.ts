@@ -14,6 +14,8 @@ import DataPermissionDetailsService from './data-permission-details/data-permiss
 import DataPermissionsRelService from './data-permissions-rel/data-permissions-rel.service';
 import RoleMenuService from './role-menu/role-menu.service';
 import RoleMenuToolButtonService from './role-menu-tool-button/role-menu-tool-button.service';
+import RequestLoggingService from './request-logging/request-logging.service';
+import SlowSqlLoggingService from './slow-sql-logging/slow-sql-logging.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
 @Component
@@ -32,5 +34,7 @@ export default class Entities extends Vue {
   @Provide('dataPermissionsRelService') private dataPermissionsRelService = () => new DataPermissionsRelService();
   @Provide('roleMenuService') private roleMenuService = () => new RoleMenuService();
   @Provide('roleMenuToolButtonService') private roleMenuToolButtonService = () => new RoleMenuToolButtonService();
+  @Provide('requestLoggingService') private requestLoggingService = () => new RequestLoggingService();
+  @Provide('slowSqlLoggingService') private slowSqlLoggingService = () => new SlowSqlLoggingService();
   // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
 }

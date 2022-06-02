@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220602024934",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_request_log",
+  "fields": [
+    {
+      "fieldName": "traceId",
+      "fieldType": "String",
+      "javadoc": "请求唯一id, 方便问题定位"
+    },
+    {
+      "fieldName": "loginName",
+      "fieldType": "String",
+      "javadoc": "用户名"
+    },
+    {
+      "fieldName": "requestURI",
+      "fieldType": "String",
+      "javadoc": "请求地址"
+    },
+    {
+      "fieldName": "clientIP",
+      "fieldType": "String",
+      "javadoc": "客户端ip"
+    },
+    {
+      "fieldName": "currentTime",
+      "fieldType": "String",
+      "javadoc": "当前时间"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "用户请求日志信息\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "RequestLogging",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

@@ -20,6 +20,8 @@
         "dataPermissionsRel": "Data Permissions Rel",
         "roleMenu": "Role Menu",
         "roleMenuToolButton": "Role Menu Tool Button",
+        "requestLogging": "Request Logging",
+        "slowSqlLogging": "Slow Sql Logging",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

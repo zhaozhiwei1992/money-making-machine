@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220602024935",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_slow_sql_log",
+  "fields": [
+    {
+      "fieldName": "traceId",
+      "fieldType": "String",
+      "javadoc": "请求唯一id, 方便问题定位"
+    },
+    {
+      "fieldName": "currentTime",
+      "fieldType": "String",
+      "javadoc": "当前时间"
+    },
+    {
+      "fieldName": "sql",
+      "fieldType": "String",
+      "javadoc": "完整sql"
+    },
+    {
+      "fieldName": "executeMillis",
+      "fieldType": "String",
+      "javadoc": "运行时间"
+    },
+    {
+      "fieldName": "executeParams",
+      "fieldType": "String",
+      "javadoc": "运行时涉及的参数"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "慢sql记录\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "SlowSqlLogging",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

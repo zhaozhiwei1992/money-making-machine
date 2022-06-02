@@ -1,0 +1,35 @@
+{
+  "moneyMakingMachineApp": {
+    "slowSqlLogging": {
+      "home": {
+        "title": "Slow Sql Loggings",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Slow Sql Logging",
+        "createOrEditLabel": "创建或编辑 Slow Sql Logging",
+        "notFound": "No Slow Sql Loggings found"
+      },
+      "created": "Slow Sql Logging {{ param }} 创建成功",
+      "updated": "Slow Sql Logging {{ param }} 更新成功",
+      "deleted": "Slow Sql Logging {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Slow Sql Logging {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Slow Sql Logging"
+      },
+      "id": "ID",
+      "traceId": "Trace Id",
+      "currentTime": "Current Time",
+      "sql": "Sql",
+      "executeMillis": "Execute Millis",
+      "executeParams": "Execute Params",
+      "help": {
+        "traceId": "请求唯一id, 方便问题定位",
+        "currentTime": "当前时间",
+        "sql": "完整sql",
+        "executeMillis": "运行时间",
+        "executeParams": "运行时涉及的参数"
+      }
+    }
+  }
+}

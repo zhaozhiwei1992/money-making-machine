@@ -81,6 +81,18 @@ const RoleMenuToolButton = () => import('@/entities/role-menu-tool-button/role-m
 const RoleMenuToolButtonUpdate = () => import('@/entities/role-menu-tool-button/role-menu-tool-button-update.vue');
 // prettier-ignore
 const RoleMenuToolButtonDetails = () => import('@/entities/role-menu-tool-button/role-menu-tool-button-details.vue');
+// prettier-ignore
+const RequestLogging = () => import('@/entities/request-logging/request-logging.vue');
+// prettier-ignore
+const RequestLoggingUpdate = () => import('@/entities/request-logging/request-logging-update.vue');
+// prettier-ignore
+const RequestLoggingDetails = () => import('@/entities/request-logging/request-logging-details.vue');
+// prettier-ignore
+const SlowSqlLogging = () => import('@/entities/slow-sql-logging/slow-sql-logging.vue');
+// prettier-ignore
+const SlowSqlLoggingUpdate = () => import('@/entities/slow-sql-logging/slow-sql-logging-update.vue');
+// prettier-ignore
+const SlowSqlLoggingDetails = () => import('@/entities/slow-sql-logging/slow-sql-logging-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -397,6 +409,54 @@ export default {
       path: 'role-menu-tool-button/:roleMenuToolButtonId/view',
       name: 'RoleMenuToolButtonView',
       component: RoleMenuToolButtonDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'request-logging',
+      name: 'RequestLogging',
+      component: RequestLogging,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'request-logging/new',
+      name: 'RequestLoggingCreate',
+      component: RequestLoggingUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'request-logging/:requestLoggingId/edit',
+      name: 'RequestLoggingEdit',
+      component: RequestLoggingUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'request-logging/:requestLoggingId/view',
+      name: 'RequestLoggingView',
+      component: RequestLoggingDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'slow-sql-logging',
+      name: 'SlowSqlLogging',
+      component: SlowSqlLogging,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'slow-sql-logging/new',
+      name: 'SlowSqlLoggingCreate',
+      component: SlowSqlLoggingUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'slow-sql-logging/:slowSqlLoggingId/edit',
+      name: 'SlowSqlLoggingEdit',
+      component: SlowSqlLoggingUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'slow-sql-logging/:slowSqlLoggingId/view',
+      name: 'SlowSqlLoggingView',
+      component: SlowSqlLoggingDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
