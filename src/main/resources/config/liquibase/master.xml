@@ -32,6 +32,8 @@
     <include file="config/liquibase/changelog/20220515132234_added_entity_RoleMenuToolButton.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220602024934_added_entity_RequestLogging.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220602024935_added_entity_SlowSqlLogging.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220602071343_added_entity_TaskParam.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220602071344_added_entity_SystemParam.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

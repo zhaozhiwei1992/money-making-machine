@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220602071344",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_param",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "javadoc": "配置编码\\n\\n使用时通过编码获取参数"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "javadoc": "配置名称"
+    },
+    {
+      "fieldName": "value",
+      "fieldType": "String",
+      "javadoc": "参数信息\\n可以是普通value或者json等，使时自行解析"
+    },
+    {
+      "fieldName": "remark",
+      "fieldType": "String",
+      "javadoc": "备注\\n根据需要对参数更细致的描述"
+    },
+    {
+      "fieldName": "enable",
+      "fieldType": "Boolean",
+      "javadoc": "是否启用"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "系统参数信息\\n\\n一些需要经常性手动调整, 跟业务相关的配置放这里\\n程序相关的可以方式spring配置文件\\n\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "SystemParam",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

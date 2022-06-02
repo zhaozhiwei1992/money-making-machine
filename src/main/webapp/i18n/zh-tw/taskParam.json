@@ -1,0 +1,33 @@
+{
+  "moneyMakingMachineApp": {
+    "taskParam": {
+      "home": {
+        "title": "Task Params",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Task Param",
+        "createOrEditLabel": "建立或編輯 Task Param",
+        "notFound": "No Task Params found"
+      },
+      "created": "新的 Task Param 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Task Param 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Task Param 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Task Param {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Task Param"
+      },
+      "id": "ID",
+      "name": "Name",
+      "cronExpression": "Cron Expression",
+      "startClass": "Start Class",
+      "enable": "Enable",
+      "help": {
+        "name": "定时任务名称",
+        "cronExpression": "表达式",
+        "startClass": "定时任务入口",
+        "enable": "是否启用"
+      }
+    }
+  }
+}

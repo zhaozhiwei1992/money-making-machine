@@ -1,0 +1,35 @@
+{
+  "moneyMakingMachineApp": {
+    "systemParam": {
+      "home": {
+        "title": "System Params",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 System Param",
+        "createOrEditLabel": "建立或編輯 System Param",
+        "notFound": "No System Params found"
+      },
+      "created": "新的 System Param 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 System Param 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 System Param 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 System Param {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "System Param"
+      },
+      "id": "ID",
+      "code": "Code",
+      "name": "Name",
+      "value": "Value",
+      "remark": "Remark",
+      "enable": "Enable",
+      "help": {
+        "code": "配置编码\n\n使用时通过编码获取参数",
+        "name": "配置名称",
+        "value": "参数信息\n可以是普通value或者json等，使时自行解析",
+        "remark": "备注\n根据需要对参数更细致的描述",
+        "enable": "是否启用"
+      }
+    }
+  }
+}

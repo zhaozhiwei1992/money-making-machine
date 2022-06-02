@@ -93,6 +93,18 @@ const SlowSqlLogging = () => import('@/entities/slow-sql-logging/slow-sql-loggin
 const SlowSqlLoggingUpdate = () => import('@/entities/slow-sql-logging/slow-sql-logging-update.vue');
 // prettier-ignore
 const SlowSqlLoggingDetails = () => import('@/entities/slow-sql-logging/slow-sql-logging-details.vue');
+// prettier-ignore
+const TaskParam = () => import('@/entities/task-param/task-param.vue');
+// prettier-ignore
+const TaskParamUpdate = () => import('@/entities/task-param/task-param-update.vue');
+// prettier-ignore
+const TaskParamDetails = () => import('@/entities/task-param/task-param-details.vue');
+// prettier-ignore
+const SystemParam = () => import('@/entities/system-param/system-param.vue');
+// prettier-ignore
+const SystemParamUpdate = () => import('@/entities/system-param/system-param-update.vue');
+// prettier-ignore
+const SystemParamDetails = () => import('@/entities/system-param/system-param-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -457,6 +469,54 @@ export default {
       path: 'slow-sql-logging/:slowSqlLoggingId/view',
       name: 'SlowSqlLoggingView',
       component: SlowSqlLoggingDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'task-param',
+      name: 'TaskParam',
+      component: TaskParam,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'task-param/new',
+      name: 'TaskParamCreate',
+      component: TaskParamUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'task-param/:taskParamId/edit',
+      name: 'TaskParamEdit',
+      component: TaskParamUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'task-param/:taskParamId/view',
+      name: 'TaskParamView',
+      component: TaskParamDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'system-param',
+      name: 'SystemParam',
+      component: SystemParam,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'system-param/new',
+      name: 'SystemParamCreate',
+      component: SystemParamUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'system-param/:systemParamId/edit',
+      name: 'SystemParamEdit',
+      component: SystemParamUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'system-param/:systemParamId/view',
+      name: 'SystemParamView',
+      component: SystemParamDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

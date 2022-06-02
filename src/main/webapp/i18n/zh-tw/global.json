@@ -22,6 +22,8 @@
         "roleMenuToolButton": "Role Menu Tool Button",
         "requestLogging": "Request Logging",
         "slowSqlLogging": "Slow Sql Logging",
+        "taskParam": "Task Param",
+        "systemParam": "System Param",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

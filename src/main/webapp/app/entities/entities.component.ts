@@ -16,6 +16,8 @@ import RoleMenuService from './role-menu/role-menu.service';
 import RoleMenuToolButtonService from './role-menu-tool-button/role-menu-tool-button.service';
 import RequestLoggingService from './request-logging/request-logging.service';
 import SlowSqlLoggingService from './slow-sql-logging/slow-sql-logging.service';
+import TaskParamService from './task-param/task-param.service';
+import SystemParamService from './system-param/system-param.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
 @Component
@@ -36,5 +38,7 @@ export default class Entities extends Vue {
   @Provide('roleMenuToolButtonService') private roleMenuToolButtonService = () => new RoleMenuToolButtonService();
   @Provide('requestLoggingService') private requestLoggingService = () => new RequestLoggingService();
   @Provide('slowSqlLoggingService') private slowSqlLoggingService = () => new SlowSqlLoggingService();
+  @Provide('taskParamService') private taskParamService = () => new TaskParamService();
+  @Provide('systemParamService') private systemParamService = () => new SystemParamService();
   // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
 }
