@@ -100,6 +100,9 @@ public class CacheConfiguration {
             createCache(cm, com.example.domain.SlowSqlLogging.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.TaskParam.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.SystemParam.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.SysCollectTab.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.SysCollectCol.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.SysFormulaTab.class.getName(), jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }

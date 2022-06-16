@@ -1,0 +1,53 @@
+{
+  "applications": "*",
+  "changelogDate": "20220616122907",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_formula_tab",
+  "fields": [
+    {
+      "fieldName": "tabEname",
+      "fieldType": "String",
+      "javadoc": "表英文编码"
+    },
+    {
+      "fieldName": "colEname",
+      "fieldType": "String",
+      "javadoc": "字段英文编码"
+    },
+    {
+      "fieldName": "calFormula",
+      "fieldType": "String",
+      "javadoc": "计算公式"
+    },
+    {
+      "fieldName": "calFormulaDes",
+      "fieldType": "String",
+      "javadoc": "公式中文描述"
+    },
+    {
+      "fieldName": "roundType",
+      "fieldType": "String",
+      "javadoc": "进位类型, 四舍五入等, BigDecimal"
+    },
+    {
+      "fieldName": "weight",
+      "fieldType": "Integer",
+      "javadoc": "公式权重"
+    },
+    {
+      "fieldName": "enable",
+      "fieldType": "Boolean",
+      "javadoc": "是否启用"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "采集表信息\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "SysFormulaTab",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no",
+  "skipClient": true
+}

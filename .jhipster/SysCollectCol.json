@@ -1,0 +1,62 @@
+{
+  "applications": "*",
+  "changelogDate": "20220616122906",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_collect_col",
+  "fields": [
+    {
+      "fieldName": "colCname",
+      "fieldType": "String",
+      "javadoc": "列中文名"
+    },
+    {
+      "fieldName": "colEname",
+      "fieldType": "String",
+      "javadoc": "列英文名"
+    },
+    {
+      "fieldName": "tabId",
+      "fieldType": "Long",
+      "javadoc": "关联采集表id"
+    },
+    {
+      "fieldName": "orderNum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "source",
+      "fieldType": "String",
+      "javadoc": "数据源头, 可以是bean或者数据项ele_"
+    },
+    {
+      "fieldName": "isEdit",
+      "fieldType": "Boolean",
+      "javadoc": "是否可编辑"
+    },
+    {
+      "fieldName": "requirement",
+      "fieldType": "Boolean",
+      "javadoc": "是否必填"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String",
+      "javadoc": "数据类型, tree, select, input等"
+    },
+    {
+      "fieldName": "config",
+      "fieldType": "String",
+      "javadoc": "扩展配置"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "采集表列信息\\n@author zhaozhiwei",
+  "jpaMetamodelFiltering": false,
+  "name": "SysCollectCol",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no",
+  "skipClient": true
+}

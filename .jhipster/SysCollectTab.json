@@ -1,24 +1,24 @@
 {
   "applications": "*",
-  "changelogDate": "20220602071343",
+  "changelogDate": "20220616122905",
   "dto": "no",
   "embedded": false,
-  "entityTableName": "sys_task_param",
+  "entityTableName": "sys_collect_tab",
   "fields": [
     {
-      "fieldName": "name",
+      "fieldName": "tabCname",
       "fieldType": "String",
-      "javadoc": "定时任务名称"
+      "javadoc": "表中文名"
     },
     {
-      "fieldName": "cronExpression",
+      "fieldName": "tabEname",
       "fieldType": "String",
-      "javadoc": "表达式"
+      "javadoc": "表英文名"
     },
     {
-      "fieldName": "startClass",
+      "fieldName": "config",
       "fieldType": "String",
-      "javadoc": "定时任务入口"
+      "javadoc": "备用配置"
     },
     {
       "fieldName": "enable",
@@ -27,10 +27,10 @@
     }
   ],
   "fluentMethods": true,
-  "javadoc": "定时任务配置信息\\n@author zhaozhiwei",
+  "javadoc": "采集表信息\\n@author zhaozhiwei",
   "jpaMetamodelFiltering": false,
-  "name": "TaskParam",
-  "pagination": "pagination",
+  "name": "SysCollectTab",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [],
   "service": "no",
