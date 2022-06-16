@@ -1,69 +1,117 @@
 /**
- * 定时任务配置信息
+ * 采集表信息
  * @author zhaozhiwei
  */
-entity TaskParam (sys_task_param) {
+entity SysCollectTab (sys_collect_tab) {
     /**
-    * 定时任务名称
+    * 表中文名
     */
-	name String,
+	tabCname String,
 
 	/**
-	* 表达式
+	* 表英文名
 	*/
-	cronExpression String,
+	tabEname String,
 
 	/**
-	* 定时任务入口
+	* 备用配置
 	*/
-	startClass String,
+	config String,
 
     /**
     * 是否启用
     */
 	enable Boolean
 }
-
-paginate TaskParam with pagination
 
 /**
- * 系统参数信息
- *
- * 一些需要经常性手动调整, 跟业务相关的配置放这里
- * 程序相关的可以方式spring配置文件
- *
+ * 采集表列信息
  * @author zhaozhiwei
  */
-entity SystemParam (sys_param) {
+entity SysCollectCol (sys_collect_col) {
+
 
     /**
-    * 配置编码
-    *
-    * 使用时通过编码获取参数
+    * 列中文名
     */
-	code String,
+    colCname String,
 
     /**
-    * 配置名称
+    * 列英文名
     */
-	name String,
+    colEname String,
+
+    /**
+    * 关联采集表id
+    */
+    tabId Long,
+
+	orderNum Integer,
 
 	/**
-	* 参数信息
-	* 可以是普通value或者json等，使时自行解析
+	* 数据源头, 可以是bean或者数据项ele_
 	*/
-	value String,
+	source   String,
 
 	/**
-	* 备注
-	* 根据需要对参数更细致的描述
+	* 是否可编辑
 	*/
-	remark String,
+	isEdit     Boolean,
 
-    /**
-    * 是否启用
-    */
-	enable Boolean
+	/**
+	* 是否必填
+	*/
+	requirement Boolean,
+
+	/**
+	* 数据类型, tree, select, input等
+	*/
+	type       String,
+
+	/**
+	* 扩展配置
+	*/
+	config     String
 }
 
-paginate SystemParam with pagination
+/**
+ * 采集表信息
+ * @author zhaozhiwei
+ */
+entity SysFormulaTab (sys_formula_tab) {
+    /**
+    * 表英文编码
+    */
+	tabEname String,
+
+	/**
+	* 字段英文编码
+	*/
+	colEname String,
+
+	/**
+	* 计算公式
+	*/
+	calFormula String,
+
+    /**
+    * 公式中文描述
+    */
+    calFormulaDes String,
+
+    /**
+    * 进位类型, 四舍五入等, BigDecimal
+    */
+	roundType String,
+
+    /**
+    * 公式权重
+    */
+	weight Integer,
+
+	/**
+	* 是否启用
+	*/
+	enable Boolean
+
+}

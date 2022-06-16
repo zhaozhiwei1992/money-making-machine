@@ -31,7 +31,7 @@ spring:
     serialization:
       indent-output: true
   datasource:
-    url: jdbc:mysql://192.168.0.113:3306/money_making_machine?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&nullCatalogMeansCurrent=true
+    url: jdbc:mysql://localhost:3306/money_making_machine?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&nullCatalogMeansCurrent=true
     username: root
     password: root
     #    type: com.zaxxer.hikari.HikariDataSource
@@ -165,7 +165,7 @@ jhipster:
   cache: # Cache configuration
     redis: # Redis configuration
       expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
-      server: redis://192.168.0.113:6379
+      server: redis://localhost:6379
       cluster: false
       # server: redis://localhost:6379,redis://localhost:16379,redis://localhost:26379
       # cluster: true

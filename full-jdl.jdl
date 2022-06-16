@@ -287,3 +287,73 @@ entity SlowSqlLogging (sys_slow_sql_log) {
 }
 
 paginate SlowSqlLogging with pagination
+
+/**
+ * 定时任务配置信息
+ * @author zhaozhiwei
+ */
+entity TaskParam (sys_task_param) {
+    /**
+    * 定时任务名称
+    */
+	name String,
+
+	/**
+	* 表达式
+	*/
+	cronExpression String,
+
+	/**
+	* 定时任务入口
+	*/
+	startClass String,
+
+    /**
+    * 是否启用
+    */
+	enable Boolean
+}
+
+paginate TaskParam with pagination
+
+/**
+ * 系统参数信息
+ *
+ * 一些需要经常性手动调整, 跟业务相关的配置放这里
+ * 程序相关的可以方式spring配置文件
+ *
+ * @author zhaozhiwei
+ */
+entity SystemParam (sys_param) {
+
+    /**
+    * 配置编码
+    *
+    * 使用时通过编码获取参数
+    */
+	code String,
+
+    /**
+    * 配置名称
+    */
+	name String,
+
+	/**
+	* 参数信息
+	* 可以是普通value或者json等，使时自行解析
+	*/
+	value String,
+
+	/**
+	* 备注
+	* 根据需要对参数更细致的描述
+	*/
+	remark String,
+
+    /**
+    * 是否启用
+    */
+	enable Boolean
+}
+
+paginate SystemParam with pagination
