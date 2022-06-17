@@ -357,3 +357,121 @@ entity SystemParam (sys_param) {
 }
 
 paginate SystemParam with pagination
+
+/**
+ * 采集表信息
+ * @author zhaozhiwei
+ */
+entity SysCollectTab (sys_collect_tab) {
+    /**
+    * 表中文名
+    */
+	tabCname String,
+
+	/**
+	* 表英文名
+	*/
+	tabEname String,
+
+	/**
+	* 备用配置
+	*/
+	config String,
+
+    /**
+    * 是否启用
+    */
+	enable Boolean
+}
+
+/**
+ * 采集表列信息
+ * @author zhaozhiwei
+ */
+entity SysCollectCol (sys_collect_col) {
+
+
+    /**
+    * 列中文名
+    */
+    colCname String,
+
+    /**
+    * 列英文名
+    */
+    colEname String,
+
+    /**
+    * 关联采集表id
+    */
+    tabId Long,
+
+	orderNum Integer,
+
+	/**
+	* 数据源头, 可以是bean或者数据项ele_
+	*/
+	source   String,
+
+	/**
+	* 是否可编辑
+	*/
+	isEdit     Boolean,
+
+	/**
+	* 是否必填
+	*/
+	requirement Boolean,
+
+	/**
+	* 数据类型, tree, select, input等
+	*/
+	type       String,
+
+	/**
+	* 扩展配置
+	*/
+	config     String
+}
+
+/**
+ * 采集表信息
+ * @author zhaozhiwei
+ */
+entity SysFormulaTab (sys_formula_tab) {
+    /**
+    * 表英文编码
+    */
+	tabEname String,
+
+	/**
+	* 字段英文编码
+	*/
+	colEname String,
+
+	/**
+	* 计算公式
+	*/
+	calFormula String,
+
+    /**
+    * 公式中文描述
+    */
+    calFormulaDes String,
+
+    /**
+    * 进位类型, 四舍五入等, BigDecimal
+    */
+	roundType String,
+
+    /**
+    * 公式权重
+    */
+	weight Integer,
+
+	/**
+	* 是否启用
+	*/
+	enable Boolean
+
+}

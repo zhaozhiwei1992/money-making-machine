@@ -1,11 +1,14 @@
 package com.example.config;
 
+import com.example.aop.MetadataExtractorIntegrator;
 import java.net.URI;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
 import org.hibernate.cache.jcache.ConfigSettings;
+import org.hibernate.jpa.boot.spi.IntegratorProvider;
 import org.redisson.Redisson;
 import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
@@ -70,7 +73,15 @@ public class CacheConfiguration {
 
     @Bean
     public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cm) {
-        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cm);
+        return hibernateProperties -> {
+            hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cm);
+
+            // 增加数据库源信息注入
+            hibernateProperties.put(
+                "hibernate.integrator_provider",
+                (IntegratorProvider) () -> Collections.singletonList(MetadataExtractorIntegrator.INSTANCE)
+            );
+        };
     }
 
     @Bean
@@ -103,6 +114,7 @@ public class CacheConfiguration {
             createCache(cm, com.example.domain.SysCollectTab.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.SysCollectCol.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.SysFormulaTab.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.EleUnion.class.getName(), jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }

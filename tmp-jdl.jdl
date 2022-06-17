@@ -1,117 +1,55 @@
 /**
- * 采集表信息
- * @author zhaozhiwei
- */
-entity SysCollectTab (sys_collect_tab) {
-    /**
-    * 表中文名
-    */
-	tabCname String,
-
-	/**
-	* 表英文名
-	*/
-	tabEname String,
-
-	/**
-	* 备用配置
-	*/
-	config String,
+* 基础数据总表
+* 数据量小的可以统一使用总表创建即可
+* 单独的表可以使用ele_001001类似的表名
+*/
+entity EleUnion (ele_union) {
 
     /**
-    * 是否启用
+    * 代码集分类编码
+    * 如: 001001
+    * 如果在该表不存在数据, 则通过ele_eleCatCode方式来查其它表
     */
-	enable Boolean
-}
-
-/**
- * 采集表列信息
- * @author zhaozhiwei
- */
-entity SysCollectCol (sys_collect_col) {
-
+    eleCatCode String,
 
     /**
-    * 列中文名
+    * 代码集分类名称
+    * 如: 单位
     */
-    colCname String,
+    eleCatName String,
 
     /**
-    * 列英文名
-    */
-    colEname String,
+     * 代码集代码
+     **/
+    eleCode String,
 
     /**
-    * 关联采集表id
-    */
-    tabId Long,
-
-	orderNum Integer,
-
-	/**
-	* 数据源头, 可以是bean或者数据项ele_
-	*/
-	source   String,
-
-	/**
-	* 是否可编辑
-	*/
-	isEdit     Boolean,
-
-	/**
-	* 是否必填
-	*/
-	requirement Boolean,
-
-	/**
-	* 数据类型, tree, select, input等
-	*/
-	type       String,
-
-	/**
-	* 扩展配置
-	*/
-	config     String
-}
-
-/**
- * 采集表信息
- * @author zhaozhiwei
- */
-entity SysFormulaTab (sys_formula_tab) {
-    /**
-    * 表英文编码
-    */
-	tabEname String,
-
-	/**
-	* 字段英文编码
-	*/
-	colEname String,
-
-	/**
-	* 计算公式
-	*/
-	calFormula String,
+     * 代码集名称
+     **/
+    eleName String,
 
     /**
-    * 公式中文描述
-    */
-    calFormulaDes String,
-
+     * 父级节点主键
+     **/
+    parentId String,
     /**
-    * 进位类型, 四舍五入等, BigDecimal
-    */
-	roundType String,
-
+     * 级次
+     **/
+    levelNo Integer,
     /**
-    * 公式权重
-    */
-	weight Integer,
-
-	/**
-	* 是否启用
-	*/
-	enable Boolean
-
+     * 是否末级
+     **/
+    isLeaf Boolean,
+    /**
+     * 是否启用
+     **/
+    isEnabled Boolean,
+    /**
+     * 创建时间
+     **/
+    createTime String,
+    /**
+     * 更新时间
+     **/
+    updateTime String
 }
