@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.example.aop.AutoTableNameInterceptor;
 import com.example.aop.MetadataExtractorIntegrator;
 import com.example.domain.EleUnion;
 import com.example.repository.EleUnionRepository;
@@ -166,5 +167,37 @@ public class CommonEleService {
             }
         }
         return tableNameList;
+    }
+
+    /**
+     * @data: 2022/6/20-下午11:04
+     * @User: zhaozhiwei
+     * @method: findElementInfoByEleCatCode
+     * @param eleCatCode :
+     * @return: java.util.List<com.example.domain.EleUnion>
+     * @Description: 根据eleCatCode获取完整的基础信息列表
+     */
+    public List<EleUnion> findElementInfoByEleCatCode(String eleCatCode) {
+        //1. eleCatCode直接存在于ele_union表
+        List<EleUnion> byEleCatCode = new ArrayList<>();
+
+        byEleCatCode = eleUnionRepository.findByEleCatCode(eleCatCode);
+
+        //2. eleCatCode是表明的一部分如 ele_eleCatCode(约定)
+        if (byEleCatCode.size() < 1) {
+            //            如果汇总表没有则查询单表
+            final List<String> allTableNamesStartWithEle = this.findAllTableNamesStartWithEle();
+            //            判断表存在
+            if (allTableNamesStartWithEle.contains(eleCatCode)) {
+                Map<String, String> map = new HashMap<>();
+                map.put("oldName", "ele_union");
+                map.put("newName", "ele_" + eleCatCode);
+                AutoTableNameInterceptor.replaceTable.set(map);
+
+                byEleCatCode = eleUnionRepository.findByEleCatCode(eleCatCode);
+            }
+        }
+
+        return byEleCatCode;
     }
 }

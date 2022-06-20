@@ -134,7 +134,7 @@ spring:
       hibernate:
         session_factory:
           # 增加表动态替换拦截器, 处理相同实体不同表的情况
-          session_scoped_interceptor: '*.AutoTableNameInterceptor'
+          session_scoped_interceptor: 'com.example.aop.AutoTableNameInterceptor'
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

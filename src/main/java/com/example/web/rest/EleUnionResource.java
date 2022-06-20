@@ -2,10 +2,12 @@ package com.example.web.rest;
 
 import com.example.domain.EleUnion;
 import com.example.repository.EleUnionRepository;
+import com.example.service.CommonEleService;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -34,8 +36,11 @@ public class EleUnionResource {
 
     private final EleUnionRepository eleUnionRepository;
 
-    public EleUnionResource(EleUnionRepository eleUnionRepository) {
+    private final CommonEleService commonEleService;
+
+    public EleUnionResource(EleUnionRepository eleUnionRepository, CommonEleService commonEleService) {
         this.eleUnionRepository = eleUnionRepository;
+        this.commonEleService = commonEleService;
     }
 
     /**
@@ -173,6 +178,42 @@ public class EleUnionResource {
     public List<EleUnion> getAllEleUnions() {
         log.debug("REST request to get all EleUnions");
         return eleUnionRepository.findAll();
+    }
+
+    /**
+     * @data: 2022/6/20-下午10:32
+     * @User: zhaozhiwei
+     * @method: getEleUnionsLeftTree
+
+     * @return: java.util.List<com.example.domain.EleUnion>
+     * @Description: 获取基础信息左侧要素列表
+     */
+    @GetMapping("/ele-unions/left-tree")
+    public List<Map<String, Object>> getEleUnionsLeftTree() {
+        log.debug("REST request to get all getEleUnionsLeftTree");
+
+        //1. 获取所有ele_的信息
+        final List<Map<String, Object>> allEleCategory = commonEleService.findAllEleCategory();
+        //2. 构建成树信息
+        for (Map<String, Object> map : allEleCategory) {
+            map.put("id", map.get("eleCatCode"));
+            map.put("label", map.get("eleCatCode") + "-" + map.get("eleCatName"));
+        }
+        return allEleCategory;
+    }
+
+    /**
+     * @data: 2022/6/20-下午11:01
+     * @User: zhaozhiwei
+     * @method: getElementInfoByNodeId
+
+     * @return: java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @Description: 根据选中的左侧节点id查询基础信息
+     */
+    @GetMapping("/ele-unions/element-info/{id}")
+    public List<EleUnion> getElementInfoByNodeId(@PathVariable String id) {
+        log.debug("REST request to get all getElementInfoByNodeId");
+        return commonEleService.findElementInfoByEleCatCode(id);
     }
 
     /**
