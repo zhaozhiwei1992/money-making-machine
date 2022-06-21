@@ -1,15 +1,18 @@
 package com.example.web.rest;
 
+import cn.hutool.core.util.StrUtil;
 import com.example.domain.EleUnion;
 import com.example.repository.EleUnionRepository;
 import com.example.service.CommonEleService;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +50,8 @@ public class EleUnionResource {
      * {@code POST  /ele-unions} : Create a new eleUnion.
      *
      * @param eleUnion the eleUnion to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new eleUnion, or with status {@code 400 (Bad Request)} if the eleUnion has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new eleUnion, or with
+     * status {@code 400 (Bad Request)} if the eleUnion has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/ele-unions")
@@ -66,7 +70,7 @@ public class EleUnionResource {
     /**
      * {@code PUT  /ele-unions/:id} : Updates an existing eleUnion.
      *
-     * @param id the id of the eleUnion to save.
+     * @param id       the id of the eleUnion to save.
      * @param eleUnion the eleUnion to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated eleUnion,
      * or with status {@code 400 (Bad Request)} if the eleUnion is not valid,
@@ -98,9 +102,10 @@ public class EleUnionResource {
     }
 
     /**
-     * {@code PATCH  /ele-unions/:id} : Partial updates given fields of an existing eleUnion, field will ignore if it is null
+     * {@code PATCH  /ele-unions/:id} : Partial updates given fields of an existing eleUnion, field will ignore if it
+     * is null
      *
-     * @param id the id of the eleUnion to save.
+     * @param id       the id of the eleUnion to save.
      * @param eleUnion the eleUnion to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated eleUnion,
      * or with status {@code 400 (Bad Request)} if the eleUnion is not valid,
@@ -184,7 +189,6 @@ public class EleUnionResource {
      * @data: 2022/6/20-下午10:32
      * @User: zhaozhiwei
      * @method: getEleUnionsLeftTree
-
      * @return: java.util.List<com.example.domain.EleUnion>
      * @Description: 获取基础信息左侧要素列表
      */
@@ -203,11 +207,47 @@ public class EleUnionResource {
     }
 
     /**
+     * @param eleUnionList :
+     * @data: 2022/6/21-下午9:32
+     * @User: zhaozhiwei
+     * @method: saveOrUpdate
+     * @return: org.springframework.http.ResponseEntity<com.example.domain.EleUnion>
+     * @Description: 保存提交的数据
+     */
+    @PostMapping("/ele-unions/save/update")
+    public List<EleUnion> saveOrUpdate(@RequestBody List<EleUnion> eleUnionList) throws URISyntaxException {
+        log.debug("REST request to save EleUnionList : {}", eleUnionList);
+        //1. 清理掉已经删除的数据, id不在范围内的就是
+        final String eleCatCode = eleUnionList.get(0).getEleCatCode();
+        final List<EleUnion> byEleCatCode = eleUnionRepository.findByEleCatCode(eleCatCode);
+        final List<Long> idList = eleUnionList.stream().map(m -> m.getId()).collect(Collectors.toList());
+        final List<Long> deleteIds = new ArrayList<>();
+        for (EleUnion eleUnion : byEleCatCode) {
+            if (!idList.contains(eleUnion.getId())) {
+                deleteIds.add(eleUnion.getId());
+            }
+        }
+        eleUnionRepository.deleteAllById(deleteIds);
+
+        //2. 保存数据
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String format = dateTimeFormatter.format(LocalDateTime.now());
+        for (EleUnion eleUnion : eleUnionList) {
+            if (eleUnion.getId() == null) {
+                eleUnion.setCreateTime(format);
+            } else {
+                eleUnion.setUpdateTime(format);
+            }
+        }
+        eleUnionRepository.saveAll(eleUnionList);
+        return eleUnionList;
+    }
+
+    /**
      * @data: 2022/6/20-下午11:01
      * @User: zhaozhiwei
      * @method: getElementInfoByNodeId
-
-     * @return: java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @return: java.util.List<java.util.Map < java.lang.String, java.lang.Object>>
      * @Description: 根据选中的左侧节点id查询基础信息
      */
     @GetMapping("/ele-unions/element-info/{id}")
@@ -220,7 +260,8 @@ public class EleUnionResource {
      * {@code GET  /ele-unions/:id} : get the "id" eleUnion.
      *
      * @param id the id of the eleUnion to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the eleUnion, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the eleUnion, or with status
+     * {@code 404 (Not Found)}.
      */
     @GetMapping("/ele-unions/{id}")
     public ResponseEntity<EleUnion> getEleUnion(@PathVariable Long id) {

@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.example.aop.AutoTableNameInterceptor;
+import com.example.aop.CustomStatementInspector;
 import com.example.aop.MetadataExtractorIntegrator;
 import com.example.domain.EleUnion;
 import com.example.repository.EleUnionRepository;
@@ -131,10 +131,21 @@ public class CommonEleService {
 
         //2. 查询数据库中除 ele_union外所有ele_开头的表, 分别查询其中eleCatcode/name, 只需每个查一条就行
         final List<String> allTableNamesStartWithEle = this.findAllTableNamesStartWithEle();
-        for (String s : allTableNamesStartWithEle) {
+        for (String tableName : allTableNamesStartWithEle) {
+            if ("ele_union".equals(tableName) || "ele_leavetype".equals(tableName)) {
+                continue;
+            }
+
+            Map<String, String> map = new HashMap<>();
+            map.put("oldName", "ele_union");
+            map.put("newName", tableName);
+            CustomStatementInspector.replaceTable.set(map);
+
             final Page<EleUnion> all = eleUnionRepository.findAll(PageRequest.of(1, 1));
             final List<EleUnion> content = all.getContent();
-            maps.add(BeanUtil.beanToMap(content.get(0)));
+            if (content.size() > 0) {
+                maps.add(BeanUtil.beanToMap(content.get(0)));
+            }
         }
         return maps;
     }
@@ -192,7 +203,7 @@ public class CommonEleService {
                 Map<String, String> map = new HashMap<>();
                 map.put("oldName", "ele_union");
                 map.put("newName", "ele_" + eleCatCode);
-                AutoTableNameInterceptor.replaceTable.set(map);
+                CustomStatementInspector.replaceTable.set(map);
 
                 byEleCatCode = eleUnionRepository.findByEleCatCode(eleCatCode);
             }

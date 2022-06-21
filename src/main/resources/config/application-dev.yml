@@ -129,12 +129,6 @@ spring:
         allow: 127.0.0.1 # 允许访问的地址，如果allow没有配置或者为空，则允许所有访问
         deny: # 拒绝访问的地址，deny优先于allow，如果在deny列表中，就算在allow列表中，也会被拒绝
   #  原文链接：https://blog.csdn.net/xupeiyan/article/details/123017184
-  jpa:
-    properties:
-      hibernate:
-        session_factory:
-          # 增加表动态替换拦截器, 处理相同实体不同表的情况
-          session_scoped_interceptor: 'com.example.aop.AutoTableNameInterceptor'
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

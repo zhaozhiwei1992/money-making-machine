@@ -1,8 +1,11 @@
 package com.example.aop;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.example.security.SecurityUtils;
 import com.example.service.DataPermissionsService;
+import java.util.Map;
+import java.util.Objects;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.StringValue;
@@ -37,6 +40,8 @@ import org.slf4j.LoggerFactory;
 public class CustomStatementInspector implements StatementInspector {
 
     private static final Logger log = LoggerFactory.getLogger(CustomStatementInspector.class);
+
+    public static ThreadLocal<Map<String, String>> replaceTable = new ThreadLocal<>();
 
     /**
      * 重写StatementInspector的inspect接口，
@@ -104,9 +109,33 @@ public class CustomStatementInspector implements StatementInspector {
         FromItem fromItem = plainSelect.getFromItem();
         if (fromItem instanceof Table) {
             Table fromTable = (Table) fromItem;
+
+            // 换表
+            this.replaceTable(fromTable);
+
+            // 数据权限
             final DataPermissionsService dataPermissionsService = SpringUtil.getBean(DataPermissionsService.class);
             final Expression dataPermissionExpression = dataPermissionsService.buildDataPermissionCondition(fromTable);
             plainSelect.setWhere(this.joinExpression(plainSelect.getWhere(), dataPermissionExpression));
+        }
+    }
+
+    private void replaceTable(Table fromTable) {
+        Map<String, String> map = replaceTable.get();
+
+        // 必要时才会去替换
+        if (!Objects.isNull(map)) {
+            String oldName = map.get("oldName");
+            String newName = map.get("newName");
+
+            if (!StrUtil.isEmpty(oldName) && !StrUtil.isEmpty(newName)) {
+                final String name = fromTable.getName();
+                if (oldName.equals(name)) {
+                    // 如果表名匹配，则将旧表换成新表
+                    fromTable.setName(newName);
+                    log.info("表替换,将 {} 替换为 {}", oldName, newName);
+                }
+            }
         }
     }
 

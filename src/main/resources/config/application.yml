@@ -125,7 +125,10 @@ spring:
       hibernate.query.in_clause_parameter_padding: true
       hibernate:
         session_factory:
+          # 一些通过hibernate实现的过滤
           statement_inspector: com.example.aop.CustomStatementInspector
+          # 增加表动态替换拦截器, 处理相同实体不同表的情况, 配置没吊用, 放上边实现
+    #          session_scoped_interceptor: com.example.aop.AutoTableNameInterceptor
     hibernate:
       ddl-auto: none
       naming:
