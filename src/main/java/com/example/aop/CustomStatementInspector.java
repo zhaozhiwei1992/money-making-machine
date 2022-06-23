@@ -103,7 +103,10 @@ public class CustomStatementInspector implements StatementInspector {
      * @User: zhaozhiwei
      * @method: processPlainSelect
      * @return: void
-     * @Description: 在这里扩展各种的条件
+     * @Description:
+     * 在这里扩展各种的条件
+     * 1. 数据权限扩展
+     * 2. 动态表替换, 支持相同domain,不同表结构
      */
     protected void processPlainSelect(PlainSelect plainSelect) {
         FromItem fromItem = plainSelect.getFromItem();
