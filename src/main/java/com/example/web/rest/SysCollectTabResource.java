@@ -1,6 +1,8 @@
 package com.example.web.rest;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.pinyin.PinyinUtil;
 import com.example.domain.SysCollectCol;
 import com.example.domain.SysCollectTab;
 import com.example.repository.CommonSqlRepository;
@@ -9,6 +11,8 @@ import com.example.repository.SysCollectTabRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -345,5 +349,67 @@ public class SysCollectTabResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * @data: 2022/6/23-下午9:54
+     * @User: zhaozhiwei
+     * @method: saveOrUpdate
+     * @param sysCollectTabList :
+     * @return: java.util.List<com.example.domain.SysCollectTab>
+     * @Description: 批量保存或更新采集表 表信息
+     */
+    @PostMapping("/sys-collect-tabs/save/update")
+    public List<SysCollectTab> saveOrUpdate(@RequestBody List<SysCollectTab> sysCollectTabList) {
+        log.debug("REST request to save SysCollectTabList : {}", sysCollectTabList);
+        //1. 清理掉已经删除的数据, id不在范围内的就是
+        final List<SysCollectTab> sysCollectTabs = sysCollectTabRepository.findAll();
+        final List<Long> idList = sysCollectTabList.stream().map(SysCollectTab::getId).collect(Collectors.toList());
+        final List<Long> deleteIds = new ArrayList<>();
+        for (SysCollectTab sysCollectTab : sysCollectTabs) {
+            if (!idList.contains(sysCollectTab.getId())) {
+                deleteIds.add(sysCollectTab.getId());
+            }
+        }
+        sysCollectTabRepository.deleteAllById(deleteIds);
+
+        //2. 如果表英文名为null, 则进行中文转换
+        for (SysCollectTab sysCollectTab : sysCollectTabList) {
+            if (StrUtil.isEmpty(sysCollectTab.getTabCname())) {
+                throw new RuntimeException("表中文名不能为空");
+            } else if (StrUtil.isEmpty(sysCollectTab.getTabEname())) {
+                sysCollectTab.setTabEname("coll_t_" + PinyinUtil.getFirstLetter(sysCollectTab.getTabCname(), ""));
+            }
+        }
+
+        //2. 保存数据
+        sysCollectTabRepository.saveAll(sysCollectTabList);
+        return sysCollectTabList;
+    }
+
+    /**
+     * @data: 2022/6/23-下午10:22
+     * @User: zhaozhiwei
+     * @method: getEleUnionsLeftTree
+
+     * @return: java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @Description: 左侧树显示采集表信息
+     */
+    @GetMapping("/sys-collect-tabs/left-tree")
+    public List<Map<String, Object>> getSysCollectTabsLeftTree() {
+        log.debug("REST request to get all getSysCollectTabsLeftTree");
+
+        //1. 获取所有ele_的信息
+        final List<Map<String, Object>> allEleCategory = sysCollectTabRepository
+            .findAllByEnable(true)
+            .stream()
+            .map(BeanUtil::beanToMap)
+            .collect(Collectors.toList());
+        //2. 构建成树信息
+        for (Map<String, Object> map : allEleCategory) {
+            map.put("id", map.get("id"));
+            map.put("label", map.get("tabEname") + "-" + map.get("tabCname"));
+        }
+        return allEleCategory;
     }
 }

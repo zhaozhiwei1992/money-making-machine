@@ -125,6 +125,7 @@ export default {
         .post(eleUnionsApiUrl + '/save/update', this.tableData)
         .then(res => {
           console.log('保存成功', res);
+          alert('保存成功');
         })
         .catch(err => {
           console.log(err);

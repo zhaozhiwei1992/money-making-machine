@@ -1,13 +1,17 @@
 package com.example.web.rest;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.pinyin.PinyinUtil;
 import com.example.domain.SysCollectCol;
 import com.example.repository.SysCollectColRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -199,5 +203,61 @@ public class SysCollectColResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * @data: 2022/6/23-下午9:54
+     * @User: zhaozhiwei
+     * @method: saveOrUpdate
+     * @param sysCollectColList :
+     * @return: java.util.List<com.example.domain.SysCollectCol>
+     * @Description: 批量保存或更新采集表 表信息
+     */
+    @PostMapping("/sys-collect-cols/save/update")
+    public List<SysCollectCol> saveOrUpdate(@RequestBody List<SysCollectCol> sysCollectColList) {
+        log.debug("REST request to save SysCollectColList : {}", sysCollectColList);
+        //1. 根据第一条数据获取到采集表tab_id, 每次只能处理一个表的数据
+        final Long tabId = sysCollectColList.get(0).getTabId();
+        //2. 清理掉已经删除的数据, id不在范围内的就是
+        final List<SysCollectCol> sysCollectCols = sysCollectColRepository.findAllByTabId(tabId);
+        final List<Long> idList = sysCollectColList.stream().map(SysCollectCol::getId).collect(Collectors.toList());
+        final List<Long> deleteIds = new ArrayList<>();
+        for (SysCollectCol sysCollectCol : sysCollectCols) {
+            if (!idList.contains(sysCollectCol.getId())) {
+                deleteIds.add(sysCollectCol.getId());
+            }
+        }
+        sysCollectColRepository.deleteAllById(deleteIds);
+
+        //3. 根据传入顺序更新ordernum
+        for (int i = 0; i < sysCollectColList.size(); i++) {
+            final SysCollectCol sysCollectCol = sysCollectColList.get(i);
+            sysCollectCol.setOrderNum(i + 1);
+
+            // 汉字转拼音
+            if (StrUtil.isEmpty(sysCollectCol.getColCname())) {
+                throw new RuntimeException("表中文名不能为空");
+            } else if (StrUtil.isEmpty(sysCollectCol.getColEname())) {
+                sysCollectCol.setColEname(PinyinUtil.getFirstLetter(sysCollectCol.getColCname(), ""));
+            }
+        }
+        //4. 保存数据
+        sysCollectColRepository.saveAll(sysCollectColList);
+        return sysCollectColList;
+    }
+
+    /**
+     * @data: 2022/6/23-下午10:45
+     * @User: zhaozhiwei
+     * @method: getSysCollectColByTabId
+     * @param tabId :
+     * @return: java.util.List<com.example.domain.SysCollectCol>
+     * @Description: 根据选中采集表查询所有对应列信息
+     */
+    @GetMapping("/sys-collect-cols/tab-id/{tabId}")
+    public List<SysCollectCol> getSysCollectColByTabId(@PathVariable Long tabId) {
+        log.debug("REST request to get SysCollectCol : {}", tabId);
+        final List<SysCollectCol> allByTabId = sysCollectColRepository.findAllByTabIdOrderByOrderNum(tabId);
+        return allByTabId;
     }
 }
