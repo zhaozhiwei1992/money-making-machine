@@ -1,11 +1,17 @@
 package com.example.web.rest;
 
-import com.example.domain.UiTab;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import com.example.domain.SysCollectCol;
+import com.example.domain.UiComponent;
 import com.example.domain.UiTable;
+import com.example.repository.SysCollectColRepository;
+import com.example.repository.UiComponentRepository;
 import com.example.repository.UiTableRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -42,15 +48,22 @@ public class UiTableResource {
 
     private final UiTableRepository uiTableRepository;
 
-    public UiTableResource(UiTableRepository uiTableRepository) {
+    public UiTableResource(
+        UiTableRepository uiTableRepository,
+        UiComponentRepository uiComponentRepository,
+        SysCollectColRepository sysCollectColRepository
+    ) {
         this.uiTableRepository = uiTableRepository;
+        this.uiComponentRepository = uiComponentRepository;
+        this.sysCollectColRepository = sysCollectColRepository;
     }
 
     /**
      * {@code POST  /ui-tables} : Create a new uiTable.
      *
      * @param uiTable the uiTable to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new uiTable, or with status {@code 400 (Bad Request)} if the uiTable has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new uiTable, or with
+     * status {@code 400 (Bad Request)} if the uiTable has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/ui-tables")
@@ -77,7 +90,7 @@ public class UiTableResource {
     /**
      * {@code PUT  /ui-tables/:id} : Updates an existing uiTable.
      *
-     * @param id the id of the uiTable to save.
+     * @param id      the id of the uiTable to save.
      * @param uiTable the uiTable to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated uiTable,
      * or with status {@code 400 (Bad Request)} if the uiTable is not valid,
@@ -107,9 +120,10 @@ public class UiTableResource {
     }
 
     /**
-     * {@code PATCH  /ui-tables/:id} : Partial updates given fields of an existing uiTable, field will ignore if it is null
+     * {@code PATCH  /ui-tables/:id} : Partial updates given fields of an existing uiTable, field will ignore if it
+     * is null
      *
-     * @param id the id of the uiTable to save.
+     * @param id      the id of the uiTable to save.
      * @param uiTable the uiTable to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated uiTable,
      * or with status {@code 400 (Bad Request)} if the uiTable is not valid,
@@ -202,7 +216,8 @@ public class UiTableResource {
      * {@code GET  /ui-tables/:id} : get the "id" uiTable.
      *
      * @param id the id of the uiTable to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the uiTable, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the uiTable, or with status
+     * {@code 404 (Not Found)}.
      */
     @GetMapping("/ui-tables/{id}")
     public ResponseEntity<UiTable> getUiTable(@PathVariable Long id) {
@@ -211,10 +226,37 @@ public class UiTableResource {
         return ResponseUtil.wrapOrNotFound(uiTable);
     }
 
+    private final UiComponentRepository uiComponentRepository;
+
+    private final SysCollectColRepository sysCollectColRepository;
+
     @GetMapping("/ui-tables/menu/{menuid}")
     public List<UiTable> getUiTableByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiTable by menu : {}", menuid);
-        return uiTableRepository.findByMenuidOrderByOrdernumAsc(menuid);
+        List<UiTable> uiTableCols = uiTableRepository.findByMenuidOrderByOrdernumAsc(menuid);
+        // 如果没有列配置信息, 则获取组件配置信息,判断是否为采集表
+        if (Objects.isNull(uiTableCols) || uiTableCols.size() < 1) {
+            //1. 获取组件配置中的tab_id
+            Optional<UiComponent> tableComponent = uiComponentRepository.findByMenuidAndComponentid(menuid, "uitable");
+            // 2. 通过采集表配置构建成UiTableList信息
+            if (tableComponent.isPresent()) {
+                final JSONObject jsonObject = JSONUtil.parseObj(tableComponent.get().getConfig());
+                final String tabId = jsonObject.getStr("tab_id");
+                final List<SysCollectCol> collectCols = sysCollectColRepository.findAllByTabIdOrderByOrderNum(Long.parseLong(tabId));
+                uiTableCols = new ArrayList<>();
+                for (SysCollectCol collectCol : collectCols) {
+                    final UiTable uiTable = new UiTable();
+                    uiTable.setCode(collectCol.getColEname());
+                    uiTable.setName(collectCol.getColCname());
+                    uiTable.setIssource(false);
+                    uiTable.setIsedit(collectCol.getIsEdit());
+                    uiTable.setRequirement(collectCol.getRequirement());
+                    uiTable.setType(collectCol.getType());
+                    uiTableCols.add(uiTable);
+                }
+            }
+        }
+        return uiTableCols;
     }
 
     /**
