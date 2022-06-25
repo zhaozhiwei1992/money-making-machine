@@ -21,7 +21,6 @@
         <el-button type="primary" @click="addRow">增加行</el-button>
         <el-button type="primary" @click="deleteRow">删除行</el-button>
         <el-button type="primary" @click="saveData">保存</el-button>
-        <el-button type="primary" @click="toFormulaOut">表间公式</el-button>
       </el-row>
       <el-row>
         <p>采集表列信息</p>
@@ -79,8 +78,11 @@
       </el-row>
     </el-col>
 
-    <!-- 表内公式配置界面 -->
-    <el-dialog title="表内公式配置" :visible.sync="dialogFormulaInVisible">
+    <!-- 公式配置界面 
+    不选择公式界面表可以只配置表内公式
+    选择了表信息, 则可关联外部表进行数据计算
+    -->
+    <el-dialog title="公式配置" :visible.sync="dialogFormulaInVisible">
       <el-row>
         <el-form ref="form" :model="formula" label-width="80px">
           <el-form-item label="舍入方式">
@@ -98,7 +100,20 @@
         </el-form>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="6">
+          <p>计算表</p>
+          <!-- 列信息 -->
+          <el-tree
+            class="filter-tree"
+            :data="data"
+            :props="defaultProps"
+            default-expand-all
+            @node-click="handlerFormulaInTabTreeClick"
+            ref="tabTree"
+          >
+          </el-tree>
+        </el-col>
+        <el-col :span="6">
           <p>计算列</p>
           <!-- 列信息 -->
           <el-tree
@@ -149,6 +164,7 @@
         </el-col>
       </el-row>
     </el-dialog>
+    <!-- 表内公式结束 -->
   </el-row>
 </template>
 <script>
@@ -209,7 +225,7 @@ export default {
         });
     },
     initTableData(treeData) {
-      // 根据id查询基础要素信息
+      // 根据表信息查对应的采集表列信息
       axios.get(sysCollColsApiUrl + '/tab-id/' + treeData.id).then(res => {
         const response = res.data;
         this.tableData = response;
@@ -217,6 +233,21 @@ export default {
         //初始化列tree信息
         this.colTreeData = [];
         for (const key in this.tableData) {
+          if (Object.hasOwnProperty.call(this.tableData, key)) {
+            const element = this.tableData[key];
+            this.colTreeData.push({ id: element.colEname, label: element.colCname });
+          }
+        }
+      });
+    },
+    initColTreeData(treeData) {
+      // 表内公式界面, 根据表信息查对应的采集表列信息树
+      axios.get(sysCollColsApiUrl + '/tab-id/' + treeData.id).then(res => {
+        const response = res.data;
+
+        //初始化列tree信息
+        this.colTreeData = [];
+        for (const key in response) {
           if (Object.hasOwnProperty.call(this.tableData, key)) {
             const element = this.tableData[key];
             this.colTreeData.push({ id: element.colEname, label: element.colCname });
@@ -247,10 +278,8 @@ export default {
         this.dialogFormulaInVisible = true;
       });
     },
-    toFormulaOut() {
-      // 弹出表内公式配置界面
-    },
     initSourceTreeData() {
+      // 查询基础数据信息
       axios.get(eleUnionsApiUrl + '/left-tree').then(res => {
         const response = res.data;
         this.sourceData = response;
@@ -285,10 +314,23 @@ export default {
       }
     },
     handlerColTreeClick(data) {
-      //
-      this.formula.calFormula += "#{['" + data.id + "']}";
-      // 这个用来显示
-      this.formula.calFormulaDes += data.label;
+      //如果选择了表, 则增加表.xx字段, 关联数据
+      if (this.formulaTabTreeSelected.tabEname != '' && this.formulaTabTreeSelected.tabEname != this.treeSelected.tabEname) {
+        // 后边条件表示, 选中表如果是自身，则不增加表前缀, 减少数据长度和后台处理复杂度
+        this.formula.calFormula += "#{['" + this.formulaTabTreeSelected.tabEname + '.' + data.id + "']}";
+        // 这个用来显示
+        this.formula.calFormulaDes += this.formulaTabTreeSelected.tabCname + '.' + data.label;
+      } else {
+        this.formula.calFormula += "#{['" + data.id + "']}";
+        // 这个用来显示
+        this.formula.calFormulaDes += data.label;
+      }
+    },
+    handlerFormulaInTabTreeClick(data) {
+      // 表内公式, 配置界面表信息点击
+      //1. 根据选择的表信息, 查询列信息树
+      this.formulaTabTreeSelected = data;
+      this.initColTreeData(data);
     },
   },
   data() {
@@ -327,6 +369,7 @@ export default {
         weight: '',
       },
       colTreeData: [],
+      formulaTabTreeSelected: {},
     };
   },
   mounted() {
