@@ -85,8 +85,11 @@
         <el-form ref="form" :model="formula" label-width="80px">
           <el-form-item label="舍入方式">
             <el-select v-model="formula.roundType" placeholder="请选择">
-              <el-option label="四舍五入" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option label="四舍五入" value="HALF_UP"></el-option>
+              <!-- RoundingMode.ROUND_HALF_DOWN：向“最接近的”整数舍入 -->
+              <el-option label="五舍六入" value="HALF_DOWN"></el-option>
+              <!-- 即四舍六入五考虑，五后非零就进一，五后为零看奇偶，五前为偶应舍去，五前为奇要进一。  -->
+              <el-option label="银行家舍入" value="HALF_EVEN"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="公式预览">
@@ -98,41 +101,50 @@
         <el-col :span="12">
           <p>计算列</p>
           <!-- 列信息 -->
-          <el-tree class="filter-tree" :data="colTreeData" :props="defaultProps" default-expand-all ref="colTree"> </el-tree>
+          <el-tree
+            class="filter-tree"
+            :data="colTreeData"
+            :props="defaultProps"
+            default-expand-all
+            @node-click="handlerColTreeClick"
+            ref="colTree"
+          >
+          </el-tree>
         </el-col>
         <el-col :span="12">
           <p>操作符</p>
           <el-row>
             <!-- 计算器 点击tag需要获取到tag的值 ? -->
-            <el-tag @click="handleTagClick">1</el-tag>
-            <el-tag>2</el-tag>
-            <el-tag>3</el-tag>
-            <el-tag>+</el-tag>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('1')">1</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('2')">2</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('3')">3</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('+')">+</el-button>
           </el-row>
           <el-row>
-            <el-tag>4</el-tag>
-            <el-tag>5</el-tag>
-            <el-tag>6</el-tag>
-            <el-tag>-</el-tag>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('4')">4</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('5')">5</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('6')">6</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('-')">-</el-button>
           </el-row>
           <el-row>
-            <el-tag>7</el-tag>
-            <el-tag>8</el-tag>
-            <el-tag>9</el-tag>
-            <el-tag>*</el-tag>
-          </el-row>
-
-          <el-row>
-            <el-tag>0</el-tag>
-            <el-tag>.</el-tag>
-            <el-tag>/</el-tag>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('7')">7</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('8')">8</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('9')">9</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('*')">*</el-button>
           </el-row>
 
           <el-row>
-            <el-tag>(</el-tag>
-            <el-tag>)</el-tag>
-            <el-tag>删除</el-tag>
-            <el-tag>重置</el-tag>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('0')">0</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('.')">.</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('/')">/</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('del')">删</el-button>
+          </el-row>
+
+          <el-row>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('(')">(</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick(')')">)</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('reset')">置</el-button>
+            <el-button type="primary" size="mini" plain @click="handleOpClick('save')">存</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -146,6 +158,9 @@ import qs from 'qs';
 const sysCollColsApiUrl = 'api/sys-collect-cols';
 
 const sysCollTabsApiUrl = 'api/sys-collect-tabs';
+
+// 公式接口
+const sysFormulaTabApiUrl = 'api/sys-formula-tabs';
 
 const eleUnionsApiUrl = 'api/ele-unions';
 
@@ -200,6 +215,7 @@ export default {
         this.tableData = response;
 
         //初始化列tree信息
+        this.colTreeData = [];
         for (const key in this.tableData) {
           if (Object.hasOwnProperty.call(this.tableData, key)) {
             const element = this.tableData[key];
@@ -215,9 +231,21 @@ export default {
         this.data = response;
       });
     },
-    toFormulaIn() {
+    toFormulaIn(index, row) {
       // 弹出表内公式配置界面
-      this.dialogFormulaInVisible = true;
+      // 设置公式的表和列信息(公式绑定到哪个表的哪个列上)
+      this.formula.tabEname = this.treeSelected.label.split('-')[0];
+      this.formula.colEname = row.colEname;
+
+      // 根据 表英文名 和 列英文名 获取公式配置信息
+      axios.get(sysFormulaTabApiUrl + '/tab/' + this.formula.tabEname + '/col/' + this.formula.colEname).then(res => {
+        const response = res.data;
+        this.formula = response;
+        // 有没有数据都填充下tabEname和colEname保存后下次就有了
+        this.formula.tabEname = this.treeSelected.label.split('-')[0];
+        this.formula.colEname = row.colEname;
+        this.dialogFormulaInVisible = true;
+      });
     },
     toFormulaOut() {
       // 弹出表内公式配置界面
@@ -228,7 +256,40 @@ export default {
         this.sourceData = response;
       });
     },
-    handleTagClick() {},
+    handleOpClick(operate) {
+      if ('reset' === operate) {
+        this.formula.calFormula = '';
+        this.formula.calFormulaDes = '';
+      } else if ('del' === operate) {
+        // TODO 这里需要去掉一个单词或者符号
+        this.formula.calFormula = '';
+        this.formula.calFormulaDes = '';
+      } else if ('save' === operate) {
+        // 保存当前列的公式信息
+        console.log('当前列的公式信息', this.formula);
+        axios
+          .post(sysFormulaTabApiUrl, this.formula)
+          .then(res => {
+            console.log('保存成功', res);
+            alert('保存成功');
+            this.dialogFormulaInVisible = false;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        // 填充textarea
+        this.formula.calFormula += operate;
+        // 这个用来显示
+        this.formula.calFormulaDes += operate;
+      }
+    },
+    handlerColTreeClick(data) {
+      //
+      this.formula.calFormula += "#{['" + data.id + "']}";
+      // 这个用来显示
+      this.formula.calFormulaDes += data.label;
+    },
   },
   data() {
     return {

@@ -42,15 +42,17 @@ public class SysFormulaTabResource {
      * {@code POST  /sys-formula-tabs} : Create a new sysFormulaTab.
      *
      * @param sysFormulaTab the sysFormulaTab to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new sysFormulaTab, or with status {@code 400 (Bad Request)} if the sysFormulaTab has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new sysFormulaTab, or
+     * with status {@code 400 (Bad Request)} if the sysFormulaTab has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/sys-formula-tabs")
     public ResponseEntity<SysFormulaTab> createSysFormulaTab(@RequestBody SysFormulaTab sysFormulaTab) throws URISyntaxException {
         log.debug("REST request to save SysFormulaTab : {}", sysFormulaTab);
-        if (sysFormulaTab.getId() != null) {
-            throw new BadRequestAlertException("A new sysFormulaTab cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+        //        if (sysFormulaTab.getId() != null) {
+        //            throw new BadRequestAlertException("A new sysFormulaTab cannot already have an ID", ENTITY_NAME,
+        //                "idexists");
+        //        }
         SysFormulaTab result = sysFormulaTabRepository.save(sysFormulaTab);
         return ResponseEntity
             .created(new URI("/api/sys-formula-tabs/" + result.getId()))
@@ -61,7 +63,7 @@ public class SysFormulaTabResource {
     /**
      * {@code PUT  /sys-formula-tabs/:id} : Updates an existing sysFormulaTab.
      *
-     * @param id the id of the sysFormulaTab to save.
+     * @param id            the id of the sysFormulaTab to save.
      * @param sysFormulaTab the sysFormulaTab to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated sysFormulaTab,
      * or with status {@code 400 (Bad Request)} if the sysFormulaTab is not valid,
@@ -93,9 +95,10 @@ public class SysFormulaTabResource {
     }
 
     /**
-     * {@code PATCH  /sys-formula-tabs/:id} : Partial updates given fields of an existing sysFormulaTab, field will ignore if it is null
+     * {@code PATCH  /sys-formula-tabs/:id} : Partial updates given fields of an existing sysFormulaTab, field will
+     * ignore if it is null
      *
-     * @param id the id of the sysFormulaTab to save.
+     * @param id            the id of the sysFormulaTab to save.
      * @param sysFormulaTab the sysFormulaTab to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated sysFormulaTab,
      * or with status {@code 400 (Bad Request)} if the sysFormulaTab is not valid,
@@ -170,13 +173,24 @@ public class SysFormulaTabResource {
      * {@code GET  /sys-formula-tabs/:id} : get the "id" sysFormulaTab.
      *
      * @param id the id of the sysFormulaTab to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the sysFormulaTab, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the sysFormulaTab, or with
+     * status {@code 404 (Not Found)}.
      */
     @GetMapping("/sys-formula-tabs/{id}")
     public ResponseEntity<SysFormulaTab> getSysFormulaTab(@PathVariable Long id) {
         log.debug("REST request to get SysFormulaTab : {}", id);
         Optional<SysFormulaTab> sysFormulaTab = sysFormulaTabRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(sysFormulaTab);
+    }
+
+    @GetMapping("/sys-formula-tabs/tab/{tabEname}/col/{colEname}")
+    public SysFormulaTab getSysFormulaTabByTabAndCol(@PathVariable String tabEname, @PathVariable String colEname) {
+        log.debug("REST request to get SysFormulaTab : {}, {}", tabEname, colEname);
+        Optional<SysFormulaTab> sysFormulaTab = sysFormulaTabRepository.findByTabEnameAndColEname(tabEname, colEname);
+        final SysFormulaTab sysFormulaTab1 = new SysFormulaTab();
+        sysFormulaTab1.setCalFormulaDes("");
+        sysFormulaTab1.setCalFormula("");
+        return sysFormulaTab.orElse(sysFormulaTab1);
     }
 
     /**
