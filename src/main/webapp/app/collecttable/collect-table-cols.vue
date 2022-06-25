@@ -65,7 +65,7 @@
             <template slot-scope="scope">
               <!-- 选择数据源, 支持根据ele_搜索 -->
               <el-select size="small" v-model="scope.row['source']" filterable placeholder="请选择内容" value="">
-                <el-option v-for="option in sourceData" :value="option.value" :key="option.code" :label="option.name" />
+                <el-option v-for="option in sourceData" :value="option.eleCatCode" :key="option.eleCatCode" :label="option.eleCatName" />
               </el-select>
             </template>
           </el-table-column>
@@ -283,6 +283,7 @@ export default {
       axios.get(eleUnionsApiUrl + '/left-tree').then(res => {
         const response = res.data;
         this.sourceData = response;
+        console.log('mapping树', this.sourceData);
       });
     },
     handleOpClick(operate) {
@@ -374,6 +375,7 @@ export default {
   },
   mounted() {
     this.initCollTabsTreeData();
+    this.initSourceTreeData();
   },
 };
 </script>
