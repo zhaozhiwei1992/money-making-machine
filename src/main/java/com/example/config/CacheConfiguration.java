@@ -21,7 +21,6 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tech.jhipster.config.JHipsterProperties;
@@ -75,12 +74,11 @@ public class CacheConfiguration {
     public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cm) {
         return hibernateProperties -> {
             hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cm);
-
-            // 增加数据库源信息注入
-            hibernateProperties.put(
-                "hibernate.integrator_provider",
-                (IntegratorProvider) () -> Collections.singletonList(MetadataExtractorIntegrator.INSTANCE)
-            );
+            // 增加数据库源信息注入, 只支持了orm的, 太局限
+            //            hibernateProperties.put(
+            //                "hibernate.integrator_provider",
+            //                (IntegratorProvider) () -> Collections.singletonList(MetadataExtractorIntegrator.INSTANCE)
+            //            );
         };
     }
 

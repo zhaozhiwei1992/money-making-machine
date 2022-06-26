@@ -19,8 +19,6 @@ import org.hibernate.boot.model.relational.Namespace;
 import org.hibernate.mapping.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -219,7 +217,9 @@ public class CommonEleService {
         return byEleCatCode;
     }
 
-    public List<Tree<Long>> transToMapping(List<EleUnion> elementInfoByEleCatCode) {
+    public List<Tree<Long>> transToMapping(String mapping) {
+        // 1. 根据eleCatCode获取基础数据信息
+        final List<EleUnion> elementInfoByEleCatCode = this.findElementInfoByEleCatCode(String.valueOf(mapping));
         //树形结构一些特殊配置
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         // 自定义属性名 都要默认值的
@@ -245,12 +245,6 @@ public class CommonEleService {
             }
         );
 
-        //  children默认给空, 防止前端解析报错
-        //        for (Tree<Long> treeNode : treeNodes) {
-        //            if (Objects.isNull(treeNode.getChildren())) {
-        //                treeNode.setChildren(Collections.emptyList());
-        //            }
-        //        }
         return treeNodes;
     }
 }

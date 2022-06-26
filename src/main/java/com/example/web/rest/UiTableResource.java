@@ -1,13 +1,9 @@
 package com.example.web.rest;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeNodeConfig;
-import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.example.domain.EleUnion;
 import com.example.domain.SysCollectCol;
 import com.example.domain.UiComponent;
 import com.example.domain.UiTable;
@@ -283,10 +279,8 @@ public class UiTableResource {
                 final JSONObject jsonObject = JSONUtil.parseObj(config);
                 final Object mapping = jsonObject.get("mapping");
                 if (!Objects.isNull(mapping) && StrUtil.isNotEmpty(String.valueOf(mapping))) {
-                    // 1. 根据eleCatCode获取基础数据信息
-                    final List<EleUnion> elementInfoByEleCatCode = commonEleService.findElementInfoByEleCatCode(String.valueOf(mapping));
                     // 2. 转换为翻译信息
-                    map.put("mapping", commonEleService.transToMapping(elementInfoByEleCatCode));
+                    map.put("mapping", commonEleService.transToMapping(String.valueOf(mapping)));
                 }
                 return map;
             })

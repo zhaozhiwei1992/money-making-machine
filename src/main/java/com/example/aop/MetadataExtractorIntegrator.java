@@ -13,10 +13,26 @@ import org.hibernate.service.spi.SessionFactoryServiceRegistry;
  * The HibernateMetadata class uses Hibernate's Metadata API to get information about entity mappings and relationships.
  * This information should be consistent .
  * 里边只有配置了映射的表信息
+ *
+ * java 配置方式
+ *     public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cm) {
+ *         return hibernateProperties -> {
+ *             hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cm);
+ *
+ *             // 增加数据库源信息注入, 只支持了orm的, 太局限
+ * //            hibernateProperties.put(
+ * //                "hibernate.integrator_provider",
+ * //                (IntegratorProvider) () -> Collections.singletonList(MetadataExtractorIntegrator.INSTANCE)
+ * //            );
+ *         };
+ *     }
+ *
+ * 新的方式: {@see com.example.service.DatabaseMetaService}
  * @author zhaozhiwei
  * @date 2022/6/17 下午3:40
  * @version V1.0
  */
+@Deprecated
 public class MetadataExtractorIntegrator implements org.hibernate.integrator.spi.Integrator {
 
     public static final MetadataExtractorIntegrator INSTANCE = new MetadataExtractorIntegrator();

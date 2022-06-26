@@ -1,11 +1,9 @@
 package com.example.web.rest;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.example.domain.EleUnion;
 import com.example.domain.UiEditform;
 import com.example.repository.UiEditformRepository;
 import com.example.service.CommonEleService;
@@ -14,7 +12,6 @@ import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -249,12 +246,8 @@ public class UiEditformResource {
                     //                    convert.setMapping(mappingList);
                     final Object mapping = jsonObject.get("mapping");
                     if (!Objects.isNull(mapping) && StrUtil.isNotEmpty(String.valueOf(mapping))) {
-                        // 1. 根据eleCatCode获取基础数据信息
-                        final List<EleUnion> elementInfoByEleCatCode = commonEleService.findElementInfoByEleCatCode(
-                            String.valueOf(mapping)
-                        );
                         // 2. 转换为翻译信息
-                        convert.setMapping(commonEleService.transToMapping(elementInfoByEleCatCode));
+                        convert.setMapping(commonEleService.transToMapping(String.valueOf(mapping)));
                     }
                 }
 
