@@ -3,14 +3,14 @@ package com.example.web.rest;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.pinyin.PinyinUtil;
 import com.example.domain.SysCollectCol;
+import com.example.domain.SysCollectTab;
+import com.example.repository.CommonSqlRepository;
 import com.example.repository.SysCollectColRepository;
+import com.example.repository.SysCollectTabRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,15 +38,24 @@ public class SysCollectColResource {
 
     private final SysCollectColRepository sysCollectColRepository;
 
-    public SysCollectColResource(SysCollectColRepository sysCollectColRepository) {
+    private final SysCollectTabRepository sysCollectTabRepository;
+
+    public SysCollectColResource(
+        SysCollectColRepository sysCollectColRepository,
+        SysCollectTabRepository sysCollectTabRepository,
+        CommonSqlRepository commonSqlRepository
+    ) {
         this.sysCollectColRepository = sysCollectColRepository;
+        this.sysCollectTabRepository = sysCollectTabRepository;
+        this.commonSqlRepository = commonSqlRepository;
     }
 
     /**
      * {@code POST  /sys-collect-cols} : Create a new sysCollectCol.
      *
      * @param sysCollectCol the sysCollectCol to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new sysCollectCol, or with status {@code 400 (Bad Request)} if the sysCollectCol has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new sysCollectCol, or
+     * with status {@code 400 (Bad Request)} if the sysCollectCol has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/sys-collect-cols")
@@ -65,7 +74,7 @@ public class SysCollectColResource {
     /**
      * {@code PUT  /sys-collect-cols/:id} : Updates an existing sysCollectCol.
      *
-     * @param id the id of the sysCollectCol to save.
+     * @param id            the id of the sysCollectCol to save.
      * @param sysCollectCol the sysCollectCol to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated sysCollectCol,
      * or with status {@code 400 (Bad Request)} if the sysCollectCol is not valid,
@@ -97,9 +106,10 @@ public class SysCollectColResource {
     }
 
     /**
-     * {@code PATCH  /sys-collect-cols/:id} : Partial updates given fields of an existing sysCollectCol, field will ignore if it is null
+     * {@code PATCH  /sys-collect-cols/:id} : Partial updates given fields of an existing sysCollectCol, field will
+     * ignore if it is null
      *
-     * @param id the id of the sysCollectCol to save.
+     * @param id            the id of the sysCollectCol to save.
      * @param sysCollectCol the sysCollectCol to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated sysCollectCol,
      * or with status {@code 400 (Bad Request)} if the sysCollectCol is not valid,
@@ -180,7 +190,8 @@ public class SysCollectColResource {
      * {@code GET  /sys-collect-cols/:id} : get the "id" sysCollectCol.
      *
      * @param id the id of the sysCollectCol to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the sysCollectCol, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the sysCollectCol, or with
+     * status {@code 404 (Not Found)}.
      */
     @GetMapping("/sys-collect-cols/{id}")
     public ResponseEntity<SysCollectCol> getSysCollectCol(@PathVariable Long id) {
@@ -206,10 +217,10 @@ public class SysCollectColResource {
     }
 
     /**
+     * @param sysCollectColList :
      * @data: 2022/6/23-下午9:54
      * @User: zhaozhiwei
      * @method: saveOrUpdate
-     * @param sysCollectColList :
      * @return: java.util.List<com.example.domain.SysCollectCol>
      * @Description: 批量保存或更新采集表 表信息
      */
@@ -243,14 +254,96 @@ public class SysCollectColResource {
         }
         //4. 保存数据
         sysCollectColRepository.saveAll(sysCollectColList);
+
+        //5. 生成表结构
+        final Optional<SysCollectTab> sysCollectTab = sysCollectTabRepository.findById(tabId);
+        sysCollectTab.ifPresent(collectTab -> createTable(List.of(collectTab), sysCollectCols));
+
         return sysCollectColList;
     }
 
+    private final CommonSqlRepository commonSqlRepository;
+
     /**
+     * @param sysCollectTabs :
+     * @param sysCollectCols :
+     * @data: 2022/6/26-下午12:53
+     * @User: zhaozhiwei
+     * @method: createTable
+     * @return: void
+     * @Description: 生成表结构
+     */
+    public void createTable(List<SysCollectTab> sysCollectTabs, List<SysCollectCol> sysCollectCols) {
+        final List<String> commonCols = Arrays.asList("create_time", "update_time", "wfstatus", "create_user");
+
+        final List<String> dropTableSql = sysCollectTabs
+            .stream()
+            .map(m -> "drop table if exists " + m.getTabEname() + ";")
+            .collect(Collectors.toList());
+
+        //生成建表语句
+        final List<String> createTableSql = sysCollectTabs
+            .stream()
+            .map(m -> {
+                //创建sql语句
+                final StringBuffer stringBuffer = new StringBuffer("");
+                stringBuffer.append("create table  IF NOT EXISTS ");
+                stringBuffer.append(m.getTabEname());
+                stringBuffer.append("(");
+
+                // 主键字段
+                stringBuffer.append(" id VARCHAR(64) primary key, ");
+
+                //通用字段
+                commonCols.forEach(s -> {
+                    stringBuffer.append(s);
+                    stringBuffer.append(" VARCHAR(50),");
+                });
+
+                //采集表字段
+                sysCollectCols.forEach(col -> {
+                    final String colEname = col.getColEname();
+                    if (
+                        (!commonCols.contains(colEname.toLowerCase()) && !commonCols.contains(colEname.toUpperCase())) &&
+                        m.getId().equals(col.getTabId())
+                    ) {
+                        stringBuffer.append(colEname);
+                        stringBuffer
+                            .append(" VARCHAR(100)")
+                            .append(" default '")
+                            .append("0")
+                            .append("'")
+                            .append(" COMMENT '")
+                            .append(col.getColCname())
+                            .append("',");
+                    }
+                });
+                stringBuffer.append(")");
+                //采集表结束
+                return stringBuffer.toString();
+            })
+            .collect(Collectors.toList());
+        final String createSql = String.join(";", createTableSql).replaceAll(",\\)", ")");
+        log.debug("采集表创建建表语句: {}", createSql);
+
+        try {
+            // 先删后插表
+            dropTableSql.forEach(commonSqlRepository::execute);
+
+            createTableSql.forEach(sql -> {
+                commonSqlRepository.execute(sql.replaceAll(",\\)", ")"));
+            });
+        } catch (Exception e) {
+            log.error("创建或者更新表失败, msg{}", e.getMessage());
+            throw new RuntimeException("建表失败", e);
+        }
+    }
+
+    /**
+     * @param tabId :
      * @data: 2022/6/23-下午10:45
      * @User: zhaozhiwei
      * @method: getSysCollectColByTabId
-     * @param tabId :
      * @return: java.util.List<com.example.domain.SysCollectCol>
      * @Description: 根据选中采集表查询所有对应列信息
      */

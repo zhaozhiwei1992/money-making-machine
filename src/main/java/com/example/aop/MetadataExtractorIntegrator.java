@@ -10,6 +10,9 @@ import org.hibernate.service.spi.SessionFactoryServiceRegistry;
  * @Package com/example/aop/MetadataExtractorIntegrator.java
  * @Description: 获取数据库源信息
  * 参考: https://vladmihalcea.com/how-to-get-the-entity-mapping-to-database-table-binding-metadata-from-hibernate/
+ * The HibernateMetadata class uses Hibernate's Metadata API to get information about entity mappings and relationships.
+ * This information should be consistent .
+ * 里边只有配置了映射的表信息
  * @author zhaozhiwei
  * @date 2022/6/17 下午3:40
  * @version V1.0

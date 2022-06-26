@@ -38,8 +38,9 @@ public class CommonEleService {
 
     private final EleUnionRepository eleUnionRepository;
 
-    public CommonEleService(EleUnionRepository eleUnionRepository) {
+    public CommonEleService(EleUnionRepository eleUnionRepository, DatabaseMetaService databaseMetaService) {
         this.eleUnionRepository = eleUnionRepository;
+        this.databaseMetaService = databaseMetaService;
     }
 
     /**
@@ -139,45 +140,45 @@ public class CommonEleService {
             Map<String, String> map = new HashMap<>();
             map.put("oldName", "ele_union");
             map.put("newName", tableName);
-            CustomStatementInspector.replaceTable.set(map);
 
-            final Page<EleUnion> all = eleUnionRepository.findAll(PageRequest.of(1, 1));
-            final List<EleUnion> content = all.getContent();
-            if (content.size() > 0) {
-                maps.add(BeanUtil.beanToMap(content.get(0)));
+            CustomStatementInspector.replaceTable.set(map);
+            // 这里要注意： 如果使用同一个映射对象, 虽然修改了表,但是唯一 *id不能重复* , 否则因为缓存会被替换回去
+            // 比如在EleUnion上述数据中存在1, 这里替换表虽然也查到id为1的数据, 但是会被上边替换, 使用缓存里的数据
+            final List<EleUnion> all1 = eleUnionRepository.findAll();
+            // 换完以后清理
+            CustomStatementInspector.replaceTable.remove();
+
+            if (all1.size() > 0) {
+                maps.add(BeanUtil.beanToMap(all1.get(0)));
             }
         }
         return maps;
     }
 
     /**
-     * 获取所有基础要素表信息
+     * 获取orm映射的表信息
      * 参考: https://vladmihalcea.com/how-to-get-access-to-database-table-metadata-with-hibernate-5/
+     *
      * @return
      * @throws SQLException
      */
-    public List<String> findAllTableNamesStartWithEle() {
+    public List<String> findAllOrmTableNamesStartWithEle() {
         final List<String> tableNameList = new ArrayList<>();
         for (Namespace namespace : MetadataExtractorIntegrator.INSTANCE.getDatabase().getNamespaces()) {
             for (Table table : namespace.getTables()) {
                 if (table.getName().startsWith("ele_")) {
                     tableNameList.add(table.getName());
                 }
-                //                查列信息
-                //                log.info( "Table {} has the following columns: {}",
-                //                    table,
-                //                    StreamSupport.stream(
-                //                            Spliterators.spliteratorUnknownSize(
-                //                                table.getColumnIterator(),
-                //                                Spliterator.ORDERED
-                //                            ),
-                //                            false
-                //                        )
-                //                        .collect( Collectors.toList())
-                //                );
             }
         }
         return tableNameList;
+    }
+
+    private final DatabaseMetaService databaseMetaService;
+
+    public List<String> findAllTableNamesStartWithEle() {
+        final List<String> tables = databaseMetaService.getTables();
+        return tables.stream().filter(s -> s.startsWith("ele_")).collect(Collectors.toList());
     }
 
     /**

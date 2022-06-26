@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       xx: null,
-      tabDatas: null,
+      tabDatas: [],
       total: 10,
       componentArray: [],
     };

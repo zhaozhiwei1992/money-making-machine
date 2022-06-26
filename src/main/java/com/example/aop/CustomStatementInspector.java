@@ -133,7 +133,7 @@ public class CustomStatementInspector implements StatementInspector {
 
             if (!StrUtil.isEmpty(oldName) && !StrUtil.isEmpty(newName)) {
                 final String name = fromTable.getName();
-                if (oldName.equals(name)) {
+                if (name.startsWith(oldName)) {
                     // 如果表名匹配，则将旧表换成新表
                     fromTable.setName(newName);
                     log.info("表替换,将 {} 替换为 {}", oldName, newName);
