@@ -1,16 +1,25 @@
 package com.example.web.rest;
 
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+import com.example.domain.SysCollectCol;
 import com.example.repository.CommonSqlRepository;
+import com.example.repository.SysCollectColRepository;
 import com.example.repository.UiTableRepository;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 采集表使用 测试demo
@@ -32,8 +42,9 @@ public class DataCollectResource {
 
     private final CommonSqlRepository commonSqlRepository;
 
-    public DataCollectResource(CommonSqlRepository exampleRepository) {
+    public DataCollectResource(CommonSqlRepository exampleRepository, SysCollectColRepository sysCollectColRepository) {
         this.commonSqlRepository = exampleRepository;
+        this.sysCollectColRepository = sysCollectColRepository;
     }
 
     /**
@@ -123,5 +134,71 @@ public class DataCollectResource {
             return commonSqlRepository.queryForList("select * from coll_t_cs");
         }
         return null;
+    }
+
+    @PostMapping("/data-collect/import")
+    public boolean imp(MultipartFile file) throws IOException {
+        //获取来自浏览器发送的文件内容
+        InputStream inputStream = file.getInputStream();
+        //        ExcelReader reader = ExcelUtil.getReader(inputStream);
+        //        List<User> all = reader.readAll(User.class);
+        //        //我们再使用MP的批量插入插入到数据库中即可
+        //        userService.saveBatch(all);
+        return true;
+    }
+
+    @GetMapping("/data-collect/export")
+    public void export(HttpServletResponse response) {
+        //获取来自浏览器发送的文件内容
+        //        InputStream inputStream = file.getInputStream();
+        //        ExcelReader reader = ExcelUtil.getReader(inputStream);
+        //        List<User> all = reader.readAll(User.class);
+        //        //我们再使用MP的批量插入插入到数据库中即可
+        //        userService.saveBatch(all);
+    }
+
+    private final SysCollectColRepository sysCollectColRepository;
+
+    /**
+     * @data: 2022/6/26-下午10:09
+     * @User: zhaozhiwei
+     * @method: exportTemplate
+     * @return: boolean
+     * @Description: 导出模板
+     */
+    @GetMapping("/data-collect/exportTemplate")
+    public void exportTemplate(HttpServletResponse response) {
+        try {
+            String fileName = "demo采集表导入模板.xlsx";
+            response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            response.addHeader("filename", URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            response.setCharacterEncoding("UTF-8");
+            //            response.setContentType("application/x-download");
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+            final ServletOutputStream out = response.getOutputStream();
+
+            //https://hutool.cn/docs/#/poi/Excel%E7%94%9F%E6%88%90-ExcelWriter
+            ExcelWriter writer = ExcelUtil.getWriter(true);
+
+            final List<SysCollectCol> sysCollectColList = sysCollectColRepository.findAllByTabId(11L);
+            final HashMap<String, Object> header = new HashMap<>();
+            for (SysCollectCol sysCollectCol : sysCollectColList) {
+                header.put(sysCollectCol.getColCname(), "");
+            }
+
+            final List<Map> rows = new ArrayList<>();
+            rows.add(header);
+
+            // 数据格式list<map>
+            writer.write(rows, true);
+
+            writer.flush(out, true);
+            writer.close();
+            IoUtil.close(out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

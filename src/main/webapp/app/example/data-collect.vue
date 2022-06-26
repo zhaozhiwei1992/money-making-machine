@@ -1,6 +1,13 @@
 <template>
   <div>
     <ui-view v-bind:menuid="dymenuid" ref="mainRef"></ui-view>
+    <el-dialog title="excel导入" :visible.sync="dialogExcelImportVisible">
+      <el-upload class="upload-demo" :action="excelImportUrl" accept="xlsx" :show-file-list="false" :on-success="handlerExcelImportSuccess">
+        <el-button size="small" type="primary">点击上传</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传xlsx文件</div>
+        <div slot="tip" class="el-upload__tip"><a @click="exportTemplate"> 导入模板下载 </a></div>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -19,6 +26,9 @@ export default {
       // 该菜单主要用作测试
       dymenuid: '36',
       tableData: [],
+      dialogExcelImportVisible: false,
+      excelImportUrl: baseApiUrl + '/import',
+      excelTemplateUrl: baseApiUrl + '/exportTemplate',
     };
   },
   components: {
@@ -88,8 +98,61 @@ export default {
       });
       this.$refs.mainRef.setTableDatas('singleTable', this.tableData);
     },
-    import() {},
-    export() {},
+    import() {
+      this.dialogExcelImportVisible = true;
+    },
+    exportTemplate() {
+      // 上述直接打开url方式不行, 没有header里的认证信息
+      axios({
+        method: 'get',
+        url: baseApiUrl + '/exportTemplate',
+        data: {},
+        responseType: 'blob',
+      })
+        .then(res => {
+          console.log('下载信息', res);
+          let url = window.URL.createObjectURL(new Blob([res.data]));
+          let a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.setAttribute('download', 'demo采集表导入模板.xlsx');
+          document.body.appendChild(a);
+          a.click(); //执行下载
+          window.URL.revokeObjectURL(a.href);
+          document.body.removeChild(a);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    export() {
+      // window.open(baseApiUrl + '/export');
+      // 上述直接打开url方式不行, 没有header里的认证信息
+      axios({
+        method: 'get',
+        url: baseApiUrl + '/export',
+        data: {},
+        responseType: 'blob',
+      })
+        .then(res => {
+          console.log('下载信息', res);
+          let url = window.URL.createObjectURL(new Blob([res.data]));
+          let a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.setAttribute('download', 'demo采集表数据导出.xlsx');
+          document.body.appendChild(a);
+          a.click(); //执行下载
+          window.URL.revokeObjectURL(a.href);
+          document.body.removeChild(a);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    handlerExcelImportSuccess() {
+      alert('导入成功');
+    },
   },
 };
 </script>

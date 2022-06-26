@@ -89,6 +89,7 @@ router.beforeEach(async (to, from, next) => {
           router.addRoute(v);
           if (v.path === to.path) {
             pathExist = true;
+            // 界面点击时候组件知道是哪个menuid
             localStorage.setItem('menuid', v.meta.menuid);
           }
         });

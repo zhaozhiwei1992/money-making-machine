@@ -1,14 +1,11 @@
 package com.example.config;
 
-import com.example.aop.MetadataExtractorIntegrator;
 import java.net.URI;
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
 import org.hibernate.cache.jcache.ConfigSettings;
-import org.hibernate.jpa.boot.spi.IntegratorProvider;
 import org.redisson.Redisson;
 import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
