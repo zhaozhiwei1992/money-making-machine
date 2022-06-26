@@ -38,6 +38,7 @@ export default {
     },
     save() {
       // 可编辑列表数据保存
+      console.log('采集表保存信息: ', this.tableData);
       axios
         .post(baseApiUrl, this.tableData)
         .then(res => {

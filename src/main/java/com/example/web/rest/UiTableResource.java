@@ -1,20 +1,25 @@
 package com.example.web.rest;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.example.domain.EleUnion;
 import com.example.domain.SysCollectCol;
 import com.example.domain.UiComponent;
 import com.example.domain.UiTable;
 import com.example.repository.SysCollectColRepository;
 import com.example.repository.UiComponentRepository;
 import com.example.repository.UiTableRepository;
+import com.example.service.CommonEleService;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,11 +56,13 @@ public class UiTableResource {
     public UiTableResource(
         UiTableRepository uiTableRepository,
         UiComponentRepository uiComponentRepository,
-        SysCollectColRepository sysCollectColRepository
+        SysCollectColRepository sysCollectColRepository,
+        CommonEleService commonEleService
     ) {
         this.uiTableRepository = uiTableRepository;
         this.uiComponentRepository = uiComponentRepository;
         this.sysCollectColRepository = sysCollectColRepository;
+        this.commonEleService = commonEleService;
     }
 
     /**
@@ -230,8 +237,10 @@ public class UiTableResource {
 
     private final SysCollectColRepository sysCollectColRepository;
 
+    private final CommonEleService commonEleService;
+
     @GetMapping("/ui-tables/menu/{menuid}")
-    public List<UiTable> getUiTableByMenuid(@PathVariable Long menuid) {
+    public List<Map<String, Object>> getUiTableByMenuid(@PathVariable Long menuid) {
         log.debug("REST request to get UiTable by menu : {}", menuid);
         List<UiTable> uiTableCols = uiTableRepository.findByMenuidOrderByOrdernumAsc(menuid);
         // 如果没有列配置信息, 则获取组件配置信息,判断是否为采集表
@@ -252,11 +261,37 @@ public class UiTableResource {
                     uiTable.setIsedit(collectCol.getIsEdit());
                     uiTable.setRequirement(collectCol.getRequirement());
                     uiTable.setType(collectCol.getType());
+                    final Map<String, String> config = new HashMap<>();
+                    if (!Objects.isNull(collectCol.getSource()) && StrUtil.isNotEmpty(collectCol.getSource())) {
+                        config.put("mapping", collectCol.getSource());
+                        uiTable.setConfig(JSONUtil.toJsonStr(config));
+                    }
                     uiTableCols.add(uiTable);
                 }
             }
         }
-        return uiTableCols;
+
+        // 转换为map, 填充翻译值集信息
+        final List<Map<String, Object>> collect = uiTableCols
+            .stream()
+            .map(bean -> {
+                final Map<String, Object> map = BeanUtil.beanToMap(bean);
+                // 根据是否存在数据源配置来填充mapping信息, 对于select需要id, label, 对于cascader, 则要构建为树型
+                // 所以直接不管是啥都按树来即可
+                // config中获取mapping配置, 为ele中的eleCatCode编码
+                final String config = bean.getConfig();
+                final JSONObject jsonObject = JSONUtil.parseObj(config);
+                final Object mapping = jsonObject.get("mapping");
+                if (!Objects.isNull(mapping) && StrUtil.isNotEmpty(String.valueOf(mapping))) {
+                    // 1. 根据eleCatCode获取基础数据信息
+                    final List<EleUnion> elementInfoByEleCatCode = commonEleService.findElementInfoByEleCatCode(String.valueOf(mapping));
+                    // 2. 转换为翻译信息
+                    map.put("mapping", commonEleService.transToMapping(elementInfoByEleCatCode));
+                }
+                return map;
+            })
+            .collect(Collectors.toList());
+        return collect;
     }
 
     /**

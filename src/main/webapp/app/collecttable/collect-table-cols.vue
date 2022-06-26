@@ -350,8 +350,8 @@ export default {
         { value: false, code: false, name: '否' },
       ],
       colType: [
-        // tree, select, input
-        { value: 'tree', code: 'tree', name: '树型' },
+        // cascader/tree, select, input
+        { value: 'cascader', code: 'cascader', name: '级联' },
         { value: 'select', code: 'select', name: '下拉选择' },
         { value: 'input', code: 'input', name: '文本框' },
       ],

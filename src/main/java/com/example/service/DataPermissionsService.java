@@ -84,7 +84,8 @@ public class DataPermissionsService {
             !StrUtil.isEmpty(loginName) &&
             !table.getName().contains("sys_") &&
             !table.getName().contains("jhi_") &&
-            !table.getName().contains("act_")
+            !table.getName().contains("act_") &&
+            !table.getName().contains("ele_")
         ) {
             String menuId = String.valueOf(menuIdObj);
 

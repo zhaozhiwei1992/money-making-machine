@@ -1,5 +1,6 @@
 package com.example.service.dto;
 
+import cn.hutool.core.lang.tree.Tree;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class UiEditformDTO implements Serializable {
      * @return:
      * @Description: 增加前端数据下拉值集
      */
-    private List<Map<String, Object>> mapping;
+    private List<Tree<Long>> mapping;
 
     public Map<String, Object> getConfig() {
         return config;
@@ -57,11 +58,11 @@ public class UiEditformDTO implements Serializable {
         this.config = config;
     }
 
-    public List<Map<String, Object>> getMapping() {
+    public List<Tree<Long>> getMapping() {
         return mapping;
     }
 
-    public void setMapping(List<Map<String, Object>> mapping) {
+    public void setMapping(List<Tree<Long>> mapping) {
         this.mapping = mapping;
     }
 

@@ -1,6 +1,9 @@
 package com.example.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -207,9 +210,47 @@ public class CommonEleService {
                 CustomStatementInspector.replaceTable.set(map);
 
                 byEleCatCode = eleUnionRepository.findByEleCatCode(eleCatCode);
+
+                // 用完删掉好习惯
+                CustomStatementInspector.replaceTable.remove();
             }
         }
 
         return byEleCatCode;
+    }
+
+    public List<Tree<Long>> transToMapping(List<EleUnion> elementInfoByEleCatCode) {
+        //树形结构一些特殊配置
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        // 自定义属性名 都要默认值的
+        treeNodeConfig.setWeightKey("eleCode");
+        //        最大递归深度
+        treeNodeConfig.setDeep(3);
+
+        //转换器
+        List<Tree<Long>> treeNodes = TreeUtil.build(
+            elementInfoByEleCatCode,
+            0L,
+            treeNodeConfig,
+            (eleUnion, tree) -> {
+                tree.setId(eleUnion.getId());
+                tree.setParentId(Long.valueOf(eleUnion.getParentId()));
+                //              tree.setWeight(treeNode.getWeight());
+                tree.setName(eleUnion.getEleName());
+                // 属性扩展, 只显示界面展示需要的属性即可
+                tree.putExtra("label", eleUnion.getEleName());
+                tree.putExtra("name", eleUnion.getEleName());
+                tree.putExtra("code", eleUnion.getEleCode());
+                tree.putExtra("value", eleUnion.getEleCode());
+            }
+        );
+
+        //  children默认给空, 防止前端解析报错
+        //        for (Tree<Long> treeNode : treeNodes) {
+        //            if (Objects.isNull(treeNode.getChildren())) {
+        //                treeNode.setChildren(Collections.emptyList());
+        //            }
+        //        }
+        return treeNodes;
     }
 }

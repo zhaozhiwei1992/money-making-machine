@@ -43,21 +43,9 @@
                 placeholder="请选择内容"
                 value=""
               >
-                <el-option
-                  v-for="option in col.mapping"
-                  :disabled="disabled"
-                  :value="option.value"
-                  :key="option.code"
-                  :label="option.name"
-                />
+                <el-option v-for="option in col.mapping" :value="option.code" :key="option.code" :label="option.name" />
               </el-select>
-              <el-button
-                v-else-if="col.type === 'btn'"
-                :disabled="disabled"
-                @click="onSelected(scope.$index, scope.row)"
-                type="primary"
-                size="small"
-              >
+              <el-button v-else-if="col.type === 'btn'" @click="onSelected(scope.$index, scope.row)" type="primary" size="small">
                 {{ col.text }}
               </el-button>
               <el-date-picker
@@ -71,9 +59,11 @@
               ></el-date-picker>
               <el-cascader
                 v-else-if="col.type === 'cascader'"
-                v-model="scope.row[item.code]"
-                :options="item.mapping"
+                v-model="scope.row[col.code]"
+                :options="col.mapping"
+                :show-all-levels="false"
                 :props="{ expandTrigger: 'hover' }"
+                clearable
               ></el-cascader>
             </template>
             <!-- 调整可编辑列表结束, 如果没有此类需求, 删掉开头结尾内容即可 -->

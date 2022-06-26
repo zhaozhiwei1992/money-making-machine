@@ -1,9 +1,11 @@
 package com.example.web.rest;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.example.domain.EleUnion;
 import com.example.domain.UiEditform;
 import com.example.repository.UiEditformRepository;
 import com.example.service.CommonEleService;
@@ -239,12 +241,21 @@ public class UiEditformResource {
             .map(uiEditform -> {
                 final UiEditformDTO convert = Convert.convert(UiEditformDTO.class, uiEditform);
                 if (uiEditform.getIssource()) {
-                    //               从config获取取数bean, 从而获取数据
+                    //  从config获取取数bean, 从而获取数据
                     final String configJson = uiEditform.getConfig();
                     final JSONObject jsonObject = JSONUtil.parseObj(configJson);
                     convert.setConfig(jsonObject);
-                    final List<Map<String, Object>> mappingList = commonEleService.findMapping(jsonObject.getStr("eleBeanName"));
-                    convert.setMapping(mappingList);
+                    //                    final List<Map<String, Object>> mappingList = commonEleService.findMapping(jsonObject.getStr("eleBeanName"));
+                    //                    convert.setMapping(mappingList);
+                    final Object mapping = jsonObject.get("mapping");
+                    if (!Objects.isNull(mapping) && StrUtil.isNotEmpty(String.valueOf(mapping))) {
+                        // 1. 根据eleCatCode获取基础数据信息
+                        final List<EleUnion> elementInfoByEleCatCode = commonEleService.findElementInfoByEleCatCode(
+                            String.valueOf(mapping)
+                        );
+                        // 2. 转换为翻译信息
+                        convert.setMapping(commonEleService.transToMapping(elementInfoByEleCatCode));
+                    }
                 }
 
                 return convert;

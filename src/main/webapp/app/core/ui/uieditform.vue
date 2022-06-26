@@ -42,7 +42,7 @@
           <template v-if="item.type === 'select'">
             <el-form-item :key="index" :label="item.name">
               <el-select v-model="fieldObj[item.code]" :placeholder="item.placeholderribe">
-                <el-option v-for="items in item.mapping" :key="items.name" :label="items.name" :value="items.value"> </el-option>
+                <el-option v-for="items in item.mapping" :key="items.code" :label="items.name" :value="items.code"> </el-option>
               </el-select>
             </el-form-item>
           </template>
@@ -112,7 +112,7 @@ export default {
           .get(baseApiUrl + '/menu/' + this.menuid)
           .then(res => {
             let response = res.data;
-            console.log(response);
+            console.log('编辑区配置信息', response);
             this.fieldArray = response;
             for (let i = 0; i < response.length; i++) {
               let item = response[i];
