@@ -3,6 +3,7 @@ package com.example.web.rest;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.example.domain.SysCollectCol;
@@ -104,6 +105,16 @@ public class DataCollectResource {
         return list;
     }
 
+    @PostMapping("/data-collect/audit")
+    public List<Map> dataCollectAudit(@RequestBody List<Map> datas) {
+        // 修改业务字段
+        for (Map data : datas) {
+            data.put("wfstatus", "011");
+        }
+        commonSqlRepository.updateAllByPK("coll_t_cs", "id", datas, Arrays.asList("wfstatus"));
+        return datas;
+    }
+
     /**
      * {@code GET  /data-collect} : get all the data-collect.
      *
@@ -140,21 +151,86 @@ public class DataCollectResource {
     public boolean imp(MultipartFile file) throws IOException {
         //获取来自浏览器发送的文件内容
         InputStream inputStream = file.getInputStream();
-        //        ExcelReader reader = ExcelUtil.getReader(inputStream);
-        //        List<User> all = reader.readAll(User.class);
-        //        //我们再使用MP的批量插入插入到数据库中即可
-        //        userService.saveBatch(all);
+
+        ExcelReader reader = ExcelUtil.getReader(inputStream);
+        List<Map<String, Object>> importDatas = reader.readAll();
+
+        final List<SysCollectCol> sysCollectColList = sysCollectColRepository.findAllByTabId(11L);
+        // 字段中英文对照
+        final Map<String, String> enCnameMap = new HashMap<>();
+        for (SysCollectCol sysCollectCol : sysCollectColList) {
+            enCnameMap.put(sysCollectCol.getColEname(), sysCollectCol.getColCname());
+        }
+
+        // 数据转换为字段, 因为动态构建，只能保留英文字段, 并增加id
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final List<Map> saveDataList = importDatas
+            .stream()
+            .map(m -> {
+                final Map<String, Object> map = new HashMap<>();
+                for (Map.Entry<String, String> enCnNameEntry : enCnameMap.entrySet()) {
+                    final String colEnameName = enCnNameEntry.getKey();
+                    final String colCnameName = enCnNameEntry.getValue();
+                    map.put(colCnameName, map.get(colEnameName));
+                }
+                map.put("id", UUID.fastUUID().toString());
+                map.put("create_time", dateTimeFormatter.format(LocalDateTime.now()));
+                return map;
+            })
+            .collect(Collectors.toList());
+        commonSqlRepository.insertDatas("coll_t_cs", saveDataList);
         return true;
     }
 
     @GetMapping("/data-collect/export")
     public void export(HttpServletResponse response) {
-        //获取来自浏览器发送的文件内容
-        //        InputStream inputStream = file.getInputStream();
-        //        ExcelReader reader = ExcelUtil.getReader(inputStream);
-        //        List<User> all = reader.readAll(User.class);
-        //        //我们再使用MP的批量插入插入到数据库中即可
-        //        userService.saveBatch(all);
+        try {
+            String fileName = "demo采集表数据导出.xlsx";
+            response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            response.addHeader("filename", URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+            final ServletOutputStream out = response.getOutputStream();
+
+            //https://hutool.cn/docs/#/poi/Excel%E7%94%9F%E6%88%90-ExcelWriter
+            ExcelWriter writer = ExcelUtil.getWriter(true);
+            // 每行的记录
+            final List<Map> rows = new ArrayList<>();
+
+            final List<SysCollectCol> sysCollectColList = sysCollectColRepository.findAllByTabId(11L);
+            // 字段中英文对照
+            final Map<String, String> enCnameMap = new HashMap<>();
+            final Map<String, Object> header = new HashMap<>();
+            for (SysCollectCol sysCollectCol : sysCollectColList) {
+                header.put(sysCollectCol.getColCname(), "");
+                enCnameMap.put(sysCollectCol.getColEname(), sysCollectCol.getColCname());
+            }
+
+            // 增加脑袋
+            rows.add(header);
+            // 增加数据, 导出全部先
+            final List<Map> list = commonSqlRepository.queryForList("select * from coll_t_cs");
+            for (Map map : list) {
+                // 将数据根据字段转换为 hutool需要的填充格式
+                for (Map.Entry<String, String> enCnNameEntry : enCnameMap.entrySet()) {
+                    final String colEnameName = enCnNameEntry.getKey();
+                    final String colCnameName = enCnNameEntry.getValue();
+                    map.put(colCnameName, map.get(colEnameName));
+                }
+                rows.add(map);
+            }
+
+            // 数据格式list<map>
+            writer.write(rows, true);
+
+            writer.flush(out, true);
+            writer.close();
+            IoUtil.close(out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private final SysCollectColRepository sysCollectColRepository;
