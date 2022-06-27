@@ -28,7 +28,6 @@ export default {
       tableData: [],
       dialogExcelImportVisible: false,
       excelImportUrl: baseApiUrl + '/import',
-      excelTemplateUrl: baseApiUrl + '/exportTemplate',
     };
   },
   components: {
