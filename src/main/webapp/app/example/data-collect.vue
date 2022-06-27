@@ -1,18 +1,14 @@
 <template>
   <div>
     <ui-view v-bind:menuid="dymenuid" ref="mainRef"></ui-view>
-    <el-dialog title="excel导入" :visible.sync="dialogExcelImportVisible">
-      <el-upload class="upload-demo" :action="excelImportUrl" accept="xlsx" :show-file-list="false" :on-success="handlerExcelImportSuccess">
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传xlsx文件</div>
-        <div slot="tip" class="el-upload__tip"><a @click="exportTemplate"> 导入模板下载 </a></div>
-      </el-upload>
-    </el-dialog>
+    <!-- 子组件通过 that.$emit('closeUpload'); 触发父组件的closeUpload方法-->
+    <upload :uploadUrl="excelImportUrl" :upLoadVisible="dialogExcelImportVisible" @closeUpload="closeUpload"></upload>
   </div>
 </template>
 
 <script>
 import View from '@/core/ui/view.vue';
+import Upload from '@/core/upload/upload.vue';
 
 import axios from 'axios';
 import qs from 'qs';
@@ -32,6 +28,7 @@ export default {
   },
   components: {
     'ui-view': View,
+    upload: Upload,
   },
   mounted() {
     this.initTableData();
@@ -99,6 +96,10 @@ export default {
     },
     import() {
       this.dialogExcelImportVisible = true;
+    },
+    closeUpload() {
+      this.initTableData();
+      this.dialogExcelImportVisible = false;
     },
     exportTemplate() {
       // 上述直接打开url方式不行, 没有header里的认证信息

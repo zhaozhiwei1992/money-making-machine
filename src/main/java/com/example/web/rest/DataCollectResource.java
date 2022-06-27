@@ -148,7 +148,7 @@ public class DataCollectResource {
     }
 
     @PostMapping("/data-collect/import")
-    public boolean imp(MultipartFile file) throws IOException {
+    public ResponseEntity<Object> imp(MultipartFile file) throws IOException {
         //获取来自浏览器发送的文件内容
         InputStream inputStream = file.getInputStream();
 
@@ -171,7 +171,7 @@ public class DataCollectResource {
                 for (Map.Entry<String, String> enCnNameEntry : enCnameMap.entrySet()) {
                     final String colEnameName = enCnNameEntry.getKey();
                     final String colCnameName = enCnNameEntry.getValue();
-                    map.put(colCnameName, map.get(colEnameName));
+                    map.put(colEnameName, m.get(colCnameName));
                 }
                 map.put("id", UUID.fastUUID().toString());
                 map.put("create_time", dateTimeFormatter.format(LocalDateTime.now()));
@@ -179,7 +179,7 @@ public class DataCollectResource {
             })
             .collect(Collectors.toList());
         commonSqlRepository.insertDatas("coll_t_cs", saveDataList);
-        return true;
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/data-collect/export")
