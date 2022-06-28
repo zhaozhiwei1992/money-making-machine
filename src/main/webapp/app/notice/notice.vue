@@ -107,10 +107,6 @@ export default {
           this.$alert('保存成功', '提示', {
             confirmButtonText: '确定',
             callback: action => {
-              this.$message({
-                type: 'info',
-                message: `action: ${action}`,
-              });
               this.initTableData();
             },
           });
@@ -132,10 +128,6 @@ export default {
           this.$alert('删除成功', '提示', {
             confirmButtonText: '确定',
             callback: action => {
-              this.$message({
-                type: 'info',
-                message: `action: ${action}`,
-              });
               this.initTableData();
             },
           });
