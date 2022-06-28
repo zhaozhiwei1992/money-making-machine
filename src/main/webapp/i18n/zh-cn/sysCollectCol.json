@@ -1,0 +1,42 @@
+{
+  "moneyMakingMachineApp": {
+    "sysCollectCol": {
+      "home": {
+        "title": "Sys Collect Cols",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Sys Collect Col",
+        "createOrEditLabel": "创建或编辑 Sys Collect Col",
+        "notFound": "No Sys Collect Cols found"
+      },
+      "created": "Sys Collect Col {{ param }} 创建成功",
+      "updated": "Sys Collect Col {{ param }} 更新成功",
+      "deleted": "Sys Collect Col {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Sys Collect Col {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Sys Collect Col"
+      },
+      "id": "ID",
+      "colCname": "Col Cname",
+      "colEname": "Col Ename",
+      "tabId": "Tab Id",
+      "orderNum": "Order Num",
+      "source": "Source",
+      "isEdit": "Is Edit",
+      "requirement": "Requirement",
+      "type": "Type",
+      "config": "Config",
+      "help": {
+        "colCname": "列中文名",
+        "colEname": "列英文名",
+        "tabId": "关联采集表id",
+        "source": "数据源头, 可以是bean或者数据项ele_",
+        "isEdit": "是否可编辑",
+        "requirement": "是否必填",
+        "type": "数据类型, tree, select, input等",
+        "config": "扩展配置"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "moneyMakingMachineApp": {
+    "leaveSlip": {
+      "home": {
+        "title": "Leave Slips",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Leave Slip",
+        "createOrEditLabel": "建立或編輯 Leave Slip",
+        "notFound": "No Leave Slips found"
+      },
+      "created": "新的 Leave Slip 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Leave Slip 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Leave Slip 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Leave Slip {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Leave Slip"
+      },
+      "id": "ID",
+      "type": "Type",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "reason": "Reason",
+      "file": "File",
+      "superior": "Superior",
+      "wfstatus": "Wfstatus",
+      "leavePerson": "Leave Person"
+    }
+  }
+}

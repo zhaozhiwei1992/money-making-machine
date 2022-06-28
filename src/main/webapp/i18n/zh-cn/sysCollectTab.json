@@ -1,0 +1,33 @@
+{
+  "moneyMakingMachineApp": {
+    "sysCollectTab": {
+      "home": {
+        "title": "Sys Collect Tabs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Sys Collect Tab",
+        "createOrEditLabel": "创建或编辑 Sys Collect Tab",
+        "notFound": "No Sys Collect Tabs found"
+      },
+      "created": "Sys Collect Tab {{ param }} 创建成功",
+      "updated": "Sys Collect Tab {{ param }} 更新成功",
+      "deleted": "Sys Collect Tab {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Sys Collect Tab {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Sys Collect Tab"
+      },
+      "id": "ID",
+      "tabCname": "Tab Cname",
+      "tabEname": "Tab Ename",
+      "config": "Config",
+      "enable": "Enable",
+      "help": {
+        "tabCname": "表中文名",
+        "tabEname": "表英文名",
+        "config": "备用配置",
+        "enable": "是否启用"
+      }
+    }
+  }
+}

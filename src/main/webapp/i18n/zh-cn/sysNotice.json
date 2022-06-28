@@ -1,0 +1,41 @@
+{
+  "moneyMakingMachineApp": {
+    "sysNotice": {
+      "home": {
+        "title": "Sys Notices",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Sys Notice",
+        "createOrEditLabel": "创建或编辑 Sys Notice",
+        "notFound": "No Sys Notices found"
+      },
+      "created": "Sys Notice {{ param }} 创建成功",
+      "updated": "Sys Notice {{ param }} 更新成功",
+      "deleted": "Sys Notice {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Sys Notice {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Sys Notice"
+      },
+      "id": "ID",
+      "title": "Title",
+      "content": "Content",
+      "creater": "Creater",
+      "createTime": "Create Time",
+      "recType": "Rec Type",
+      "receiver": "Receiver",
+      "urgent": "Urgent",
+      "notiType": "Noti Type",
+      "help": {
+        "title": "标题",
+        "content": "公告内容",
+        "creater": "公告发起人",
+        "createTime": "创建日期",
+        "recType": "可以是 所有人/单个或多个用户/角色/单位\n选择不同的类型，　使用不同的接收者值集",
+        "receiver": "可以是 所有人/单个或多个用户/角色/单位",
+        "urgent": "紧急程度 (紧急的同时短信通知) (是/否)",
+        "notiType": "通知类型 通知公告/规章制度/政策文件"
+      }
+    }
+  }
+}

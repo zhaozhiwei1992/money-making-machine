@@ -24,6 +24,13 @@
         "slowSqlLogging": "Slow Sql Logging",
         "taskParam": "Task Param",
         "systemParam": "System Param",
+        "example": "Example",
+        "leaveSlip": "Leave Slip",
+        "sysCollectTab": "Sys Collect Tab",
+        "sysCollectCol": "Sys Collect Col",
+        "sysFormulaTab": "Sys Formula Tab",
+        "eleUnion": "Ele Union",
+        "sysNotice": "Sys Notice",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

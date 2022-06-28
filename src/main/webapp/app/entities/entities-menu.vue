@@ -68,6 +68,34 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="$t('global.menu.entities.systemParam')">System Param</span>
     </b-dropdown-item>
+    <b-dropdown-item to="/example">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.example')">Example</span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/leave-slip">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.leaveSlip')">Leave Slip</span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/sys-collect-tab">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.sysCollectTab')">Sys Collect Tab</span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/sys-collect-col">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.sysCollectCol')">Sys Collect Col</span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/sys-formula-tab">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.sysFormulaTab')">Sys Formula Tab</span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/ele-union">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.eleUnion')">Ele Union</span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/sys-notice">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="$t('global.menu.entities.sysNotice')">Sys Notice</span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

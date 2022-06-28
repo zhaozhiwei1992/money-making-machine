@@ -1,0 +1,26 @@
+{
+  "moneyMakingMachineApp": {
+    "example": {
+      "home": {
+        "title": "Examples",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "创建新 Example",
+        "createOrEditLabel": "创建或编辑 Example",
+        "notFound": "No Examples found"
+      },
+      "created": "Example {{ param }} 创建成功",
+      "updated": "Example {{ param }} 更新成功",
+      "deleted": "Example {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Example {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Example"
+      },
+      "id": "ID",
+      "name": "Name",
+      "age": "Age",
+      "sex": "Sex"
+    }
+  }
+}

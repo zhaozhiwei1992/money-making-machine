@@ -1,0 +1,57 @@
+{
+  "applications": "*",
+  "changelogDate": "20220628092820",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_notice",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "javadoc": "标题"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String",
+      "javadoc": "公告内容"
+    },
+    {
+      "fieldName": "creater",
+      "fieldType": "String",
+      "javadoc": "公告发起人"
+    },
+    {
+      "fieldName": "createTime",
+      "fieldType": "String",
+      "javadoc": "创建日期"
+    },
+    {
+      "fieldName": "recType",
+      "fieldType": "String",
+      "javadoc": "可以是 所有人/单个或多个用户/角色/单位\\n选择不同的类型，　使用不同的接收者值集"
+    },
+    {
+      "fieldName": "receiver",
+      "fieldType": "String",
+      "javadoc": "可以是 所有人/单个或多个用户/角色/单位"
+    },
+    {
+      "fieldName": "urgent",
+      "fieldType": "Boolean",
+      "javadoc": "紧急程度 (紧急的同时短信通知) (是/否)"
+    },
+    {
+      "fieldName": "notiType",
+      "fieldType": "Integer",
+      "javadoc": "通知类型 通知公告/规章制度/政策文件"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "通知公告信息存储",
+  "jpaMetamodelFiltering": false,
+  "name": "SysNotice",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

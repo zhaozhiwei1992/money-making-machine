@@ -1,0 +1,45 @@
+{
+  "moneyMakingMachineApp": {
+    "eleUnion": {
+      "home": {
+        "title": "Ele Unions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Ele Union",
+        "createOrEditLabel": "建立或編輯 Ele Union",
+        "notFound": "No Ele Unions found"
+      },
+      "created": "新的 Ele Union 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Ele Union 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Ele Union 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Ele Union {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Ele Union"
+      },
+      "id": "ID",
+      "eleCatCode": "Ele Cat Code",
+      "eleCatName": "Ele Cat Name",
+      "eleCode": "Ele Code",
+      "eleName": "Ele Name",
+      "parentId": "Parent Id",
+      "levelNo": "Level No",
+      "isLeaf": "Is Leaf",
+      "isEnabled": "Is Enabled",
+      "createTime": "Create Time",
+      "updateTime": "Update Time",
+      "help": {
+        "eleCatCode": "代码集分类编码\n如: 001001\n如果在该表不存在数据, 则通过ele_eleCatCode方式来查其它表",
+        "eleCatName": "代码集分类名称\n如: 单位",
+        "eleCode": "代码集代码",
+        "eleName": "代码集名称",
+        "parentId": "父级节点主键",
+        "levelNo": "级次",
+        "isLeaf": "是否末级",
+        "isEnabled": "是否启用",
+        "createTime": "创建时间",
+        "updateTime": "更新时间"
+      }
+    }
+  }
+}

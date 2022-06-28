@@ -105,6 +105,48 @@ const SystemParam = () => import('@/entities/system-param/system-param.vue');
 const SystemParamUpdate = () => import('@/entities/system-param/system-param-update.vue');
 // prettier-ignore
 const SystemParamDetails = () => import('@/entities/system-param/system-param-details.vue');
+// prettier-ignore
+const Example = () => import('@/entities/example/example.vue');
+// prettier-ignore
+const ExampleUpdate = () => import('@/entities/example/example-update.vue');
+// prettier-ignore
+const ExampleDetails = () => import('@/entities/example/example-details.vue');
+// prettier-ignore
+const LeaveSlip = () => import('@/entities/leave-slip/leave-slip.vue');
+// prettier-ignore
+const LeaveSlipUpdate = () => import('@/entities/leave-slip/leave-slip-update.vue');
+// prettier-ignore
+const LeaveSlipDetails = () => import('@/entities/leave-slip/leave-slip-details.vue');
+// prettier-ignore
+const SysCollectTab = () => import('@/entities/sys-collect-tab/sys-collect-tab.vue');
+// prettier-ignore
+const SysCollectTabUpdate = () => import('@/entities/sys-collect-tab/sys-collect-tab-update.vue');
+// prettier-ignore
+const SysCollectTabDetails = () => import('@/entities/sys-collect-tab/sys-collect-tab-details.vue');
+// prettier-ignore
+const SysCollectCol = () => import('@/entities/sys-collect-col/sys-collect-col.vue');
+// prettier-ignore
+const SysCollectColUpdate = () => import('@/entities/sys-collect-col/sys-collect-col-update.vue');
+// prettier-ignore
+const SysCollectColDetails = () => import('@/entities/sys-collect-col/sys-collect-col-details.vue');
+// prettier-ignore
+const SysFormulaTab = () => import('@/entities/sys-formula-tab/sys-formula-tab.vue');
+// prettier-ignore
+const SysFormulaTabUpdate = () => import('@/entities/sys-formula-tab/sys-formula-tab-update.vue');
+// prettier-ignore
+const SysFormulaTabDetails = () => import('@/entities/sys-formula-tab/sys-formula-tab-details.vue');
+// prettier-ignore
+const EleUnion = () => import('@/entities/ele-union/ele-union.vue');
+// prettier-ignore
+const EleUnionUpdate = () => import('@/entities/ele-union/ele-union-update.vue');
+// prettier-ignore
+const EleUnionDetails = () => import('@/entities/ele-union/ele-union-details.vue');
+// prettier-ignore
+const SysNotice = () => import('@/entities/sys-notice/sys-notice.vue');
+// prettier-ignore
+const SysNoticeUpdate = () => import('@/entities/sys-notice/sys-notice-update.vue');
+// prettier-ignore
+const SysNoticeDetails = () => import('@/entities/sys-notice/sys-notice-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -517,6 +559,174 @@ export default {
       path: 'system-param/:systemParamId/view',
       name: 'SystemParamView',
       component: SystemParamDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'example',
+      name: 'Example',
+      component: Example,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'example/new',
+      name: 'ExampleCreate',
+      component: ExampleUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'example/:exampleId/edit',
+      name: 'ExampleEdit',
+      component: ExampleUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'example/:exampleId/view',
+      name: 'ExampleView',
+      component: ExampleDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-slip',
+      name: 'LeaveSlip',
+      component: LeaveSlip,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-slip/new',
+      name: 'LeaveSlipCreate',
+      component: LeaveSlipUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-slip/:leaveSlipId/edit',
+      name: 'LeaveSlipEdit',
+      component: LeaveSlipUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'leave-slip/:leaveSlipId/view',
+      name: 'LeaveSlipView',
+      component: LeaveSlipDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-tab',
+      name: 'SysCollectTab',
+      component: SysCollectTab,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-tab/new',
+      name: 'SysCollectTabCreate',
+      component: SysCollectTabUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-tab/:sysCollectTabId/edit',
+      name: 'SysCollectTabEdit',
+      component: SysCollectTabUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-tab/:sysCollectTabId/view',
+      name: 'SysCollectTabView',
+      component: SysCollectTabDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-col',
+      name: 'SysCollectCol',
+      component: SysCollectCol,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-col/new',
+      name: 'SysCollectColCreate',
+      component: SysCollectColUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-col/:sysCollectColId/edit',
+      name: 'SysCollectColEdit',
+      component: SysCollectColUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-collect-col/:sysCollectColId/view',
+      name: 'SysCollectColView',
+      component: SysCollectColDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-formula-tab',
+      name: 'SysFormulaTab',
+      component: SysFormulaTab,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-formula-tab/new',
+      name: 'SysFormulaTabCreate',
+      component: SysFormulaTabUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-formula-tab/:sysFormulaTabId/edit',
+      name: 'SysFormulaTabEdit',
+      component: SysFormulaTabUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-formula-tab/:sysFormulaTabId/view',
+      name: 'SysFormulaTabView',
+      component: SysFormulaTabDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ele-union',
+      name: 'EleUnion',
+      component: EleUnion,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ele-union/new',
+      name: 'EleUnionCreate',
+      component: EleUnionUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ele-union/:eleUnionId/edit',
+      name: 'EleUnionEdit',
+      component: EleUnionUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'ele-union/:eleUnionId/view',
+      name: 'EleUnionView',
+      component: EleUnionDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice',
+      name: 'SysNotice',
+      component: SysNotice,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice/new',
+      name: 'SysNoticeCreate',
+      component: SysNoticeUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice/:sysNoticeId/edit',
+      name: 'SysNoticeEdit',
+      component: SysNoticeUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice/:sysNoticeId/view',
+      name: 'SysNoticeView',
+      component: SysNoticeDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

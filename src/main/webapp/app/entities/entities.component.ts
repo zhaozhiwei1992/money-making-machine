@@ -18,6 +18,13 @@ import RequestLoggingService from './request-logging/request-logging.service';
 import SlowSqlLoggingService from './slow-sql-logging/slow-sql-logging.service';
 import TaskParamService from './task-param/task-param.service';
 import SystemParamService from './system-param/system-param.service';
+import ExampleService from './example/example.service';
+import LeaveSlipService from './leave-slip/leave-slip.service';
+import SysCollectTabService from './sys-collect-tab/sys-collect-tab.service';
+import SysCollectColService from './sys-collect-col/sys-collect-col.service';
+import SysFormulaTabService from './sys-formula-tab/sys-formula-tab.service';
+import EleUnionService from './ele-union/ele-union.service';
+import SysNoticeService from './sys-notice/sys-notice.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
 @Component
@@ -40,5 +47,12 @@ export default class Entities extends Vue {
   @Provide('slowSqlLoggingService') private slowSqlLoggingService = () => new SlowSqlLoggingService();
   @Provide('taskParamService') private taskParamService = () => new TaskParamService();
   @Provide('systemParamService') private systemParamService = () => new SystemParamService();
+  @Provide('exampleService') private exampleService = () => new ExampleService();
+  @Provide('leaveSlipService') private leaveSlipService = () => new LeaveSlipService();
+  @Provide('sysCollectTabService') private sysCollectTabService = () => new SysCollectTabService();
+  @Provide('sysCollectColService') private sysCollectColService = () => new SysCollectColService();
+  @Provide('sysFormulaTabService') private sysFormulaTabService = () => new SysFormulaTabService();
+  @Provide('eleUnionService') private eleUnionService = () => new EleUnionService();
+  @Provide('sysNoticeService') private sysNoticeService = () => new SysNoticeService();
   // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
 }

@@ -1,0 +1,39 @@
+{
+  "moneyMakingMachineApp": {
+    "sysFormulaTab": {
+      "home": {
+        "title": "Sys Formula Tabs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Sys Formula Tab",
+        "createOrEditLabel": "建立或編輯 Sys Formula Tab",
+        "notFound": "No Sys Formula Tabs found"
+      },
+      "created": "新的 Sys Formula Tab 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Sys Formula Tab 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Sys Formula Tab 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Sys Formula Tab {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Sys Formula Tab"
+      },
+      "id": "ID",
+      "tabEname": "Tab Ename",
+      "colEname": "Col Ename",
+      "calFormula": "Cal Formula",
+      "calFormulaDes": "Cal Formula Des",
+      "roundType": "Round Type",
+      "weight": "Weight",
+      "enable": "Enable",
+      "help": {
+        "tabEname": "表英文编码",
+        "colEname": "字段英文编码",
+        "calFormula": "计算公式",
+        "calFormulaDes": "公式中文描述",
+        "roundType": "进位类型, 四舍五入等, BigDecimal",
+        "weight": "公式权重",
+        "enable": "是否启用"
+      }
+    }
+  }
+}
