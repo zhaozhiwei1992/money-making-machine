@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -196,5 +197,21 @@ public class SysNoticeResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/sys-notices/del")
+    public ResponseEntity<Void> deleteSelectSysNotice(@RequestBody List<SysNotice> sysNoticeList) {
+        log.debug("REST request to delete SysNotice List: {}", sysNoticeList);
+        final List<Long> deleteIdList = sysNoticeList.stream().map(SysNotice::getId).collect(Collectors.toList());
+        sysNoticeRepository.deleteAllById(deleteIdList);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/sys-notices/send/notice")
+    public ResponseEntity<Void> sendNotice(@RequestBody List<SysNotice> sysNoticeList) {
+        log.debug("REST request to send Notice List: {}", sysNoticeList);
+        // 根据数据进行不同的消息类型通知
+        // 如消息队列, 然后再进行分发
+        return ResponseEntity.noContent().build();
     }
 }
