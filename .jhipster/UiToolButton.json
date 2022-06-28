@@ -37,5 +37,5 @@
   "readOnly": false,
   "relationships": [],
   "service": "no",
-  "skipClient": true
+  "skipClient": false
 }

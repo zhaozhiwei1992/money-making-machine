@@ -21,13 +21,13 @@ entity SysNotice (sys_notice) {
     /**
     * 创建日期
     */
-    create_time String,
+    createTime String,
 
     /**
     * 可以是 所有人/单个或多个用户/角色/单位
     * 选择不同的类型，　使用不同的接收者值集
     */
-    rec_type   String,
+    recType   String,
 
     /**
     * 可以是 所有人/单个或多个用户/角色/单位
@@ -42,5 +42,5 @@ entity SysNotice (sys_notice) {
     /**
     * 通知类型 通知公告/规章制度/政策文件
     */
-    noti_type  Integer
+    notiType  Integer
 }
