@@ -475,3 +475,59 @@ entity SysFormulaTab (sys_formula_tab) {
 	enable Boolean
 
 }
+
+/**
+* 基础数据总表
+* 数据量小的可以统一使用总表创建即可
+* 单独的表可以使用ele_001001类似的表名
+*/
+entity EleUnion (ele_union) {
+
+    /**
+    * 代码集分类编码
+    * 如: 001001
+    * 如果在该表不存在数据, 则通过ele_eleCatCode方式来查其它表
+    */
+    eleCatCode String,
+
+    /**
+    * 代码集分类名称
+    * 如: 单位
+    */
+    eleCatName String,
+
+    /**
+     * 代码集代码
+     **/
+    eleCode String,
+
+    /**
+     * 代码集名称
+     **/
+    eleName String,
+
+    /**
+     * 父级节点主键
+     **/
+    parentId String,
+    /**
+     * 级次
+     **/
+    levelNo Integer,
+    /**
+     * 是否末级
+     **/
+    isLeaf Boolean,
+    /**
+     * 是否启用
+     **/
+    isEnabled Boolean,
+    /**
+     * 创建时间
+     **/
+    createTime String,
+    /**
+     * 更新时间
+     **/
+    updateTime String
+}

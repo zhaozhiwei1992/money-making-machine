@@ -1,55 +1,46 @@
 /**
-* 基础数据总表
-* 数据量小的可以统一使用总表创建即可
-* 单独的表可以使用ele_001001类似的表名
+* 通知公告信息存储
 */
-entity EleUnion (ele_union) {
+entity SysNotice (sys_notice) {
 
     /**
-    * 代码集分类编码
-    * 如: 001001
-    * 如果在该表不存在数据, 则通过ele_eleCatCode方式来查其它表
+    * 标题
     */
-    eleCatCode String,
+    title   String,
 
     /**
-    * 代码集分类名称
-    * 如: 单位
+    * 公告内容
     */
-    eleCatName String,
+    content  String,
 
     /**
-     * 代码集代码
-     **/
-    eleCode String,
+    * 公告发起人
+    */
+    creater    String,
 
     /**
-     * 代码集名称
-     **/
-    eleName String,
+    * 创建日期
+    */
+    create_time String,
 
     /**
-     * 父级节点主键
-     **/
-    parentId String,
+    * 可以是 所有人/单个或多个用户/角色/单位
+    * 选择不同的类型，　使用不同的接收者值集
+    */
+    rec_type   String,
+
     /**
-     * 级次
-     **/
-    levelNo Integer,
+    * 可以是 所有人/单个或多个用户/角色/单位
+    */
+    receiver   String,
+
     /**
-     * 是否末级
-     **/
-    isLeaf Boolean,
+    * 紧急程度 (紧急的同时短信通知) (是/否)
+    */
+    urgent     Boolean,
+
     /**
-     * 是否启用
-     **/
-    isEnabled Boolean,
-    /**
-     * 创建时间
-     **/
-    createTime String,
-    /**
-     * 更新时间
-     **/
-    updateTime String
+    * 通知类型 通知公告/规章制度/政策文件
+    */
+    noti_type  Integer
 }
