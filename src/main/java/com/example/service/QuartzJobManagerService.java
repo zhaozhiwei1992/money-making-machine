@@ -30,6 +30,25 @@ public class QuartzJobManagerService {
      * @method: startJobAll
      * @return: java.lang.String
      * @Description: 启动所有定时任务
+     *
+     *  # 每月的最后1天
+     *     @Scheduled(cron = "0 0 18 L * ?")
+     *     public void doAtLastDayOfMonth() {
+     *         // do something here...
+     *     }
+     *
+     *     说明：
+     *     Java(Quartz)
+     *     *    *    *    *    *    *    *
+     *     -    -    -    -    -    -    -
+     *     |    |    |    |    |    |    |
+     *     |    |    |    |    |    |    + year [optional]
+     *     |    |    |    |    |    +----- day of week (1 - 7) sun,mon,tue,wed,thu,fri,sat
+     *     |    |    |    |    +---------- month (1 - 12) OR jan,feb,mar,apr ...
+     *     |    |    |    +--------------- day of month (1 - 31)
+     *     |    |    +-------------------- hour (0 - 23)
+     *     |    +------------------------- min (0 - 59)
+     *     +------------------------------ second (0 - 59)
      */
     public String startJobAll() {
         //        final HashMap<String, String> job1 = new HashMap<>();

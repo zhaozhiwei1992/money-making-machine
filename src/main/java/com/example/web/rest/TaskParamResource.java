@@ -2,19 +2,22 @@ package com.example.web.rest;
 
 import com.example.domain.TaskParam;
 import com.example.repository.TaskParamRepository;
+import com.example.service.QuartzJobExecuteService;
+import com.example.service.QuartzJobManagerService;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -40,15 +43,17 @@ public class TaskParamResource {
 
     private final TaskParamRepository taskParamRepository;
 
-    public TaskParamResource(TaskParamRepository taskParamRepository) {
+    public TaskParamResource(TaskParamRepository taskParamRepository, QuartzJobManagerService quartzJobManagerService) {
         this.taskParamRepository = taskParamRepository;
+        this.quartzJobManagerService = quartzJobManagerService;
     }
 
     /**
      * {@code POST  /task-params} : Create a new taskParam.
      *
      * @param taskParam the taskParam to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new taskParam, or with status {@code 400 (Bad Request)} if the taskParam has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new taskParam, or with
+     * status {@code 400 (Bad Request)} if the taskParam has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/task-params")
@@ -67,7 +72,7 @@ public class TaskParamResource {
     /**
      * {@code PUT  /task-params/:id} : Updates an existing taskParam.
      *
-     * @param id the id of the taskParam to save.
+     * @param id        the id of the taskParam to save.
      * @param taskParam the taskParam to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated taskParam,
      * or with status {@code 400 (Bad Request)} if the taskParam is not valid,
@@ -99,9 +104,10 @@ public class TaskParamResource {
     }
 
     /**
-     * {@code PATCH  /task-params/:id} : Partial updates given fields of an existing taskParam, field will ignore if it is null
+     * {@code PATCH  /task-params/:id} : Partial updates given fields of an existing taskParam, field will ignore if
+     * it is null
      *
-     * @param id the id of the taskParam to save.
+     * @param id        the id of the taskParam to save.
      * @param taskParam the taskParam to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated taskParam,
      * or with status {@code 400 (Bad Request)} if the taskParam is not valid,
@@ -170,7 +176,8 @@ public class TaskParamResource {
      * {@code GET  /task-params/:id} : get the "id" taskParam.
      *
      * @param id the id of the taskParam to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the taskParam, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the taskParam, or with status
+     * {@code 404 (Not Found)}.
      */
     @GetMapping("/task-params/{id}")
     public ResponseEntity<TaskParam> getTaskParam(@PathVariable Long id) {
@@ -193,5 +200,68 @@ public class TaskParamResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * @param delList :
+     * @data: 2022/6/29-下午10:09
+     * @User: zhaozhiwei
+     * @method: deleteSelectTaskParam
+     * @return: org.springframework.http.ResponseEntity<java.lang.Void>
+     * @Description: 删除选中的任务
+     */
+    @PostMapping("/task-params/del")
+    public ResponseEntity<Void> deleteSelectTaskParam(@RequestBody List<TaskParam> delList) {
+        log.debug("REST request to delete select TaskParam : {}", delList);
+        for (TaskParam taskParam : delList) {
+            if (taskParam.getEnable()) {
+                throw new RuntimeException("请先停用定时任务!");
+            }
+        }
+        final List<Long> delIds = delList.stream().map(taskParam -> taskParam.getId()).collect(Collectors.toList());
+        taskParamRepository.deleteAllById(delIds);
+        return ResponseEntity.noContent().build();
+    }
+
+    private final QuartzJobManagerService quartzJobManagerService;
+
+    @PostMapping("/task-params/start")
+    public ResponseEntity<Void> startSelectTaskParam(@RequestBody List<TaskParam> executeList) {
+        log.debug("REST request to start select TaskParam : {}", executeList);
+
+        executeList.forEach(taskParam -> {
+            try {
+                quartzJobManagerService.startJob(
+                    taskParam.getCronExpression(),
+                    taskParam.getStartClass(),
+                    "defaultGroup",
+                    QuartzJobExecuteService.class
+                );
+            } catch (SchedulerException e) {
+                log.error("定时任务启用异常: " + taskParam.getName(), e);
+            }
+        });
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/task-params/stop")
+    public ResponseEntity<Void> stopSelectTaskParam(@RequestBody List<TaskParam> executeList) {
+        log.debug("REST request to stop select TaskParam : {}", executeList);
+
+        executeList.forEach(taskParam -> {
+            try {
+                quartzJobManagerService.startJob(
+                    taskParam.getCronExpression(),
+                    taskParam.getStartClass(),
+                    "defaultGroup",
+                    QuartzJobExecuteService.class
+                );
+            } catch (SchedulerException e) {
+                log.error("定时任务停用异常: " + taskParam.getName(), e);
+            }
+        });
+
+        return ResponseEntity.noContent().build();
     }
 }
