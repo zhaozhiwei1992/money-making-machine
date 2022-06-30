@@ -52,43 +52,38 @@
         <el-button type="primary" @click="save()">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 表达式配置弹出界面 -->
     <el-dialog title="表达式配置" :visible.sync="genCronExpressionVisible">
       <el-card class="box-card">
         <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
           <el-tab-pane label="秒" name="second">
-            <div>
-              <el-radio v-model="second" label="*">秒,允许的通配符[,-*/]</el-radio>
-            </div>
-            <div>
-              <el-radio v-model="second" label="2"
-                >周期从 <el-input-number size="small" v-model="num2"></el-input-number> -
-                <el-input-number size="small" v-model="num2"></el-input-number>秒</el-radio
-              >
-            </div>
-            <div>
-              <el-radio v-model="second" label="3"
-                >从<el-input-number size="small" v-model="num2"></el-input-number>秒开始, 每<el-input-number
-                  size="small"
-                  v-model="num2"
-                ></el-input-number
-                >秒执行一次</el-radio
-              >
-            </div>
-            <div>
-              <el-radio v-model="second" label="4"
-                >指定
-                <el-select v-model="value1" multiple placeholder="请选择">
-                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-                </el-select>
-              </el-radio>
-            </div>
+            <CrontabSecond @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronsecond" />
           </el-tab-pane>
-          <el-tab-pane label="分钟" name="minutes">分钟</el-tab-pane>
-          <el-tab-pane label="小时" name="hour">小时</el-tab-pane>
-          <el-tab-pane label="日" name="day">日</el-tab-pane>
-          <el-tab-pane label="月" name="month">月</el-tab-pane>
-          <el-tab-pane label="周" name="week">周</el-tab-pane>
-          <el-tab-pane label="年" name="year">年</el-tab-pane>
+
+          <el-tab-pane label="分钟" name="min">
+            <CrontabMin @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronmin" />
+          </el-tab-pane>
+
+          <el-tab-pane label="小时" name="hour">
+            <CrontabHour @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronhour" />
+          </el-tab-pane>
+
+          <el-tab-pane label="日" name="day">
+            <CrontabDay @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronday" />
+          </el-tab-pane>
+
+          <el-tab-pane label="月" name="month">
+            <CrontabMonth @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronmonth" />
+          </el-tab-pane>
+
+          <el-tab-pane label="周" name="week">
+            <CrontabWeek @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronweek" />
+          </el-tab-pane>
+
+          <el-tab-pane label="年" name="year">
+            <CrontabYear @update="updateCrontabValue" :check="checkNumber" :cron="crontabValueObj" ref="cronyear" />
+          </el-tab-pane>
         </el-tabs>
       </el-card>
       <el-card class="box-card">
@@ -96,48 +91,28 @@
           <span>表达式</span>
         </div>
         <el-row :gutter="40">
-          <el-col :span="2">秒</el-col>
-          <el-col :span="2">分钟</el-col>
-          <el-col :span="2">小时</el-col>
-          <el-col :span="2">日</el-col>
-          <el-col :span="2">月</el-col>
-          <el-col :span="2">周</el-col>
-          <el-col :span="2">年</el-col>
+          <el-col v-for="item of tabTitles" :span="2" :key="item">{{ item }}</el-col>
           <el-col :span="10">Cron表达式</el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col :span="2">
-            <el-input v-model="second" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-input v-model="second" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-input v-model="second" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-input v-model="second" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-input v-model="second" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-input v-model="second" :disabled="true"></el-input>
-          </el-col>
-          <el-col :span="2">
-            <el-input v-model="second" :disabled="true"></el-input>
+          <el-col v-for="(value, key, index) in crontabValueObj" :span="2" :key="key">
+            <el-input v-model="crontabValueObj[key]" :disabled="true"></el-input>
           </el-col>
           <el-col :span="10">
-            <el-input v-model="second" :disabled="true"></el-input>
+            <el-input v-model="crontabValueString" :disabled="true"></el-input>
           </el-col>
         </el-row>
       </el-card>
 
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>最近5次运行时间</span>
+          <CrontabResult :ex="crontabValueString"></CrontabResult>
         </div>
       </el-card>
+
+      <el-button size="small" type="primary" @click="submitFill">确定</el-button>
+      <el-button size="small" type="warning" @click="clearCron">重置</el-button>
+      <el-button size="small" @click="genCronExpressionVisible = false">取消</el-button>
     </el-dialog>
   </el-col>
 </template>
@@ -145,11 +120,21 @@
 <script>
 import axios from 'axios';
 
+import CrontabSecond from './second.vue';
+import CrontabMin from './min.vue';
+import CrontabHour from './hour.vue';
+import CrontabDay from './day.vue';
+import CrontabMonth from './month.vue';
+import CrontabWeek from './week.vue';
+import CrontabYear from './year.vue';
+import CrontabResult from './result.vue';
+
 const baseApiUrl = 'api/task-params';
 
 export default {
   data() {
     return {
+      tabTitles: ['秒', '分钟', '小时', '日', '月', '周', '年'],
       tableData: [],
       multipleSelection: [],
       addUpdateDialogFormVisible: false,
@@ -160,35 +145,41 @@ export default {
         startClass: '',
         enable: false,
       },
+      crontabValueString: '',
       activeName: 'second',
-      second: '',
-      num2: '',
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕',
-        },
-        {
-          value: '选项2',
-          label: '双皮奶',
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎',
-        },
-        {
-          value: '选项4',
-          label: '龙须面',
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭',
-        },
-      ],
+      crontabValueObj: {
+        second: '*',
+        min: '*',
+        hour: '*',
+        day: '*',
+        month: '*',
+        week: '?',
+        year: '',
+      },
     };
   },
   mounted() {
     this.initTableData();
+  },
+  computed: {
+    // 计算 配置结果
+    crontabValueString: function () {
+      let obj = this.crontabValueObj;
+      let str =
+        obj.second +
+        ' ' +
+        obj.min +
+        ' ' +
+        obj.hour +
+        ' ' +
+        obj.day +
+        ' ' +
+        obj.month +
+        ' ' +
+        obj.week +
+        (obj.year == '' ? '' : ' ' + obj.year);
+      return str;
+    },
   },
   methods: {
     initTableData() {
@@ -282,6 +273,135 @@ export default {
     },
     handleTabClick(tab, event) {
       console.log('标签点击', tab, event);
+    },
+    // 由子组件触发，更改表达式组成的字段值
+    updateCrontabValue(name, value, from) {
+      'updateCrontabValue', name, value, from;
+      this.crontabValueObj[name] = value;
+      if (from && from !== name) {
+        console.log(`来自组件 ${from} 改变了 ${name} ${value}`);
+        this.changeRadio(name, value);
+      }
+    },
+    // 赋值到组件
+    changeRadio(name, value) {
+      let arr = ['second', 'min', 'hour', 'month'],
+        refName = 'cron' + name,
+        insValue;
+
+      if (!this.$refs[refName]) return;
+
+      if (arr.includes(name)) {
+        if (value === '*') {
+          insValue = 1;
+        } else if (value.indexOf('-') > -1) {
+          let indexArr = value.split('-');
+          isNaN(indexArr[0]) ? (this.$refs[refName].cycle01 = 0) : (this.$refs[refName].cycle01 = indexArr[0]);
+          this.$refs[refName].cycle02 = indexArr[1];
+          insValue = 2;
+        } else if (value.indexOf('/') > -1) {
+          let indexArr = value.split('/');
+          isNaN(indexArr[0]) ? (this.$refs[refName].average01 = 0) : (this.$refs[refName].average01 = indexArr[0]);
+          this.$refs[refName].average02 = indexArr[1];
+          insValue = 3;
+        } else {
+          insValue = 4;
+          this.$refs[refName].checkboxList = value.split(',');
+        }
+      } else if (name == 'day') {
+        if (value === '*') {
+          insValue = 1;
+        } else if (value == '?') {
+          insValue = 2;
+        } else if (value.indexOf('-') > -1) {
+          let indexArr = value.split('-');
+          isNaN(indexArr[0]) ? (this.$refs[refName].cycle01 = 0) : (this.$refs[refName].cycle01 = indexArr[0]);
+          this.$refs[refName].cycle02 = indexArr[1];
+          insValue = 3;
+        } else if (value.indexOf('/') > -1) {
+          let indexArr = value.split('/');
+          isNaN(indexArr[0]) ? (this.$refs[refName].average01 = 0) : (this.$refs[refName].average01 = indexArr[0]);
+          this.$refs[refName].average02 = indexArr[1];
+          insValue = 4;
+        } else if (value.indexOf('W') > -1) {
+          let indexArr = value.split('W');
+          isNaN(indexArr[0]) ? (this.$refs[refName].workday = 0) : (this.$refs[refName].workday = indexArr[0]);
+          insValue = 5;
+        } else if (value === 'L') {
+          insValue = 6;
+        } else {
+          this.$refs[refName].checkboxList = value.split(',');
+          insValue = 7;
+        }
+      } else if (name == 'week') {
+        if (value === '*') {
+          insValue = 1;
+        } else if (value == '?') {
+          insValue = 2;
+        } else if (value.indexOf('-') > -1) {
+          let indexArr = value.split('-');
+          isNaN(indexArr[0]) ? (this.$refs[refName].cycle01 = 0) : (this.$refs[refName].cycle01 = indexArr[0]);
+          this.$refs[refName].cycle02 = indexArr[1];
+          insValue = 3;
+        } else if (value.indexOf('#') > -1) {
+          let indexArr = value.split('#');
+          isNaN(indexArr[0]) ? (this.$refs[refName].average01 = 1) : (this.$refs[refName].average01 = indexArr[0]);
+          this.$refs[refName].average02 = indexArr[1];
+          insValue = 4;
+        } else if (value.indexOf('L') > -1) {
+          let indexArr = value.split('L');
+          isNaN(indexArr[0]) ? (this.$refs[refName].weekday = 1) : (this.$refs[refName].weekday = indexArr[0]);
+          insValue = 5;
+        } else {
+          this.$refs[refName].checkboxList = value.split(',');
+          insValue = 6;
+        }
+      } else if (name == 'year') {
+        if (value == '') {
+          insValue = 1;
+        } else if (value == '*') {
+          insValue = 2;
+        } else if (value.indexOf('-') > -1) {
+          insValue = 3;
+        } else if (value.indexOf('/') > -1) {
+          insValue = 4;
+        } else {
+          this.$refs[refName].checkboxList = value.split(',');
+          insValue = 5;
+        }
+      }
+      this.$refs[refName].radioValue = insValue;
+    },
+    // 表单选项的子组件校验数字格式（通过-props传递）
+    checkNumber(value, minLimit, maxLimit) {
+      // 检查必须为整数
+      value = Math.floor(value);
+      if (value < minLimit) {
+        value = minLimit;
+      } else if (value > maxLimit) {
+        value = maxLimit;
+      }
+      return value;
+    },
+    // 填充表达式
+    submitFill() {
+      // this.$emit("fill", this.crontabValueString);
+      this.formObj.cronExpression = this.crontabValueString;
+    },
+    clearCron() {
+      // 还原选择项
+      this.crontabValueObj = {
+        second: '*',
+        min: '*',
+        hour: '*',
+        day: '*',
+        month: '*',
+        week: '?',
+        year: '',
+      };
+      for (let j in this.crontabValueObj) {
+        this.changeRadio(j, this.crontabValueObj[j]);
+      }
     },
   },
 };
