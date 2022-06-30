@@ -12,6 +12,11 @@
       <el-table-column prop="cronExpression" label="表达式" width="350"> </el-table-column>
       <el-table-column prop="startClass" label="任务入口" width="400"> </el-table-column>
       <el-table-column prop="enable" label="是否启用" :formatter="formatter" width="160"> </el-table-column>
+      <el-table-column fixed="right" label="操作" width="120">
+        <template slot-scope="scope">
+          <el-button @click.native.prevent="logs(scope.$index, tableData)" type="text" size="small"> 日志查看 </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!-- 新增或者修改界面 -->
@@ -418,6 +423,10 @@ export default {
     },
     formatter(row, column) {
       return row.enable === true ? '是' : '否';
+    },
+    logs(index, row) {
+      // 查看某个定时任务日志信息
+      console.log('查看日志', row);
     },
   },
 };
