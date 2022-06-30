@@ -57,7 +57,7 @@ public class QuartzJobManagerService {
         //        job1.put("jobGroup", "group1");
 
         //       查询启用的任务
-        final List<TaskParam> taskParams = taskParamRepository.findAll();
+        final List<TaskParam> taskParams = taskParamRepository.findAllByEnable(true);
 
         taskParams.forEach(taskParam -> {
             try {

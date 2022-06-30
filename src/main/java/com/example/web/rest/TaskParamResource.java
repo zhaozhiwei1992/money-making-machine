@@ -230,6 +230,7 @@ public class TaskParamResource {
         log.debug("REST request to start select TaskParam : {}", executeList);
 
         executeList.forEach(taskParam -> {
+            taskParam.setEnable(true);
             try {
                 quartzJobManagerService.startJob(
                     taskParam.getCronExpression(),
@@ -242,6 +243,8 @@ public class TaskParamResource {
             }
         });
 
+        taskParamRepository.saveAll(executeList);
+
         return ResponseEntity.noContent().build();
     }
 
@@ -250,17 +253,15 @@ public class TaskParamResource {
         log.debug("REST request to stop select TaskParam : {}", executeList);
 
         executeList.forEach(taskParam -> {
+            taskParam.setEnable(false);
             try {
-                quartzJobManagerService.startJob(
-                    taskParam.getCronExpression(),
-                    taskParam.getStartClass(),
-                    "defaultGroup",
-                    QuartzJobExecuteService.class
-                );
+                quartzJobManagerService.deleteJob(taskParam.getStartClass(), "defaultGroup");
             } catch (SchedulerException e) {
                 log.error("定时任务停用异常: " + taskParam.getName(), e);
             }
         });
+
+        taskParamRepository.saveAll(executeList);
 
         return ResponseEntity.noContent().build();
     }

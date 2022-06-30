@@ -11,7 +11,7 @@
       <el-table-column prop="name" label="任务名称" width="300"> </el-table-column>
       <el-table-column prop="cronExpression" label="表达式" width="350"> </el-table-column>
       <el-table-column prop="startClass" label="任务入口" width="400"> </el-table-column>
-      <el-table-column prop="enable" label="是否启用" width="160"> </el-table-column>
+      <el-table-column prop="enable" label="是否启用" :formatter="formatter" width="160"> </el-table-column>
     </el-table>
 
     <!-- 新增或者修改界面 -->
@@ -95,7 +95,7 @@
           <el-col :span="10">Cron表达式</el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col v-for="(value, key, index) in crontabValueObj" :span="2" :key="key">
+          <el-col v-for="(value, key) in crontabValueObj" :span="2" :key="key">
             <el-input v-model="crontabValueObj[key]" :disabled="true"></el-input>
           </el-col>
           <el-col :span="10">
@@ -110,9 +110,11 @@
         </div>
       </el-card>
 
-      <el-button size="small" type="primary" @click="submitFill">确定</el-button>
-      <el-button size="small" type="warning" @click="clearCron">重置</el-button>
-      <el-button size="small" @click="genCronExpressionVisible = false">取消</el-button>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" type="primary" @click="submitFill">确定</el-button>
+        <el-button size="small" type="warning" @click="clearCron">重置</el-button>
+        <el-button size="small" @click="genCronExpressionVisible = false">取消</el-button>
+      </span>
     </el-dialog>
   </el-col>
 </template>
@@ -132,6 +134,16 @@ import CrontabResult from './result.vue';
 const baseApiUrl = 'api/task-params';
 
 export default {
+  components: {
+    CrontabSecond,
+    CrontabMin,
+    CrontabHour,
+    CrontabDay,
+    CrontabMonth,
+    CrontabWeek,
+    CrontabYear,
+    CrontabResult,
+  },
   data() {
     return {
       tabTitles: ['秒', '分钟', '小时', '日', '月', '周', '年'],
@@ -145,7 +157,6 @@ export default {
         startClass: '',
         enable: false,
       },
-      crontabValueString: '',
       activeName: 'second',
       crontabValueObj: {
         second: '*',
@@ -186,6 +197,7 @@ export default {
       // 根据id查询基础要素信息
       axios.get(baseApiUrl).then(res => {
         const response = res.data;
+        console.log('定时任务配置: ', response);
         this.tableData = response;
       });
     },
@@ -242,7 +254,9 @@ export default {
           console.log('启用成功', res);
           this.$alert('启用成功', '提示', {
             confirmButtonText: '确定',
-            callback: action => {},
+            callback: action => {
+              this.initTableData();
+            },
           });
         })
         .catch(err => {
@@ -257,7 +271,9 @@ export default {
           console.log('停用成功', res);
           this.$alert('停用成功', '提示', {
             confirmButtonText: '确定',
-            callback: action => {},
+            callback: action => {
+              this.initTableData();
+            },
           });
         })
         .catch(err => {
@@ -267,9 +283,6 @@ export default {
     genCronExpression() {
       // 表达式选择界面
       this.genCronExpressionVisible = true;
-    },
-    preview() {
-      // 预览表达式执行规则
     },
     handleTabClick(tab, event) {
       console.log('标签点击', tab, event);
@@ -385,8 +398,8 @@ export default {
     },
     // 填充表达式
     submitFill() {
-      // this.$emit("fill", this.crontabValueString);
       this.formObj.cronExpression = this.crontabValueString;
+      this.genCronExpressionVisible = false;
     },
     clearCron() {
       // 还原选择项
@@ -402,6 +415,9 @@ export default {
       for (let j in this.crontabValueObj) {
         this.changeRadio(j, this.crontabValueObj[j]);
       }
+    },
+    formatter(row, column) {
+      return row.enable === true ? '是' : '否';
     },
   },
 };
