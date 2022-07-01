@@ -25,8 +25,7 @@ public class CacheMetricsResource {
      * @method:
      * @param null :
      * @return:
-     * @Description:
-     * 分类管理缓存
+     * @Description: 分类管理缓存
      * 1. 如某个bean, 某个对象放一起
      * 2. 配置信息放一起SystemParam
      */
@@ -40,14 +39,14 @@ public class CacheMetricsResource {
     @GetMapping("/cache/metrics")
     public Map getInfo() throws Exception {
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
-        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
         Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());
-
         Map<String, Object> result = new HashMap<>(3);
         result.put("info", info);
         result.put("dbSize", dbSize);
 
+        // 命令使用频次, 百分比, 饼图
         List<Map<String, String>> pieList = new ArrayList<>();
+        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
         commandStats
             .stringPropertyNames()
             .forEach(key -> {
@@ -61,46 +60,65 @@ public class CacheMetricsResource {
         return result;
     }
 
+    /**
+     * @data: 2022/7/1-下午10:19
+     * @User: zhaozhiwei
+     * @method: cache
+     * @return: java.util.HashSet<com.example.service.dto.SysCacheDTO>
+     * @Description: 所有缓存都要在com.example.config.CacheConfiguration#cacheManagerCustomizer()注册
+     * 方便统一管理
+     */
     @GetMapping("/cache/metrics/getNames")
-    public Set<String> cache() {
+    public HashSet<SysCacheDTO> cache() {
         // 获取所有缓存信息
-        final HashSet<String> cacheNames = new HashSet<>();
+        final HashSet<SysCacheDTO> cacheNames = new HashSet<>();
         for (String cacheName : cacheManager.getCacheNames()) {
-            cacheNames.add(cacheName);
+            cacheNames.add(new SysCacheDTO(cacheName, cacheName));
         }
         return cacheNames;
     }
 
-    @GetMapping("/getKeys/{cacheName}")
+    @GetMapping("/cache/metrics/getKeys/{cacheName}")
     public Set<String> getCacheKeys(@PathVariable String cacheName) {
-        Set<String> cacheKyes = redisTemplate.keys(cacheName + "*");
+        //        Set<String> cacheKeys = redisTemplate.keys(cacheName + "*");
+        final HashSet<String> cacheKeys = new HashSet<>();
         for (Cache.Entry<Object, Object> entry : cacheManager.getCache(cacheName)) {
             final Object key = entry.getKey();
             final Object value = entry.getValue();
             log.info("获取缓存key key: {}, value:{}", key, value);
+            cacheKeys.add(key.toString());
         }
-        return cacheKyes;
+        return cacheKeys;
     }
 
-    @GetMapping("/getValue/{cacheName}/{cacheKey}")
+    @GetMapping("/cache/metrics/getValue/{cacheName}/{cacheKey}")
     public SysCacheDTO getCacheValue(@PathVariable String cacheName, @PathVariable String cacheKey) {
-        String cacheValue = redisTemplate.opsForValue().get(cacheKey);
-        SysCacheDTO sysCache = new SysCacheDTO(cacheName, cacheKey, cacheValue);
-        return sysCache;
+        for (Cache.Entry<Object, Object> entry : cacheManager.getCache(cacheName)) {
+            final Object key = entry.getKey();
+            final Object value = entry.getValue();
+            log.info("获取缓存key key: {}, value:{}", key, value);
+            if (String.valueOf(key).equals(cacheName + "#" + cacheKey)) {
+                // value是hibernate的缓存对象, 不能直接用redisTemplate读取成String
+                //        String cacheValue = redisTemplate.opsForValue().get(cacheKey);
+                //                class org.hibernate.cache.internal.CacheKeyImplementation cannot be cast to class java.lang.String
+                return new SysCacheDTO(cacheName, cacheKey, value.toString());
+            }
+        }
+        return null;
     }
 
-    @DeleteMapping("/clearCacheName/{cacheName}")
+    @DeleteMapping("/cache/metrics/clearCacheName/{cacheName}")
     public void clearCacheName(@PathVariable String cacheName) {
         Collection<String> cacheKeys = redisTemplate.keys(cacheName + "*");
         redisTemplate.delete(cacheKeys);
     }
 
-    @DeleteMapping("/clearCacheKey/{cacheKey}")
+    @DeleteMapping("/cache/metrics/clearCacheKey/{cacheKey}")
     public void clearCacheKey(@PathVariable String cacheKey) {
         redisTemplate.delete(cacheKey);
     }
 
-    @DeleteMapping("/clearCacheAll")
+    @DeleteMapping("/cache/metrics/clearCacheAll")
     public void clearCacheAll() {
         Collection<String> cacheKeys = redisTemplate.keys("*");
         redisTemplate.delete(cacheKeys);

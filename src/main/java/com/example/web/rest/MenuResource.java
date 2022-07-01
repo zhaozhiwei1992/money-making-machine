@@ -6,8 +6,9 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.example.domain.Menu;
-import com.example.domain.UiTable;
+import com.example.domain.RoleMenu;
 import com.example.repository.MenuRepository;
+import com.example.repository.RoleMenuRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,6 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -46,8 +50,9 @@ public class MenuResource {
 
     private final MenuRepository menuRepository;
 
-    public MenuResource(MenuRepository menuRepository) {
+    public MenuResource(MenuRepository menuRepository, RoleMenuRepository roleMenuRepository) {
         this.menuRepository = menuRepository;
+        this.roleMenuRepository = roleMenuRepository;
     }
 
     /**
@@ -187,7 +192,6 @@ public class MenuResource {
     //        log.debug("REST request to get all Menus");
     //        return menuRepository.findAll();
     //    }
-
     @GetMapping("/menus")
     public ResponseEntity<List<Menu>> getAllMenus(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
@@ -227,7 +231,21 @@ public class MenuResource {
     @GetMapping("/menus/tree")
     public List<Tree<Long>> getMenusTree() {
         log.debug("REST request to get Menus Tree");
-        final List<Menu> allMenusOrderByOrdernumAsc = menuRepository.findAllByOrderByOrdernumAsc();
+
+        // 获取角色信息
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final List<String> roleIds = authentication
+            .getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
+        // 获取角色挂了哪些菜单
+        List<RoleMenu> roleMenuList = roleMenuRepository.findByRoleIdIn(roleIds);
+        final List<Long> menuIdList = roleMenuList
+            .stream()
+            .map(roleMenu -> Long.parseLong(roleMenu.getMenuId()))
+            .collect(Collectors.toList());
+        final List<Menu> allMenusOrderByOrdernumAsc = menuRepository.findAllByIdInOrderByOrdernumAsc(menuIdList);
 
         //树形结构一些特殊配置
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
@@ -274,6 +292,8 @@ public class MenuResource {
         return treeNodes;
     }
 
+    private final RoleMenuRepository roleMenuRepository;
+
     /**
      * @data: 2022/5/8-下午7:44
      * @User: zhaozhiwei
@@ -301,8 +321,8 @@ public class MenuResource {
     @GetMapping("/menus/route")
     public List<Map<String, Object>> getMenusRoute() {
         log.debug("REST request to get Menus Tree");
-        final List<Menu> allMenusOrderByOrdernumAsc = menuRepository.findAllByOrderByOrdernumAsc();
 
+        final List<Menu> allMenusOrderByOrdernumAsc = menuRepository.findAllByOrderByOrdernumAsc();
         final List<Map<String, Object>> collect = allMenusOrderByOrdernumAsc
             .stream()
             //            保留url不是#的, 并且config里配置了组件的

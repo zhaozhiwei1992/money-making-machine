@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-row :gutter="10">
       <el-col :span="8">
-        <el-card style="height: calc(100vh - 125px)">
+        <el-card style="height: calc(100vh - 243px)">
           <div slot="header">
             <span>缓存列表</span>
             <el-button
@@ -41,7 +41,7 @@
       </el-col>
 
       <el-col :span="8">
-        <el-card style="height: calc(100vh - 125px)">
+        <el-card style="height: calc(100vh - 243px)">
           <div slot="header">
             <span>键名列表</span>
             <el-button
@@ -71,7 +71,7 @@
       </el-col>
 
       <el-col :span="8">
-        <el-card :bordered="false" style="height: calc(100vh - 125px)">
+        <el-card :bordered="false" style="height: calc(100vh - 243px)">
           <div slot="header">
             <span>缓存内容</span>
             <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-refresh-right" @click="handleClearCacheAll()"
@@ -129,6 +129,7 @@ export default {
     getCacheNames() {
       this.loading = true;
       axios.get(baseApiUrl + '/getNames').then(response => {
+        console.log('缓存列表,', response.data);
         this.cacheNames = response.data;
         this.loading = false;
       });
@@ -136,12 +137,18 @@ export default {
     /** 刷新缓存名称列表 */
     refreshCacheNames() {
       this.getCacheNames();
-      this.$modal.msgSuccess('刷新缓存列表成功');
+      this.$alert('刷新缓存列表成功', '成功', {
+        confirmButtonText: '确定',
+        callback: action => {},
+      });
     },
     /** 清理指定名称缓存 */
     handleClearCacheName(row) {
       axios.delete(baseApiUrl + '/clearCacheName/' + row.cacheName).then(response => {
-        this.$modal.msgSuccess('清理缓存名称[' + this.nowCacheName + ']成功');
+        this.$alert('清理缓存名称[' + this.nowCacheName + ']成功', '成功', {
+          confirmButtonText: '确定',
+          callback: action => {},
+        });
         this.getCacheKeys();
       });
     },
@@ -161,12 +168,18 @@ export default {
     /** 刷新缓存键名列表 */
     refreshCacheKeys() {
       this.getCacheKeys();
-      this.$modal.msgSuccess('刷新键名列表成功');
+      this.$alert('刷新键名列表成功', '成功', {
+        confirmButtonText: '确定',
+        callback: action => {},
+      });
     },
     /** 清理指定键名缓存 */
     handleClearCacheKey(cacheKey) {
       axios.delete(baseApiUrl + '/clearCacheKey/' + cacheKey).then(response => {
-        this.$modal.msgSuccess('清理缓存键名[' + cacheKey + ']成功');
+        this.$alert('清理缓存键名[' + cacheKey + ']成功', '成功', {
+          confirmButtonText: '确定',
+          callback: action => {},
+        });
         this.getCacheKeys();
       });
     },
@@ -180,15 +193,18 @@ export default {
     },
     /** 查询缓存内容详细 */
     handleCacheValue(cacheKey) {
-      // url: '/monitor/cache/getValue/' + cacheName + '/' + cacheKey,
-      axios.get(baseApiUrl + '/getValue/' + this.nowCacheName + '/' + cacheKey).then(response => {
+      console.log('cacheKey: ', cacheKey);
+      axios.get(baseApiUrl + '/getValue/' + this.nowCacheName + '/' + cacheKey.replace(this.nowCacheName + '#', '')).then(response => {
         this.cacheForm = response.data;
       });
     },
     /** 清理全部缓存 */
     handleClearCacheAll() {
       clearCacheAll().then(response => {
-        this.$modal.msgSuccess('清理全部缓存成功');
+        this.$alert('清理全部缓存成功', '成功', {
+          confirmButtonText: '确定',
+          callback: action => {},
+        });
       });
     },
   },

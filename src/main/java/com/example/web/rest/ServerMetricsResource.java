@@ -1,6 +1,7 @@
 package com.example.web.rest;
 
 import com.example.domain.Server;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ServerMetricsResource {
 
-    @GetMapping("")
-    @RequestMapping("/sys/server/metrics")
-    public Server metrics() throws Exception {
+    @GetMapping("/sys/server/metrics")
+    public ResponseEntity<Server> metrics() throws Exception {
         final Server server = new Server();
-        server.copyTo();
-        return server;
+        server.init();
+        return ResponseEntity.ok().body(server);
     }
 }

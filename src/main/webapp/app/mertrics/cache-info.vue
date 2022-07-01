@@ -73,7 +73,7 @@
         <el-card>
           <div slot="header"><span>命令统计</span></div>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <div ref="commandstats" style="height: 420px" />
+            <div ref="commandstats" style="height: 412px" />
           </div>
         </el-card>
       </el-col>
@@ -84,7 +84,7 @@
             <span>内存信息</span>
           </div>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <div ref="usedmemory" style="height: 420px" />
+            <div ref="usedmemory" style="height: 412px" />
           </div>
         </el-card>
       </el-col>
@@ -93,10 +93,11 @@
 </template>
 
 <script>
-import echarts from 'echarts';
+import * as echarts from 'echarts';
+
 import axios from 'axios';
 
-const baseApiUrl = 'api/sys/cache/metrics';
+const baseApiUrl = 'api/cache/metrics';
 
 export default {
   name: 'Cache',
@@ -112,14 +113,12 @@ export default {
   },
   created() {
     this.initData();
-    this.openLoading();
   },
   methods: {
     /** 查缓存询信息 */
     initData() {
       axios.get(baseApiUrl).then(response => {
         this.cache = response.data;
-        this.$modal.closeLoading();
 
         this.commandstats = echarts.init(this.$refs.commandstats, 'macarons');
         this.commandstats.setOption({
@@ -164,10 +163,6 @@ export default {
           ],
         });
       });
-    },
-    // 打开加载层
-    openLoading() {
-      this.$modal.loading('正在加载缓存监控数据，请稍候！');
     },
   },
 };

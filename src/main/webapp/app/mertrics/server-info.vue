@@ -311,20 +311,15 @@ export default {
     };
   },
   created() {
-    this.getList();
-    this.openLoading();
+    this.initDataList();
   },
   methods: {
     /** 查询服务器信息 */
-    getList() {
+    initDataList() {
       axios.get(baseApiUrl).then(res => {
+        console.log('服务器信息, ', res.data);
         this.server = res.data;
-        this.$modal.closeLoading();
       });
-    },
-    // 打开加载层
-    openLoading() {
-      this.$modal.loading('正在加载服务监控数据，请稍候！');
     },
   },
 };

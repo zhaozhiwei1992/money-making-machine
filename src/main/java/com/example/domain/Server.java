@@ -55,24 +55,39 @@ public class Server {
      */
     private final Sys sys = new Sys();
 
+    public Cpu getCpu() {
+        return cpu;
+    }
+
+    public Mem getMem() {
+        return mem;
+    }
+
+    public Jvm getJvm() {
+        return jvm;
+    }
+
+    public Sys getSys() {
+        return sys;
+    }
+
+    public List<SysFile> getSysFiles() {
+        return sysFiles;
+    }
+
     /**
      * 磁盘相关信息
      */
     private final List<SysFile> sysFiles = new LinkedList<>();
 
-    public void copyTo() throws Exception {
-        SystemInfo si = new SystemInfo();
-        HardwareAbstractionLayer hal = si.getHardware();
-
-        setCpuInfo(hal.getProcessor());
-
-        setMemInfo(hal.getMemory());
-
+    public void init() throws Exception {
+        SystemInfo systemInfo = new SystemInfo();
+        HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
+        setCpuInfo(hardwareAbstractionLayer.getProcessor());
+        setMemInfo(hardwareAbstractionLayer.getMemory());
         setSysInfo();
-
         setJvmInfo();
-
-        setSysFiles(si.getOperatingSystem());
+        setSysFiles(systemInfo.getOperatingSystem());
     }
 
     /**

@@ -88,6 +88,7 @@
     "bootstrap": "4.6.1",
     "bootstrap-vue": "2.21.2",
     "dayjs": "1.10.7",
+    "echarts": "^5.3.3",
     "element-ui": "^2.15.8",
     "qs": "^6.10.3",
     "swagger-ui-dist": "4.2.1",
