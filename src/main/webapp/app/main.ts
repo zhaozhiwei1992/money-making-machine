@@ -66,7 +66,7 @@ router.beforeEach(async (to, from, next) => {
     const asyncRouter = localStorage.getItem('router');
     console.log('前端缓存路由信息: {}', asyncRouter);
     let pathExist = false;
-    if (asyncRouter) {
+    if (!asyncRouter) {
       // 如果已经缓存则直接从缓存里搞
       const datas = JSON.parse(asyncRouter);
       datas.forEach(v => {

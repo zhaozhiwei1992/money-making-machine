@@ -85,7 +85,7 @@ export default {
       });
     },
     initMenuDatas() {
-      axios.get(menuBaseApiUrl + '/tree').then(res => {
+      axios.get(menuBaseApiUrl + '/tree/all').then(res => {
         const response = res.data;
         console.log('菜单树: {}', response);
         this.menu_data[0].children = response;

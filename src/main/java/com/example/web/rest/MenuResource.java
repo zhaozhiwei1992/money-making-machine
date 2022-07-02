@@ -210,6 +210,58 @@ public class MenuResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/menus/tree/all")
+    public List<Tree<Long>> getMenusTreeAll() {
+        log.debug("REST request to get Menus Tree");
+
+        // 获取角色信息
+        final List<Menu> allMenusOrderByOrdernumAsc = menuRepository.findAllByOrderByOrdernumAsc();
+
+        //树形结构一些特殊配置
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        // 自定义属性名 都要默认值的
+        treeNodeConfig.setWeightKey("ordernum");
+        //        数据库设计如果和默认值一致，就不设置了
+        //        treeNodeConfig.setIdKey("id");
+        //        treeNodeConfig.setParentIdKey("parentId");
+        //        treeNodeConfig.setChildrenKey("children");
+        //        最大递归深度
+        treeNodeConfig.setDeep(3);
+
+        //转换器
+        List<Tree<Long>> treeNodes = TreeUtil.build(
+            allMenusOrderByOrdernumAsc,
+            0L,
+            treeNodeConfig,
+            (menuObj, tree) -> {
+                tree.setId(menuObj.getId());
+                tree.setParentId(menuObj.getParentId());
+                //              tree.setWeight(treeNode.getWeight());
+                tree.setName(menuObj.getName());
+                // 属性扩展, 只显示界面展示需要的属性即可
+                tree.putExtra("icons", menuObj.getIconCls());
+                tree.putExtra("url", menuObj.getUrl());
+                tree.putExtra("index", menuObj.getUrl());
+                tree.putExtra("label", menuObj.getName());
+                //                防止index相同导致el-menu全部展开
+                if (menuObj.getParentId() == 0) {
+                    tree.putExtra("index", menuObj.getId());
+                }
+                tree.putExtra("ordernum", menuObj.getOrdernum());
+            }
+        );
+
+        //      children默认给空, 防止前端解析报错
+        for (Tree<Long> treeNode : treeNodes) {
+            if (Objects.isNull(treeNode.getChildren())) {
+                treeNode.setChildren(Collections.emptyList());
+            }
+        }
+
+        log.info("左侧树构建: {}", treeNodes);
+        return treeNodes;
+    }
+
     /**
      * @data: 2022/5/6-上午10:11
      * @User: zhaozhiwei
