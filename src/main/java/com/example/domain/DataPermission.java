@@ -8,6 +8,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * 数据权限主表\n@author zhaozhiwei
+ *
+ * 如果在配置文件中加入了
+ * <prop key="javax.persistence.sharedCache.mode">ENABLE_SELECTIVE</prop>，则不需要在实体内配置hibernate的 @cache标记
  */
 @Schema(description = "数据权限主表\n@author zhaozhiwei")
 @Entity

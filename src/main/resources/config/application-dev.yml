@@ -162,6 +162,7 @@ server:
 
 jhipster:
   cache: # Cache configuration
+    # com.example.config.CacheConfiguration.jcacheConfiguration, 通过JhipserProperties注入
     redis: # Redis configuration
       expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
       server: redis://localhost:6379
