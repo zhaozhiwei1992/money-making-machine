@@ -53,7 +53,7 @@ entity SysNotice (sys_notice) {
 /**
 * 通知公告明细
 */
-entity SysNoticeDetail (sys_notice_detail) {
+entity SysNoticeSub (sys_notice_sub) {
 
     /**
     * 通知id

@@ -26,6 +26,7 @@
       "receiver": "Receiver",
       "urgent": "Urgent",
       "notiType": "Noti Type",
+      "status": "Status",
       "help": {
         "title": "标题",
         "content": "公告内容",
@@ -34,7 +35,8 @@
         "recType": "可以是 所有人/单个或多个用户/角色/单位\n选择不同的类型，　使用不同的接收者值集",
         "receiver": "可以是 所有人/单个或多个用户/角色/单位",
         "urgent": "紧急程度 (紧急的同时短信通知) (是/否)",
-        "notiType": "通知类型 通知公告/规章制度/政策文件"
+        "notiType": "通知类型 通知公告/规章制度/政策文件",
+        "status": "通知拉取状态"
       }
     }
   }

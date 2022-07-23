@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20220723075036",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_notice_sub",
+  "fields": [
+    {
+      "fieldName": "sysNoticeId",
+      "fieldType": "Long",
+      "javadoc": "通知id"
+    },
+    {
+      "fieldName": "recipientId",
+      "fieldType": "String",
+      "javadoc": "接收通知用户的id"
+    },
+    {
+      "fieldName": "updateTime",
+      "fieldType": "String",
+      "javadoc": "拉取数据时间"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Integer",
+      "javadoc": "通知读取状态, 是否已读"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "通知公告明细",
+  "jpaMetamodelFiltering": false,
+  "name": "SysNoticeSub",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

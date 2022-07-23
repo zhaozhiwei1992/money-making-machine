@@ -2,8 +2,8 @@
 import axios from 'axios';
 import sinon from 'sinon';
 
-import SysNoticeService from '@/entities/sys-notice/sys-notice.service';
-import { SysNotice } from '@/shared/model/sys-notice.model';
+import SysNoticeSubService from '@/entities/sys-notice-sub/sys-notice-sub.service';
+import { SysNoticeSub } from '@/shared/model/sys-notice-sub.model';
 
 const error = {
   response: {
@@ -23,13 +23,13 @@ const axiosStub = {
 };
 
 describe('Service Tests', () => {
-  describe('SysNotice Service', () => {
-    let service: SysNoticeService;
+  describe('SysNoticeSub Service', () => {
+    let service: SysNoticeSubService;
     let elemDefault;
 
     beforeEach(() => {
-      service = new SysNoticeService();
-      elemDefault = new SysNotice(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', false, 0, 0);
+      service = new SysNoticeSubService();
+      elemDefault = new SysNoticeSub(123, 0, 'AAAAAAA', 'AAAAAAA', 0);
     });
 
     describe('Service methods', () => {
@@ -52,7 +52,7 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should create a SysNotice', async () => {
+      it('should create a SysNoticeSub', async () => {
         const returnedFromService = Object.assign(
           {
             id: 123,
@@ -67,7 +67,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not create a SysNotice', async () => {
+      it('should not create a SysNoticeSub', async () => {
         axiosStub.post.rejects(error);
 
         return service
@@ -78,17 +78,12 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should update a SysNotice', async () => {
+      it('should update a SysNoticeSub', async () => {
         const returnedFromService = Object.assign(
           {
-            title: 'BBBBBB',
-            content: 'BBBBBB',
-            creater: 'BBBBBB',
-            createTime: 'BBBBBB',
-            recType: 'BBBBBB',
-            receiver: 'BBBBBB',
-            urgent: true,
-            notiType: 1,
+            sysNoticeId: 1,
+            recipientId: 'BBBBBB',
+            updateTime: 'BBBBBB',
             status: 1,
           },
           elemDefault
@@ -102,7 +97,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not update a SysNotice', async () => {
+      it('should not update a SysNoticeSub', async () => {
         axiosStub.put.rejects(error);
 
         return service
@@ -113,15 +108,12 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should partial update a SysNotice', async () => {
+      it('should partial update a SysNoticeSub', async () => {
         const patchObject = Object.assign(
           {
-            content: 'BBBBBB',
-            creater: 'BBBBBB',
-            receiver: 'BBBBBB',
-            status: 1,
+            updateTime: 'BBBBBB',
           },
-          new SysNotice()
+          new SysNoticeSub()
         );
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
@@ -133,7 +125,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not partial update a SysNotice', async () => {
+      it('should not partial update a SysNoticeSub', async () => {
         axiosStub.patch.rejects(error);
 
         return service
@@ -144,17 +136,12 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should return a list of SysNotice', async () => {
+      it('should return a list of SysNoticeSub', async () => {
         const returnedFromService = Object.assign(
           {
-            title: 'BBBBBB',
-            content: 'BBBBBB',
-            creater: 'BBBBBB',
-            createTime: 'BBBBBB',
-            recType: 'BBBBBB',
-            receiver: 'BBBBBB',
-            urgent: true,
-            notiType: 1,
+            sysNoticeId: 1,
+            recipientId: 'BBBBBB',
+            updateTime: 'BBBBBB',
             status: 1,
           },
           elemDefault
@@ -166,7 +153,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not return a list of SysNotice', async () => {
+      it('should not return a list of SysNoticeSub', async () => {
         axiosStub.get.rejects(error);
 
         return service
@@ -177,14 +164,14 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should delete a SysNotice', async () => {
+      it('should delete a SysNoticeSub', async () => {
         axiosStub.delete.resolves({ ok: true });
         return service.delete(123).then(res => {
           expect(res.ok).toBeTruthy();
         });
       });
 
-      it('should not delete a SysNotice', async () => {
+      it('should not delete a SysNoticeSub', async () => {
         axiosStub.delete.rejects(error);
 
         return service

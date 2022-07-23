@@ -122,6 +122,18 @@
               v-model.number="$v.sysNotice.notiType.$model"
             />
           </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.sysNotice.status')" for="sys-notice-status">Status</label>
+            <input
+              type="number"
+              class="form-control"
+              name="status"
+              id="sys-notice-status"
+              data-cy="status"
+              :class="{ valid: !$v.sysNotice.status.$invalid, invalid: $v.sysNotice.status.$invalid }"
+              v-model.number="$v.sysNotice.status.$model"
+            />
+          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

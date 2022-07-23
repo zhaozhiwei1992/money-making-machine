@@ -78,6 +78,13 @@ public class SysNotice implements Serializable {
     @Column(name = "noti_type")
     private Integer notiType;
 
+    /**
+     * 通知拉取状态
+     */
+    @Schema(description = "通知拉取状态")
+    @Column(name = "status")
+    private Integer status;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -197,6 +204,19 @@ public class SysNotice implements Serializable {
         this.notiType = notiType;
     }
 
+    public Integer getStatus() {
+        return this.status;
+    }
+
+    public SysNotice status(Integer status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -229,6 +249,7 @@ public class SysNotice implements Serializable {
             ", receiver='" + getReceiver() + "'" +
             ", urgent='" + getUrgent() + "'" +
             ", notiType=" + getNotiType() +
+            ", status=" + getStatus() +
             "}";
     }
 }

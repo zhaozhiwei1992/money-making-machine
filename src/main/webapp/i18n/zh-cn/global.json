@@ -39,6 +39,7 @@
         "sysFormulaTab": "Sys Formula Tab",
         "eleUnion": "Ele Union",
         "sysNotice": "Sys Notice",
+        "sysNoticeSub": "Sys Notice Sub",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

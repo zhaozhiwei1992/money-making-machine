@@ -37,6 +37,7 @@
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.sysNotice.receiver')">Receiver</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.sysNotice.urgent')">Urgent</span></th>
             <th scope="row"><span v-text="$t('moneyMakingMachineApp.sysNotice.notiType')">Noti Type</span></th>
+            <th scope="row"><span v-text="$t('moneyMakingMachineApp.sysNotice.status')">Status</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -53,6 +54,7 @@
             <td>{{ sysNotice.receiver }}</td>
             <td>{{ sysNotice.urgent }}</td>
             <td>{{ sysNotice.notiType }}</td>
+            <td>{{ sysNotice.status }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'SysNoticeView', params: { sysNoticeId: sysNotice.id } }" custom v-slot="{ navigate }">

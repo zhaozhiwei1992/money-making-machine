@@ -57,6 +57,9 @@ class SysNoticeResourceIT {
     private static final Integer DEFAULT_NOTI_TYPE = 1;
     private static final Integer UPDATED_NOTI_TYPE = 2;
 
+    private static final Integer DEFAULT_STATUS = 1;
+    private static final Integer UPDATED_STATUS = 2;
+
     private static final String ENTITY_API_URL = "/api/sys-notices";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -89,7 +92,8 @@ class SysNoticeResourceIT {
             .recType(DEFAULT_REC_TYPE)
             .receiver(DEFAULT_RECEIVER)
             .urgent(DEFAULT_URGENT)
-            .notiType(DEFAULT_NOTI_TYPE);
+            .notiType(DEFAULT_NOTI_TYPE)
+            .status(DEFAULT_STATUS);
         return sysNotice;
     }
 
@@ -108,7 +112,8 @@ class SysNoticeResourceIT {
             .recType(UPDATED_REC_TYPE)
             .receiver(UPDATED_RECEIVER)
             .urgent(UPDATED_URGENT)
-            .notiType(UPDATED_NOTI_TYPE);
+            .notiType(UPDATED_NOTI_TYPE)
+            .status(UPDATED_STATUS);
         return sysNotice;
     }
 
@@ -138,6 +143,7 @@ class SysNoticeResourceIT {
         assertThat(testSysNotice.getReceiver()).isEqualTo(DEFAULT_RECEIVER);
         assertThat(testSysNotice.getUrgent()).isEqualTo(DEFAULT_URGENT);
         assertThat(testSysNotice.getNotiType()).isEqualTo(DEFAULT_NOTI_TYPE);
+        assertThat(testSysNotice.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
     @Test
@@ -177,7 +183,8 @@ class SysNoticeResourceIT {
             .andExpect(jsonPath("$.[*].recType").value(hasItem(DEFAULT_REC_TYPE)))
             .andExpect(jsonPath("$.[*].receiver").value(hasItem(DEFAULT_RECEIVER)))
             .andExpect(jsonPath("$.[*].urgent").value(hasItem(DEFAULT_URGENT.booleanValue())))
-            .andExpect(jsonPath("$.[*].notiType").value(hasItem(DEFAULT_NOTI_TYPE)));
+            .andExpect(jsonPath("$.[*].notiType").value(hasItem(DEFAULT_NOTI_TYPE)))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)));
     }
 
     @Test
@@ -199,7 +206,8 @@ class SysNoticeResourceIT {
             .andExpect(jsonPath("$.recType").value(DEFAULT_REC_TYPE))
             .andExpect(jsonPath("$.receiver").value(DEFAULT_RECEIVER))
             .andExpect(jsonPath("$.urgent").value(DEFAULT_URGENT.booleanValue()))
-            .andExpect(jsonPath("$.notiType").value(DEFAULT_NOTI_TYPE));
+            .andExpect(jsonPath("$.notiType").value(DEFAULT_NOTI_TYPE))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS));
     }
 
     @Test
@@ -229,7 +237,8 @@ class SysNoticeResourceIT {
             .recType(UPDATED_REC_TYPE)
             .receiver(UPDATED_RECEIVER)
             .urgent(UPDATED_URGENT)
-            .notiType(UPDATED_NOTI_TYPE);
+            .notiType(UPDATED_NOTI_TYPE)
+            .status(UPDATED_STATUS);
 
         restSysNoticeMockMvc
             .perform(
@@ -251,6 +260,7 @@ class SysNoticeResourceIT {
         assertThat(testSysNotice.getReceiver()).isEqualTo(UPDATED_RECEIVER);
         assertThat(testSysNotice.getUrgent()).isEqualTo(UPDATED_URGENT);
         assertThat(testSysNotice.getNotiType()).isEqualTo(UPDATED_NOTI_TYPE);
+        assertThat(testSysNotice.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test
@@ -326,7 +336,8 @@ class SysNoticeResourceIT {
             .content(UPDATED_CONTENT)
             .recType(UPDATED_REC_TYPE)
             .receiver(UPDATED_RECEIVER)
-            .urgent(UPDATED_URGENT);
+            .urgent(UPDATED_URGENT)
+            .status(UPDATED_STATUS);
 
         restSysNoticeMockMvc
             .perform(
@@ -348,6 +359,7 @@ class SysNoticeResourceIT {
         assertThat(testSysNotice.getReceiver()).isEqualTo(UPDATED_RECEIVER);
         assertThat(testSysNotice.getUrgent()).isEqualTo(UPDATED_URGENT);
         assertThat(testSysNotice.getNotiType()).isEqualTo(DEFAULT_NOTI_TYPE);
+        assertThat(testSysNotice.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test
@@ -370,7 +382,8 @@ class SysNoticeResourceIT {
             .recType(UPDATED_REC_TYPE)
             .receiver(UPDATED_RECEIVER)
             .urgent(UPDATED_URGENT)
-            .notiType(UPDATED_NOTI_TYPE);
+            .notiType(UPDATED_NOTI_TYPE)
+            .status(UPDATED_STATUS);
 
         restSysNoticeMockMvc
             .perform(
@@ -392,6 +405,7 @@ class SysNoticeResourceIT {
         assertThat(testSysNotice.getReceiver()).isEqualTo(UPDATED_RECEIVER);
         assertThat(testSysNotice.getUrgent()).isEqualTo(UPDATED_URGENT);
         assertThat(testSysNotice.getNotiType()).isEqualTo(UPDATED_NOTI_TYPE);
+        assertThat(testSysNotice.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test

@@ -1,0 +1,33 @@
+{
+  "moneyMakingMachineApp": {
+    "sysNoticeSub": {
+      "home": {
+        "title": "Sys Notice Subs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "建立一筆新的 Sys Notice Sub",
+        "createOrEditLabel": "建立或編輯 Sys Notice Sub",
+        "notFound": "No Sys Notice Subs found"
+      },
+      "created": "新的 Sys Notice Sub 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Sys Notice Sub 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Sys Notice Sub 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Sys Notice Sub {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Sys Notice Sub"
+      },
+      "id": "ID",
+      "sysNoticeId": "Sys Notice Id",
+      "recipientId": "Recipient Id",
+      "updateTime": "Update Time",
+      "status": "Status",
+      "help": {
+        "sysNoticeId": "通知id",
+        "recipientId": "接收通知用户的id",
+        "updateTime": "拉取数据时间",
+        "status": "通知读取状态, 是否已读"
+      }
+    }
+  }
+}

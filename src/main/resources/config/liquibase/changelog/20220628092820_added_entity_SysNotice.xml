@@ -38,6 +38,9 @@
             <column name="noti_type" type="integer" remarks="通知类型 通知公告/规章制度/政策文件">
                 <constraints nullable="true" />
             </column>
+            <column name="status" type="integer" remarks="通知拉取状态">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -67,6 +70,7 @@
             <column name="receiver" type="string"/>
             <column name="urgent" type="boolean"/>
             <column name="noti_type" type="numeric"/>
+            <column name="status" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

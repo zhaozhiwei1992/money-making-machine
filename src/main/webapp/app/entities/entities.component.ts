@@ -25,6 +25,7 @@ import SysCollectColService from './sys-collect-col/sys-collect-col.service';
 import SysFormulaTabService from './sys-formula-tab/sys-formula-tab.service';
 import EleUnionService from './ele-union/ele-union.service';
 import SysNoticeService from './sys-notice/sys-notice.service';
+import SysNoticeSubService from './sys-notice-sub/sys-notice-sub.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
 @Component
@@ -54,5 +55,6 @@ export default class Entities extends Vue {
   @Provide('sysFormulaTabService') private sysFormulaTabService = () => new SysFormulaTabService();
   @Provide('eleUnionService') private eleUnionService = () => new EleUnionService();
   @Provide('sysNoticeService') private sysNoticeService = () => new SysNoticeService();
+  @Provide('sysNoticeSubService') private sysNoticeSubService = () => new SysNoticeSubService();
   // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
 }

@@ -44,6 +44,11 @@
       "fieldName": "notiType",
       "fieldType": "Integer",
       "javadoc": "通知类型 通知公告/规章制度/政策文件"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Integer",
+      "javadoc": "通知拉取状态"
     }
   ],
   "fluentMethods": true,

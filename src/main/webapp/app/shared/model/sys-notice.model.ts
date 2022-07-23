@@ -8,6 +8,7 @@ export interface ISysNotice {
   receiver?: string | null;
   urgent?: boolean | null;
   notiType?: number | null;
+  status?: number | null;
 }
 
 export class SysNotice implements ISysNotice {
@@ -20,7 +21,8 @@ export class SysNotice implements ISysNotice {
     public recType?: string | null,
     public receiver?: string | null,
     public urgent?: boolean | null,
-    public notiType?: number | null
+    public notiType?: number | null,
+    public status?: number | null
   ) {
     this.urgent = this.urgent ?? false;
   }

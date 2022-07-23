@@ -147,6 +147,12 @@ const SysNotice = () => import('@/entities/sys-notice/sys-notice.vue');
 const SysNoticeUpdate = () => import('@/entities/sys-notice/sys-notice-update.vue');
 // prettier-ignore
 const SysNoticeDetails = () => import('@/entities/sys-notice/sys-notice-details.vue');
+// prettier-ignore
+const SysNoticeSub = () => import('@/entities/sys-notice-sub/sys-notice-sub.vue');
+// prettier-ignore
+const SysNoticeSubUpdate = () => import('@/entities/sys-notice-sub/sys-notice-sub-update.vue');
+// prettier-ignore
+const SysNoticeSubDetails = () => import('@/entities/sys-notice-sub/sys-notice-sub-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -727,6 +733,30 @@ export default {
       path: 'sys-notice/:sysNoticeId/view',
       name: 'SysNoticeView',
       component: SysNoticeDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice-sub',
+      name: 'SysNoticeSub',
+      component: SysNoticeSub,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice-sub/new',
+      name: 'SysNoticeSubCreate',
+      component: SysNoticeSubUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice-sub/:sysNoticeSubId/edit',
+      name: 'SysNoticeSubEdit',
+      component: SysNoticeSubUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'sys-notice-sub/:sysNoticeSubId/view',
+      name: 'SysNoticeSubView',
+      component: SysNoticeSubDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

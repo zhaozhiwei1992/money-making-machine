@@ -111,6 +111,7 @@ public class CacheConfiguration {
             createCache(cm, com.example.domain.SysFormulaTab.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.EleUnion.class.getName(), jcacheConfiguration);
             createCache(cm, com.example.domain.SysNotice.class.getName(), jcacheConfiguration);
+            createCache(cm, com.example.domain.SysNoticeSub.class.getName(), jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }
