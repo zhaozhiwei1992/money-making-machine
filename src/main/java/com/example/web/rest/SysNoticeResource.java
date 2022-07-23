@@ -1,13 +1,22 @@
 package com.example.web.rest;
 
+import com.example.config.NoticeRecTypeEnum;
 import com.example.domain.SysNotice;
+import com.example.domain.SysNoticeSub;
+import com.example.domain.User;
 import com.example.repository.SysNoticeRepository;
+import com.example.repository.SysNoticeSubRepository;
+import com.example.repository.UserRepository;
 import com.example.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +43,18 @@ public class SysNoticeResource {
 
     private final SysNoticeRepository sysNoticeRepository;
 
-    public SysNoticeResource(SysNoticeRepository sysNoticeRepository) {
+    private final SysNoticeSubRepository sysNoticeSubRepository;
+
+    private final UserRepository userRepository;
+
+    public SysNoticeResource(
+        SysNoticeRepository sysNoticeRepository,
+        SysNoticeSubRepository sysNoticeSubRepository,
+        UserRepository userRepository
+    ) {
         this.sysNoticeRepository = sysNoticeRepository;
+        this.sysNoticeSubRepository = sysNoticeSubRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -199,5 +218,104 @@ public class SysNoticeResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * @data: 2022/7/23-下午4:25
+     * @User: zhaozhiwei
+     * @method: deleteSelectSysNotice
+     * @param sysNoticeList :
+     * @return: org.springframework.http.ResponseEntity<java.lang.Void>
+     * @Description:
+     * 删除公告信息,
+     * 如果已经发布的不允许删除
+     */
+    @PostMapping("/sys-notices/del")
+    public ResponseEntity<Void> deleteSelectSysNotice(@RequestBody List<SysNotice> sysNoticeList) {
+        log.debug("REST request to delete SysNotice List: {}", sysNoticeList);
+        final List<Long> deleteIdList = sysNoticeList
+            .stream()
+            // 只能删除未发布的
+            .filter(sysNotice -> sysNotice.getStatus() != 1)
+            .map(SysNotice::getId)
+            .collect(Collectors.toList());
+        sysNoticeRepository.deleteAllById(deleteIdList);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * @data: 2022/7/23-下午4:28
+     * @User: zhaozhiwei
+     * @method: sendNotice
+     * @param sysNoticeList :
+     * @return: org.springframework.http.ResponseEntity<java.lang.Void>
+     * @Description:
+     * 立即发布则将数据写入子表, 等待用户读取
+     */
+    @PostMapping("/sys-notices/send/notice")
+    public ResponseEntity<Void> sendNotice(@RequestBody List<SysNotice> sysNoticeList) {
+        log.debug("REST request to send Notice List: {}", sysNoticeList);
+        final List<SysNoticeSub> sysNoticeSubList = new ArrayList<>();
+        // 根据数据进行不同的消息类型通知
+        for (SysNotice sysNotice : sysNoticeList) {
+            //     * 可以是 所有人/单个或多个用户/角色/单位\n选择不同的类型，　使用不同的接收者值集
+            final String recType = sysNotice.getRecType();
+            if (NoticeRecTypeEnum.ALL_USER.getCode().equals(recType)) {
+                final List<User> allUserList = userRepository.findAll();
+                for (User user : allUserList) {
+                    final String login = user.getLogin();
+                    final SysNoticeSub sysNoticeSub = new SysNoticeSub();
+                    sysNoticeSub.setSysNoticeId(sysNotice.getId());
+                    sysNoticeSub.setRecipientId(login);
+                    sysNoticeSub.setStatus(0);
+                    sysNoticeSubList.add(sysNoticeSub);
+                }
+            } else if (NoticeRecTypeEnum.SOME_USER.getCode().equals(recType)) {
+                final String receiver = sysNotice.getReceiver();
+                for (String login : receiver.split(",")) {
+                    final SysNoticeSub sysNoticeSub = new SysNoticeSub();
+                    sysNoticeSub.setSysNoticeId(sysNotice.getId());
+                    sysNoticeSub.setRecipientId(login);
+                    sysNoticeSub.setStatus(0);
+                    sysNoticeSubList.add(sysNoticeSub);
+                }
+            } else if (NoticeRecTypeEnum.SOME_ROLE.getCode().equals(recType)) {
+                // 获取指定角色下用户
+            } else if (NoticeRecTypeEnum.SOME_AGENCY.getCode().equals(recType)) {
+                // 获取指定机构/单位下用户
+            }
+        }
+        sysNoticeSubRepository.saveAll(sysNoticeSubList);
+        // 如消息队列, 然后再进行分发
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * @data: 2022/7/23-下午5:52
+     * @User: zhaozhiwei
+     * @method: getAllSysNoticeSubsByLogin
+     * @param account :
+     * @return: java.util.List<com.example.domain.SysNotice>
+     * @Description: 获取当前用户为读取的通知信息
+     */
+    @GetMapping("/sys-notice/login/{account}")
+    public List<SysNotice> getAllSysNoticeSubsByLogin(@PathVariable("account") String account) {
+        log.debug("REST request to get all SysNoticeSubs");
+        // 获取没有读取的notice信息
+        final List<SysNoticeSub> allByRecipientIdAndStatus = sysNoticeSubRepository.findAllByRecipientIdAndStatus(account, 0);
+
+        final List<Long> sysNoticeIdList = new ArrayList<>();
+        // 读取后更新状态
+        final LocalDateTime now = LocalDateTime.now();
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        for (SysNoticeSub sysNoticeSub : allByRecipientIdAndStatus) {
+            sysNoticeSub.setStatus(1);
+            sysNoticeSub.setUpdateTime(now.format(dateTimeFormatter));
+            sysNoticeIdList.add(sysNoticeSub.getSysNoticeId());
+        }
+
+        final List<SysNotice> sysNoticeList = sysNoticeRepository.findAllById(sysNoticeIdList);
+        sysNoticeSubRepository.saveAll(allByRecipientIdAndStatus);
+        return sysNoticeList;
     }
 }

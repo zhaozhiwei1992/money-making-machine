@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.domain.SysNoticeSub;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SysNoticeSubRepository extends JpaRepository<SysNoticeSub, Long> {}
+public interface SysNoticeSubRepository extends JpaRepository<SysNoticeSub, Long> {
+    List<SysNoticeSub> findAllByRecipientIdAndStatus(String login, Integer status);
+}
