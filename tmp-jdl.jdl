@@ -42,5 +42,37 @@ entity SysNotice (sys_notice) {
     /**
     * 通知类型 通知公告/规章制度/政策文件
     */
-    notiType  Integer
+    notiType  Integer,
+
+    /**
+    * 通知拉取状态
+    */
+    status Integer
+}
+
+/**
+* 通知公告明细
+*/
+entity SysNoticeDetail (sys_notice_detail) {
+
+    /**
+    * 通知id
+    */
+    sysNoticeId Long,
+
+    /**
+    * 接收通知用户的id
+    */
+    recipientId String,
+
+    /**
+    * 拉取数据时间
+    */
+    updateTime String,
+
+    /**
+    * 通知读取状态, 是否已读
+    */
+    status Integer
+
 }
