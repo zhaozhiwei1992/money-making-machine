@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.repository.UserRepository;
 import com.example.security.*;
 import com.example.security.jwt.*;
 import org.springframework.context.annotation.Bean;
@@ -31,16 +32,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CorsFilter corsFilter;
     private final SecurityProblemSupport problemSupport;
 
+    private final UserRepository userRepository;
+
     public SecurityConfiguration(
         TokenProvider tokenProvider,
         CorsFilter corsFilter,
         JHipsterProperties jHipsterProperties,
-        SecurityProblemSupport problemSupport
+        SecurityProblemSupport problemSupport,
+        UserRepository userRepository
     ) {
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
         this.jHipsterProperties = jHipsterProperties;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -100,8 +105,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .httpBasic()
         .and()
-            .apply(securityConfigurerAdapter());
+            .apply(securityConfigurerAdapter())
+            .and()
+            .apply(extInterfacePermissionConfigurerAdapter())
+        ;
         // @formatter:on
+    }
+
+    private ExtInterfacePermissionConfigurer extInterfacePermissionConfigurerAdapter() {
+        return new ExtInterfacePermissionConfigurer(userRepository);
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
