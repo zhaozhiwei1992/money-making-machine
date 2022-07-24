@@ -1,6 +1,8 @@
 <template>
   <div class="home row">
-    <div class="col-md-3">
+    <el-col :span="24"> <statistics /> <echartpies /> <echartrecords /></el-col>
+
+    <!-- <div class="col-md-3">
       <span class="hipster img-fluid rounded"></span>
     </div>
     <div class="col-md-9">
@@ -72,7 +74,7 @@
           >GitHub</a
         >!
       </p>
-    </div>
+    </div> -->
   </div>
 </template>
 

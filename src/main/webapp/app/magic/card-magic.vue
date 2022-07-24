@@ -62,6 +62,11 @@ export default {
         { id: 'hello2', name: '组件2' },
         { id: 'hello3', name: '组件3' },
         { id: 'calendar', name: '日历组件' },
+        { id: 'statistics', name: '接口统计' },
+        { id: 'echart-records', name: '报表图' },
+        { id: 'echart-pies', name: '饼图' },
+        { id: 'echart-dataset', name: '柱状图' },
+        { id: 'echart-map', name: '线条图' },
         // 这里增加组件, 组件需要在app/shared/components目录下存在
       ],
       rightArray: [],
