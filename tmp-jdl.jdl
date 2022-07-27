@@ -1,78 +1,48 @@
 /**
-* 通知公告信息存储
-*/
-entity SysNotice (sys_notice) {
+ * 用户请求日志信息
+ * @author zhaozhiwei
+ */
+entity RequestLogging (sys_request_log) {
 
     /**
-    * 标题
+    * 请求唯一id, 方便问题定位
     */
-    title   String,
+	traceId String,
+
+	/**
+	* 用户名
+	*/
+	loginName String,
+
+	/**
+	* 请求地址
+	*/
+	requestURI String,
 
     /**
-    * 公告内容
+    * 客户端ip
     */
-    content  String,
+	clientIP String,
 
     /**
-    * 公告发起人
+    * 当前时间
     */
-    creater    String,
+	currentTime String,
 
     /**
-    * 创建日期
+    * 请求中文名
     */
-    createTime String,
+    requestName String,
 
     /**
-    * 可以是 所有人/单个或多个用户/角色/单位
-    * 选择不同的类型，　使用不同的接收者值集
+    * 请求参数
     */
-    recType   String,
+    params String,
 
     /**
-    * 可以是 所有人/单个或多个用户/角色/单位
+    * 是否请求成功
     */
-    receiver   String,
-
-    /**
-    * 紧急程度 (紧急的同时短信通知) (是/否)
-    */
-    urgent     Boolean,
-
-    /**
-    * 通知类型 通知公告/规章制度/政策文件
-    */
-    notiType  Integer,
-
-    /**
-    * 通知拉取状态
-    */
-    status Integer
+    success String
 }
 
-/**
-* 通知公告明细
-*/
-entity SysNoticeSub (sys_notice_sub) {
-
-    /**
-    * 通知id
-    */
-    sysNoticeId Long,
-
-    /**
-    * 接收通知用户的id
-    */
-    recipientId String,
-
-    /**
-    * 拉取数据时间
-    */
-    updateTime String,
-
-    /**
-    * 通知读取状态, 是否已读
-    */
-    status Integer
-
-}
+paginate RequestLogging with pagination

@@ -248,8 +248,22 @@ entity RequestLogging (sys_request_log) {
     /**
     * 当前时间
     */
-	currentTime String
+	currentTime String,
 
+    /**
+    * 请求中文名
+    */
+    requestName String,
+
+    /**
+    * 请求参数
+    */
+    params String,
+
+    /**
+    * 是否请求成功
+    */
+    success String
 }
 
 paginate RequestLogging with pagination
@@ -530,4 +544,83 @@ entity EleUnion (ele_union) {
      * 更新时间
      **/
     updateTime String
+}
+
+/**
+* 通知公告信息存储
+*/
+entity SysNotice (sys_notice) {
+
+    /**
+    * 标题
+    */
+    title   String,
+
+    /**
+    * 公告内容
+    */
+    content  String,
+
+    /**
+    * 公告发起人
+    */
+    creater    String,
+
+    /**
+    * 创建日期
+    */
+    createTime String,
+
+    /**
+    * 可以是 所有人/单个或多个用户/角色/单位
+    * 选择不同的类型，　使用不同的接收者值集
+    */
+    recType   String,
+
+    /**
+    * 可以是 所有人/单个或多个用户/角色/单位
+    */
+    receiver   String,
+
+    /**
+    * 紧急程度 (紧急的同时短信通知) (是/否)
+    */
+    urgent     Boolean,
+
+    /**
+    * 通知类型 通知公告/规章制度/政策文件
+    */
+    notiType  Integer,
+
+    /**
+    * 通知拉取状态
+    */
+    status Integer
+}
+
+/**
+* 通知公告明细
+*/
+entity SysNoticeSub (sys_notice_sub) {
+
+    /**
+    * 通知id
+    */
+    sysNoticeId Long,
+
+    /**
+    * 接收通知用户的id
+    */
+    recipientId String,
+
+    /**
+    * 拉取数据时间
+    */
+    updateTime String,
+
+    /**
+    * 通知读取状态, 是否已读
+    */
+    status Integer
+
 }

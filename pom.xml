@@ -89,6 +89,8 @@
         <hutool.version>5.5.6</hutool.version>
         <activiti.version>6.0.0</activiti.version>
         <activiti-modeler.version>5.22.0</activiti-modeler.version>
+        <springfox-swagger.version>2.8.0</springfox-swagger.version>
+        <springfox-staticdocs.version>2.6.1</springfox-staticdocs.version>
         <!-- jhipster-needle-maven-property -->
     </properties>
 
@@ -419,6 +421,24 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
         </dependency>
+
+        <!-- swagger2 API文档生成 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-staticdocs</artifactId>
+            <version>${springfox-staticdocs.version}</version>
+        </dependency>
+
 
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>

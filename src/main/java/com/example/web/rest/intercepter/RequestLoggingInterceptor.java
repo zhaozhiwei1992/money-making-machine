@@ -1,11 +1,16 @@
 package com.example.web.rest.intercepter;
 
 import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.json.JSONUtil;
 import com.example.domain.RequestLogging;
 import com.example.repository.RequestLoggingRepository;
 import com.example.security.SecurityUtils;
+import com.example.service.UrlMappingService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +42,9 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
 
     @Autowired
     private RequestLoggingRepository requestLoggingRepository;
+
+    @Autowired
+    private UrlMappingService urlMappingService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -71,7 +79,13 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             requestLogging.setRequestURI(requestURI);
             requestLogging.setClientIP(clientIP);
             requestLogging.setCurrentTime(currentTime);
-            requestLoggingRepository.save(requestLogging);
+            if (requestURI.startsWith("/api") && !requestURI.startsWith("/api/request/")) {
+                //                requestLogging.setRequestName(urlMappingService.getUrlMap().get(requestURI));
+                //                final Map<String, Object> parameterMap = this.getParameterMap(request);
+                //                requestLogging.setParams(JSONUtil.toJsonStr(parameterMap));
+                //                requestLogging.setSuccess("是");
+                requestLoggingRepository.save(requestLogging);
+            }
         }
 
         return true;
@@ -79,6 +93,17 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        final String requestURI = request.getRequestURI();
+        if (!Objects.isNull(ex) && requestURI.startsWith("/api") && !requestURI.startsWith("/api/request/")) {
+            // 如果有异常， 标记接口请求失败
+            final String traceId = traceIdThreadLocal.get();
+            final Optional<RequestLogging> result = requestLoggingRepository.findOneByTraceId(traceId);
+            if (result.isPresent()) {
+                RequestLogging requestLogging = result.get();
+                //                requestLogging.setSuccess("否");
+                requestLoggingRepository.save(requestLogging);
+            }
+        }
         //  清理threadLocal
         traceIdThreadLocal.remove();
     }
