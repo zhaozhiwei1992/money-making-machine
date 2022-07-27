@@ -36,6 +36,24 @@
           <dd>
             <span>{{ requestLogging.currentTime }}</span>
           </dd>
+          <dt>
+            <span v-text="$t('moneyMakingMachineApp.requestLogging.requestName')">Request Name</span>
+          </dt>
+          <dd>
+            <span>{{ requestLogging.requestName }}</span>
+          </dd>
+          <dt>
+            <span v-text="$t('moneyMakingMachineApp.requestLogging.params')">Params</span>
+          </dt>
+          <dd>
+            <span>{{ requestLogging.params }}</span>
+          </dd>
+          <dt>
+            <span v-text="$t('moneyMakingMachineApp.requestLogging.success')">Success</span>
+          </dt>
+          <dd>
+            <span>{{ requestLogging.success }}</span>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="$t('entity.action.back')"> Back</span>

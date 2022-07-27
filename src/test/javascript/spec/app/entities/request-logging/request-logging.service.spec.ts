@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new RequestLoggingService();
-      elemDefault = new RequestLogging(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new RequestLogging(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -86,6 +86,9 @@ describe('Service Tests', () => {
             requestURI: 'BBBBBB',
             clientIP: 'BBBBBB',
             currentTime: 'BBBBBB',
+            requestName: 'BBBBBB',
+            params: 'BBBBBB',
+            success: 'BBBBBB',
           },
           elemDefault
         );
@@ -116,6 +119,9 @@ describe('Service Tests', () => {
             loginName: 'BBBBBB',
             clientIP: 'BBBBBB',
             currentTime: 'BBBBBB',
+            requestName: 'BBBBBB',
+            params: 'BBBBBB',
+            success: 'BBBBBB',
           },
           new RequestLogging()
         );
@@ -148,6 +154,9 @@ describe('Service Tests', () => {
             requestURI: 'BBBBBB',
             clientIP: 'BBBBBB',
             currentTime: 'BBBBBB',
+            requestName: 'BBBBBB',
+            params: 'BBBBBB',
+            success: 'BBBBBB',
           },
           elemDefault
         );

@@ -23,12 +23,18 @@
       "requestURI": "Request URI",
       "clientIP": "Client IP",
       "currentTime": "Current Time",
+      "requestName": "Request Name",
+      "params": "Params",
+      "success": "Success",
       "help": {
         "traceId": "请求唯一id, 方便问题定位",
         "loginName": "用户名",
         "requestURI": "请求地址",
         "clientIP": "客户端ip",
-        "currentTime": "当前时间"
+        "currentTime": "当前时间",
+        "requestName": "请求中文名",
+        "params": "请求参数",
+        "success": "是否请求成功"
       }
     }
   }

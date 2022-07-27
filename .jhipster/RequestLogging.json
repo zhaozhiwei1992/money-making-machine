@@ -29,6 +29,21 @@
       "fieldName": "currentTime",
       "fieldType": "String",
       "javadoc": "当前时间"
+    },
+    {
+      "fieldName": "requestName",
+      "fieldType": "String",
+      "javadoc": "请求中文名"
+    },
+    {
+      "fieldName": "params",
+      "fieldType": "String",
+      "javadoc": "请求参数"
+    },
+    {
+      "fieldName": "success",
+      "fieldType": "String",
+      "javadoc": "是否请求成功"
     }
   ],
   "fluentMethods": true,

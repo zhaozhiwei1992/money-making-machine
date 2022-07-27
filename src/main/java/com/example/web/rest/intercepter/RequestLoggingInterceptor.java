@@ -8,10 +8,7 @@ import com.example.security.SecurityUtils;
 import com.example.service.UrlMappingService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -23,12 +20,12 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
+ * @author zhaozhiwei
+ * @version V1.0
  * @Title: TraceIdInterceptor
  * @Package com/example/web/rest/intercepter/TraceIdInterceptor.java
  * @Description: 每次请求产生traceId方便后续追踪
- * @author zhaozhiwei
  * @date 2022/5/31 下午3:28
- * @version V1.0
  */
 public class RequestLoggingInterceptor implements HandlerInterceptor {
 
@@ -80,15 +77,29 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             requestLogging.setClientIP(clientIP);
             requestLogging.setCurrentTime(currentTime);
             if (requestURI.startsWith("/api") && !requestURI.startsWith("/api/request/")) {
-                //                requestLogging.setRequestName(urlMappingService.getUrlMap().get(requestURI));
-                //                final Map<String, Object> parameterMap = this.getParameterMap(request);
-                //                requestLogging.setParams(JSONUtil.toJsonStr(parameterMap));
-                //                requestLogging.setSuccess("是");
+                requestLogging.setRequestName(urlMappingService.getUrlMap().get(requestURI));
+                final Map<String, Object> parameterMap = this.getParameterMap(request);
+                requestLogging.setParams(JSONUtil.toJsonStr(parameterMap));
+                requestLogging.setSuccess("是");
                 requestLoggingRepository.save(requestLogging);
             }
         }
 
         return true;
+    }
+
+    public Map<String, Object> getParameterMap(HttpServletRequest request) {
+        Map<String, Object> param = new HashMap<>();
+        try {
+            Enumeration<String> em = request.getParameterNames();
+            while (em.hasMoreElements()) {
+                String key = em.nextElement();
+                param.put(key, request.getParameter(key));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return param;
     }
 
     @Override
@@ -100,7 +111,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             final Optional<RequestLogging> result = requestLoggingRepository.findOneByTraceId(traceId);
             if (result.isPresent()) {
                 RequestLogging requestLogging = result.get();
-                //                requestLogging.setSuccess("否");
+                requestLogging.setSuccess("否");
                 requestLoggingRepository.save(requestLogging);
             }
         }

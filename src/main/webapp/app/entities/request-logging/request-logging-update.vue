@@ -90,6 +90,51 @@
               v-model="$v.requestLogging.currentTime.$model"
             />
           </div>
+          <div class="form-group">
+            <label
+              class="form-control-label"
+              v-text="$t('moneyMakingMachineApp.requestLogging.requestName')"
+              for="request-logging-requestName"
+              >Request Name</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="requestName"
+              id="request-logging-requestName"
+              data-cy="requestName"
+              :class="{ valid: !$v.requestLogging.requestName.$invalid, invalid: $v.requestLogging.requestName.$invalid }"
+              v-model="$v.requestLogging.requestName.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.requestLogging.params')" for="request-logging-params"
+              >Params</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="params"
+              id="request-logging-params"
+              data-cy="params"
+              :class="{ valid: !$v.requestLogging.params.$invalid, invalid: $v.requestLogging.params.$invalid }"
+              v-model="$v.requestLogging.params.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="$t('moneyMakingMachineApp.requestLogging.success')" for="request-logging-success"
+              >Success</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="success"
+              id="request-logging-success"
+              data-cy="success"
+              :class="{ valid: !$v.requestLogging.success.$invalid, invalid: $v.requestLogging.success.$invalid }"
+              v-model="$v.requestLogging.success.$model"
+            />
+          </div>
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

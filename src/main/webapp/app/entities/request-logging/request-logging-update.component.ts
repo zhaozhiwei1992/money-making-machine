@@ -12,6 +12,9 @@ const validations: any = {
     requestURI: {},
     clientIP: {},
     currentTime: {},
+    requestName: {},
+    params: {},
+    success: {},
   },
 };
 

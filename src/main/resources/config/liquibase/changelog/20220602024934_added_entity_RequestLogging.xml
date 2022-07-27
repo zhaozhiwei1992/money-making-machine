@@ -29,6 +29,15 @@
             <column name="jhi_current_time" type="varchar(255)" remarks="当前时间">
                 <constraints nullable="true" />
             </column>
+            <column name="request_name" type="varchar(255)" remarks="请求中文名">
+                <constraints nullable="true" />
+            </column>
+            <column name="params" type="varchar(255)" remarks="请求参数">
+                <constraints nullable="true" />
+            </column>
+            <column name="success" type="varchar(255)" remarks="是否请求成功">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -55,6 +64,9 @@
             <column name="request_uri" type="string"/>
             <column name="client_ip" type="string"/>
             <column name="jhi_current_time" type="string"/>
+            <column name="request_name" type="string"/>
+            <column name="params" type="string"/>
+            <column name="success" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

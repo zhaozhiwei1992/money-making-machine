@@ -57,6 +57,27 @@ public class RequestLogging implements Serializable {
     @Column(name = "jhi_current_time")
     private String currentTime;
 
+    /**
+     * 请求中文名
+     */
+    @Schema(description = "请求中文名")
+    @Column(name = "request_name")
+    private String requestName;
+
+    /**
+     * 请求参数
+     */
+    @Schema(description = "请求参数")
+    @Column(name = "params")
+    private String params;
+
+    /**
+     * 是否请求成功
+     */
+    @Schema(description = "是否请求成功")
+    @Column(name = "success")
+    private String success;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -137,6 +158,45 @@ public class RequestLogging implements Serializable {
         this.currentTime = currentTime;
     }
 
+    public String getRequestName() {
+        return this.requestName;
+    }
+
+    public RequestLogging requestName(String requestName) {
+        this.setRequestName(requestName);
+        return this;
+    }
+
+    public void setRequestName(String requestName) {
+        this.requestName = requestName;
+    }
+
+    public String getParams() {
+        return this.params;
+    }
+
+    public RequestLogging params(String params) {
+        this.setParams(params);
+        return this;
+    }
+
+    public void setParams(String params) {
+        this.params = params;
+    }
+
+    public String getSuccess() {
+        return this.success;
+    }
+
+    public RequestLogging success(String success) {
+        this.setSuccess(success);
+        return this;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -166,6 +226,9 @@ public class RequestLogging implements Serializable {
             ", requestURI='" + getRequestURI() + "'" +
             ", clientIP='" + getClientIP() + "'" +
             ", currentTime='" + getCurrentTime() + "'" +
+            ", requestName='" + getRequestName() + "'" +
+            ", params='" + getParams() + "'" +
+            ", success='" + getSuccess() + "'" +
             "}";
     }
 }
