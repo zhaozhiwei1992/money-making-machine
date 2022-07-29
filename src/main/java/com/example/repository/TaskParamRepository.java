@@ -2,7 +2,8 @@ package com.example.repository;
 
 import com.example.domain.TaskParam;
 import java.util.List;
-import org.springframework.data.jpa.repository.*;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,4 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaskParamRepository extends JpaRepository<TaskParam, Long> {
     List<TaskParam> findAllByEnable(boolean enable);
+
+    Optional<TaskParam> findOneByStartClass(String startClass);
 }
